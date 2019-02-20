@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSS_Reader", "RSS_Reader\RSS_Reader.csproj", "{13DE58D8-8383-4767-9DCB-36F5429B00ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSS_Downloader", "RSS_Downloader\RSS_Downloader.csproj", "{CBF1464D-52C9-4DF7-A205-A4B451B19074}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{13DE58D8-8383-4767-9DCB-36F5429B00ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DE58D8-8383-4767-9DCB-36F5429B00ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13DE58D8-8383-4767-9DCB-36F5429B00ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF1464D-52C9-4DF7-A205-A4B451B19074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF1464D-52C9-4DF7-A205-A4B451B19074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF1464D-52C9-4DF7-A205-A4B451B19074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF1464D-52C9-4DF7-A205-A4B451B19074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
