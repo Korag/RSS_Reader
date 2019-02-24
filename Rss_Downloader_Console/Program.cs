@@ -1,28 +1,27 @@
-﻿using System.ServiceProcess;
+﻿using Rss_Downloader.Db_Context;
+using Rss_Downloader.Services;
 
-namespace RSS_Downloader
+namespace Rss_Downloader
 {
-    public partial class DownloaderService : ServiceBase
+    internal class Program
     {
-        private WebSiteContentDownloader _downloader;
-        private RssDocumentsRepository _context;
-        public DownloaderService()
+        private static WebSiteContentDownloader _downloader;
+        private static RssDocumentsRepository _context;
+
+
+        private static void Main(string[] args)
         {
-            InitializeComponent();
             _downloader = new WebSiteContentDownloader("https://www.rmf24.pl/kanaly/rss");
             _context = new RssDocumentsRepository();
-        }
-
-        protected override void OnStart(string[] args)
-        {
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimer);
             timer.Start();
-        }
 
-        public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
+
+        }
+        public static void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             var rssDocuments = _downloader.GetContentFromWebSite();
             foreach (var document in rssDocuments)
@@ -30,10 +29,6 @@ namespace RSS_Downloader
                 _context.SaveRssDocumentToDatabase(document);
             }
 
-        }
-
-        protected override void OnStop()
-        {
         }
     }
 }
