@@ -21,6 +21,7 @@ namespace Rss_Downloader.Services
         {
             var htmlWeb = new HtmlWeb();
             _documentNode = htmlWeb.Load(path).DocumentNode;
+            GetAllRssLinksFromWebSite();
         }
 
         public List<RSSDocumentSingle> GetContentFromWebSite()
@@ -48,7 +49,7 @@ namespace Rss_Downloader.Services
         {
             List<RssDocumentItem> subContentList = new List<RssDocumentItem>();
 
-            var subContent = XElement.Load(mainContent.Link);
+            var subContent = XElement.Load(mainContent.Link + "feed");
             var contentInsideMainWebSite = subContent.Descendants("item").ToList();
 
             foreach (var item in contentInsideMainWebSite)

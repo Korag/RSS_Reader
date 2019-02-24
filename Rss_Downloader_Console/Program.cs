@@ -1,5 +1,6 @@
 ﻿using Rss_Downloader.Db_Context;
 using Rss_Downloader.Services;
+using System;
 
 namespace Rss_Downloader
 {
@@ -14,18 +15,25 @@ namespace Rss_Downloader
             _downloader = new WebSiteContentDownloader("https://www.rmf24.pl/kanaly/rss");
             _context = new RssDocumentsRepository();
 
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 60000;
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimer);
-            timer.Start();
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(1);
 
-
+            var timer = new System.Threading.Timer((e) =>
+            {
+                Download();
+            }, null, startTimeSpan, periodTimeSpan);
+            Console.Read();
         }
-        public static void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
+        public static void Download()
         {
             var rssDocuments = _downloader.GetContentFromWebSite();
             foreach (var document in rssDocuments)
             {
+
+                foreach (var content in rssDocuments)
+                {
+                    _downloader.GetSubContentOfMainSite(content);
+                }
                 _context.SaveRssDocumentToDatabase(document);
             }
 
