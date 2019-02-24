@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RSS_Downloader.Models
+﻿namespace RSS_Downloader.Models
 {
     public class RssDocumentItem
     {
+        public string Guid { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public object Image { get; set; }
