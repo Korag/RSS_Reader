@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\WebSite.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
