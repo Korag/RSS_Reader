@@ -1,10 +1,11 @@
 ﻿using MongoDB.Driver;
+using RSS_Downloader.Models;
 
 namespace RSS_Downloader
 {
     public class WebSiteRepository
     {
-        private static IMongoCollection<WebSite> _webSites;
+        private IMongoCollection<WebSite> _webSites;
 
         public WebSiteRepository()
         {
@@ -12,5 +13,12 @@ namespace RSS_Downloader
             var server = client.GetDatabase("TestRssDB");
             _webSites = server.GetCollection<WebSite>("WebSites");
         }
+
+        public void SaveWebSiteToDatabase(WebSite newWebSite)
+        {
+            _webSites.InsertOne(newWebSite);
+        }
+
+
     }
 }
