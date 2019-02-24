@@ -3,7 +3,7 @@ using RSS_Downloader.Models;
 
 namespace RSS_Downloader
 {
-    public class WebSiteRepository
+    public class WebSiteRepository : IWebSiteRepository
     {
         private IMongoCollection<WebSite> _webSites;
 

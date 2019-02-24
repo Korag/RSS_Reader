@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database connection\IWebSiteRepository.cs" />
     <Compile Include="Models\WebSite.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
@@ -73,7 +74,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebSiteRepository.cs" />
+    <Compile Include="Database connection\WebSiteRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
