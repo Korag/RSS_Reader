@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database connection\IWebSiteRepository.cs" />
-    <Compile Include="Models\WebSite.cs" />
     <Compile Include="DownloaderService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -89,6 +88,9 @@
       <Project>{13de58d8-8383-4767-9dcb-36f5429b00ed}</Project>
       <Name>RSS_Reader</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
