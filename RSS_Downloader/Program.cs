@@ -17,7 +17,7 @@ namespace RSS_Downloader
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new Service1()
+                new DownloaderService()
             };
             ServiceBase.Run(ServicesToRun);
         }

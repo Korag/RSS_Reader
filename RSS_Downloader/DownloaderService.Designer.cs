@@ -1,6 +1,6 @@
 ﻿namespace RSS_Downloader
 {
-    partial class Service1
+    partial class DownloaderService
     {
         /// <summary> 
         /// Required designer variable.

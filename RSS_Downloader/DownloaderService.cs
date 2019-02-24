@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace RSS_Downloader
 {
-    public partial class Service1 : ServiceBase
+    public partial class DownloaderService : ServiceBase
     {
-        public Service1()
+        public DownloaderService()
         {
             InitializeComponent();
         }
