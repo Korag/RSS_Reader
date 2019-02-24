@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database connection\IWebSiteRepository.cs" />
+    <Compile Include="DB_Context\IRssDocumentsRepository.cs" />
     <Compile Include="DownloaderService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,7 +78,7 @@
     <Compile Include="Models\RssDocumentSingle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Database connection\WebSiteRepository.cs" />
+    <Compile Include="DB_Context\RssDocumentsRepository.cs" />
     <Compile Include="WebSiteContentDownloader.cs" />
   </ItemGroup>
   <ItemGroup>
