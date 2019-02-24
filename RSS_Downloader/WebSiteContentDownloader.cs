@@ -9,7 +9,7 @@ namespace RSS_Downloader
     public interface IWebSiteContentDownloader
     {
         List<RSSDocumentSingle> GetContentFromWebSite();
-        List<object> GetSubContentOfMainSite(RSSDocumentSingle mainContent);
+        void GetSubContentOfMainSite(RSSDocumentSingle mainContent);
     }
 
     public class WebSiteContentDownloader : IWebSiteContentDownloader
@@ -39,12 +39,12 @@ namespace RSS_Downloader
                     RssDocumentContent = new List<RssDocumentItem>()
                 };
                 tempWebSites.Add(newWebSite);
-                newWebSite.RssDocumentContent = GetSubContentOfMainSite(newWebSite);
+
             }
             return tempWebSites;
         }
 
-        public List<RssDocumentItem> GetSubContentOfMainSite(RSSDocumentSingle mainContent)
+        public void GetSubContentOfMainSite(RSSDocumentSingle mainContent)
         {
             List<RssDocumentItem> subContentList = new List<RssDocumentItem>();
 
@@ -53,7 +53,7 @@ namespace RSS_Downloader
 
             foreach (var item in contentInsideMainWebSite)
             {
-                var subContent = new RssDocumentItem()
+                var rssDocumentContent = new RssDocumentItem()
                 {
                     Guid = item.Descendants("guid").FirstOrDefault()?.Value,
                     Title = item.Descendants("title").FirstOrDefault()?.Value,
@@ -63,9 +63,9 @@ namespace RSS_Downloader
                     DateOfPublication = item.Descendants("pubDate").FirstOrDefault()?.Value,
                     Category = item.Descendants("category").FirstOrDefault()?.Value,
                 };
-                subContentList.Add(subContent);
+                subContentList.Add(rssDocumentContent);
             }
-            return subContentList;
+            mainContent.RssDocumentContent = subContentList;
         }
 
         private void GetAllRssLinksFromWebSite()
