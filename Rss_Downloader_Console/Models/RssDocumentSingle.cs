@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace Rss_Downloader.Models
@@ -10,6 +11,8 @@ namespace Rss_Downloader.Models
         public string Image { get; set; }
         public string Link { get; set; }
         public string LastUpdate { get; set; }
+        public string Flag { get; set; }
+        public DateTime LastFetched { get; set; }
         public List<RssDocumentItem> RssDocumentContent { get; set; }
     }
 }
