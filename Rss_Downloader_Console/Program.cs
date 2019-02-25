@@ -33,7 +33,7 @@ namespace Rss_Downloader
         }
         public static void SaveDocumentSingleToDatabase()
         {
-            _rssDocuments = _downloader.GetContentFromWebSite();
+            _rssDocuments = _downloader.GetTextNewsContent();
             foreach (var content in _rssDocuments)
             {
                 foreach (var item in _rssDocuments)

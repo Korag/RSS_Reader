@@ -8,14 +8,15 @@ namespace Rss_Downloader.Services
 {
     public interface IWebSiteContentDownloader
     {
-        List<RSSDocumentSingle> GetContentFromWebSite();
+        List<RSSDocumentSingle> GetTextNewsContent();
+        List<RSSDocumentSingle> GetPodcastContent();
         void GetSubContentOfMainSite(RSSDocumentSingle mainContent);
     }
 
     public class WebSiteContentDownloader : IWebSiteContentDownloader
     {
         private readonly HtmlNode _documentNode;
-        private List<string> _links;
+        private List<string> _allLinksFromWebSite;
         private List<string> _podcastLinks;
         private List<string> _textNewsLinks;
 
@@ -27,10 +28,30 @@ namespace Rss_Downloader.Services
             GetAllRssLinksFromWebSite();
         }
 
-        public List<RSSDocumentSingle> GetContentFromWebSite()
+        public List<RSSDocumentSingle> GetTextNewsContent()
         {
             List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
-            foreach (var link in _links)
+            foreach (var link in _textNewsLinks)
+            {
+                var mainContent = XElement.Load(link);
+                RSSDocumentSingle newWebSite = new RSSDocumentSingle()
+                {
+                    Title = mainContent.Descendants("title").FirstOrDefault()?.Value,
+                    Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
+                    Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
+                    Link = mainContent.Descendants("link").FirstOrDefault()?.Value,
+                    LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
+                    RssDocumentContent = new List<RssDocumentItem>()
+                };
+                tempWebSites.Add(newWebSite);
+            }
+            return tempWebSites;
+        }
+
+        public List<RSSDocumentSingle> GetPodcastContent()
+        {
+            List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
+            foreach (var link in _podcastLinks)
             {
                 var mainContent = XElement.Load(link);
                 RSSDocumentSingle newWebSite = new RSSDocumentSingle()
@@ -80,7 +101,7 @@ namespace Rss_Downloader.Services
                          .Select(s => s.InnerHtml)
                          .ToList();
 
-            _links = links;
+            _allLinksFromWebSite = links;
         }
 
         private void GetTextNewsRssLinks()
