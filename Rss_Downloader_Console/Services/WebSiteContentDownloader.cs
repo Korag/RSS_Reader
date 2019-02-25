@@ -16,6 +16,9 @@ namespace Rss_Downloader.Services
     {
         private readonly HtmlNode _documentNode;
         private List<string> _links;
+        private List<string> _podcastLinks;
+        private List<string> _textNewsLinks;
+
 
         public WebSiteContentDownloader(string path)
         {
@@ -40,7 +43,6 @@ namespace Rss_Downloader.Services
                     RssDocumentContent = new List<RssDocumentItem>()
                 };
                 tempWebSites.Add(newWebSite);
-
             }
             return tempWebSites;
         }
@@ -79,6 +81,38 @@ namespace Rss_Downloader.Services
                          .ToList();
 
             _links = links;
+        }
+
+        private void GetTextNewsRssLinks()
+        {
+            var MainDiv = _documentNode.Descendants("div")
+                         .Where(d => d.Attributes["class"]?.Value
+                         .Equals("box channels") == true).FirstOrDefault();
+
+            var links = MainDiv.Descendants("a")
+                        .Where(d => d.Attributes["href"]?.Value
+                        .EndsWith("feed") == true || d.Attributes["href"]?.Value
+                        .EndsWith(".xml") == true)
+                        .Select(s => s.InnerHtml)
+                        .ToList();
+
+            _textNewsLinks = links;
+        }
+
+        private void GetPodcastNewsRssLinks()
+        {
+            var MainDiv = _documentNode.Descendants("div")
+                         .Where(d => d.Attributes["class"]?.Value
+                         .Equals("box channels podcast") == true).FirstOrDefault();
+
+            var links = MainDiv.Descendants("a")
+                        .Where(d => d.Attributes["href"]?.Value
+                        .EndsWith("feed") == true || d.Attributes["href"]?.Value
+                        .EndsWith(".xml") == true)
+                        .Select(s => s.InnerHtml)
+                        .ToList();
+
+            _podcastLinks = links;
         }
     }
 }

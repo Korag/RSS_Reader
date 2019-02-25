@@ -19,13 +19,15 @@ namespace Rss_Downloader
 
             SaveDocumentSingleToDatabase();
 
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
+            Console.WriteLine("Downloading finished");
 
-            var timer = new System.Threading.Timer((e) =>
-            {
-                CheckIfNewContentIsAvailable();
-            }, null, startTimeSpan, periodTimeSpan);
+            //var startTimeSpan = TimeSpan.Zero;
+            //var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
+
+            //var timer = new System.Threading.Timer((e) =>
+            //{
+            //    CheckIfNewContentIsAvailable();
+            //}, null, startTimeSpan, periodTimeSpan);
 
             Console.Read();
         }
@@ -34,6 +36,10 @@ namespace Rss_Downloader
             _rssDocuments = _downloader.GetContentFromWebSite();
             foreach (var content in _rssDocuments)
             {
+                foreach (var item in _rssDocuments)
+                {
+                    _downloader.GetSubContentOfMainSite(item);
+                }
                 _context.SaveRssDocumentToDatabase(content);
             }
         }
