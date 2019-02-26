@@ -10,6 +10,7 @@ namespace Rss_Downloader.Db_Context
         void SaveManyRssDocumentsToDatabase(List<RSSDocumentSingle> rssDocuments);
         bool CheckIfDatabaseIsEmpty();
         bool CheckIfDatabaseContainsEnoughDocuments();
+        void DeleteAllDocumentsFromDatabse();
 
     }
 }

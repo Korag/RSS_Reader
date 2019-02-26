@@ -52,5 +52,10 @@ namespace Rss_Downloader.Db_Context
             return false;
         }
 
+        public void DeleteAllDocumentsFromDatabse()
+        {
+            _rssDocumentCollection.DeleteMany(x=>true);
+        }
+
     }
 }
