@@ -40,8 +40,8 @@ namespace Rss_Downloader
                 {
                     _downloader.GetSubContentOfSingleDocument(item);
                 }
-                _context.SaveRssDocumentToDatabase(content);
             }
+            _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
         }
 
         public static void SaveDocumentItemsToDatabase()
@@ -49,9 +49,8 @@ namespace Rss_Downloader
             foreach (var content in _rssDocuments)
             {
                 _downloader.GetSubContentOfSingleDocument(content);
-                _context.SaveRssDocumentToDatabase(content);
             }
-
+            _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
         }
         public static void CheckIfNewContentIsAvailable()
         {

@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Rss_Downloader.Models;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -23,11 +24,24 @@ namespace Rss_Downloader.Db_Context
             _rssDocumentCollection = server.GetCollection<RSSDocumentSingle>(collectionRSS);
         }
 
-        public void SaveRssDocumentToDatabase(RSSDocumentSingle newRssDocument)
+        public void SaveOneRssDocumentToDatabase(RSSDocumentSingle rssDocument)
         {
-            _rssDocumentCollection.InsertOne(newRssDocument);
+            _rssDocumentCollection.InsertOne(rssDocument);
         }
 
+        public void SaveManyRssDocumentsToDatabase(List<RSSDocumentSingle> rssDocuments)
+        {
+            _rssDocumentCollection.InsertMany(rssDocuments);
+        }
+
+        public bool CheckIfDatabaseIsEmpty()
+        {
+            if (_rssDocumentCollection.AsQueryable().Count() == 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
     }
 }
