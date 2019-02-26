@@ -8,8 +8,8 @@ namespace Rss_Downloader.Services
 {
     public interface IWebSiteContentDownloader
     {
-        List<RSSDocumentSingle> GetTextNewsContent();
-        List<RSSDocumentSingle> GetPodcastContent();
+        List<RSSDocumentSingle> GetAllDocumentsFromWebSite();
+        List<RSSDocumentSingle> GetDocumentsFromLinks(List<string> links, string newsType);
         void GetSubContentOfMainSite(RSSDocumentSingle mainContent);
     }
 
@@ -28,44 +28,17 @@ namespace Rss_Downloader.Services
             GetAllRssLinksFromWebSite();
         }
 
-        public List<RSSDocumentSingle> GetTextNewsContent()
+        public List<RSSDocumentSingle> GetAllDocumentsFromWebSite()
         {
-            List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
-            foreach (var link in _textNewsLinks)
-            {
-                var mainContent = XElement.Load(link);
-                RSSDocumentSingle newWebSite = new RSSDocumentSingle()
-                {
-                    Title = mainContent.Descendants("title").FirstOrDefault()?.Value,
-                    Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
-                    Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
-                    Link = mainContent.Descendants("link").FirstOrDefault()?.Value,
-                    LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
-                    RssDocumentContent = new List<RssDocumentItem>()
-                };
-                tempWebSites.Add(newWebSite);
-            }
-            return tempWebSites;
-        }
+            List<RSSDocumentSingle> AllWebSitesContent = new List<RSSDocumentSingle>();
+            var podcasts = GetDocumentsFromLinks(_podcastLinks,"Podcast");
+            var newsTexts = GetDocumentsFromLinks(_textNewsLinks, "Text");
 
-        public List<RSSDocumentSingle> GetPodcastContent()
-        {
-            List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
-            foreach (var link in _podcastLinks)
-            {
-                var mainContent = XElement.Load(link);
-                RSSDocumentSingle newWebSite = new RSSDocumentSingle()
-                {
-                    Title = mainContent.Descendants("title").FirstOrDefault()?.Value,
-                    Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
-                    Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
-                    Link = mainContent.Descendants("link").FirstOrDefault()?.Value,
-                    LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
-                    RssDocumentContent = new List<RssDocumentItem>()
-                };
-                tempWebSites.Add(newWebSite);
-            }
-            return tempWebSites;
+            AllWebSitesContent = podcasts;
+            AllWebSitesContent.Concat(newsTexts);
+
+            return AllWebSitesContent;
+
         }
 
         public void GetSubContentOfMainSite(RSSDocumentSingle mainContent)
@@ -86,10 +59,32 @@ namespace Rss_Downloader.Services
                     Links = item.Descendants("link").FirstOrDefault()?.Value,
                     DateOfPublication = item.Descendants("pubDate").FirstOrDefault()?.Value,
                     Category = item.Descendants("category").FirstOrDefault()?.Value,
+                    
                 };
                 subContentList.Add(rssDocumentContent);
             }
             mainContent.RssDocumentContent = subContentList;
+        }
+
+        public List<RSSDocumentSingle> GetDocumentsFromLinks(List<string> links, string newsType)
+        {
+            List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
+            foreach (var link in links)
+            {
+                var mainContent = XElement.Load(link);
+                RSSDocumentSingle newWebSite = new RSSDocumentSingle()
+                {
+                    Title = mainContent.Descendants("title").FirstOrDefault()?.Value,
+                    Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
+                    Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
+                    Link = mainContent.Descendants("link").FirstOrDefault()?.Value,
+                    LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
+                    Flag = newsType,
+                    RssDocumentContent = new List<RssDocumentItem>()
+                };
+                tempWebSites.Add(newWebSite);
+            }
+            return tempWebSites;
         }
 
         private void GetAllRssLinksFromWebSite()
