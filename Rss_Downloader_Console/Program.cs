@@ -33,12 +33,12 @@ namespace Rss_Downloader
         }
         public static void SaveDocumentSingleToDatabase()
         {
-            _rssDocuments = _downloader.GetAllContent();
+            _rssDocuments = _downloader.GetAllDocumentsFromWebSite();
             foreach (var content in _rssDocuments)
             {
                 foreach (var item in _rssDocuments)
                 {
-                    _downloader.GetSubContentOfMainSite(item);
+                    _downloader.GetSubContentOfSingleDocument(item);
                 }
                 _context.SaveRssDocumentToDatabase(content);
             }
@@ -48,7 +48,7 @@ namespace Rss_Downloader
         {
             foreach (var content in _rssDocuments)
             {
-                _downloader.GetSubContentOfMainSite(content);
+                _downloader.GetSubContentOfSingleDocument(content);
                 _context.SaveRssDocumentToDatabase(content);
             }
 

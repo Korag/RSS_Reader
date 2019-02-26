@@ -9,8 +9,7 @@ namespace Rss_Downloader.Services
     public interface IWebSiteContentDownloader
     {
         List<RSSDocumentSingle> GetAllDocumentsFromWebSite();
-        List<RSSDocumentSingle> GetDocumentsFromLinks(List<string> links, string newsType);
-        void GetSubContentOfMainSite(RSSDocumentSingle mainContent);
+        void GetSubContentOfSingleDocument(RSSDocumentSingle mainContent);
     }
 
     public class WebSiteContentDownloader : IWebSiteContentDownloader
@@ -43,7 +42,7 @@ namespace Rss_Downloader.Services
             return AllWebSitesContent;
         }
 
-        public void GetSubContentOfMainSite(RSSDocumentSingle mainContent)
+        public void GetSubContentOfSingleDocument(RSSDocumentSingle mainContent)
         {
             List<RssDocumentItem> subContentList = new List<RssDocumentItem>();
 
@@ -61,14 +60,13 @@ namespace Rss_Downloader.Services
                     Links = item.Descendants("link").FirstOrDefault()?.Value,
                     DateOfPublication = item.Descendants("pubDate").FirstOrDefault()?.Value,
                     Category = item.Descendants("category").FirstOrDefault()?.Value,
-                    
                 };
                 subContentList.Add(rssDocumentContent);
             }
             mainContent.RssDocumentContent = subContentList;
         }
 
-        public List<RSSDocumentSingle> GetDocumentsFromLinks(List<string> links, string newsType)
+        private List<RSSDocumentSingle> GetDocumentsFromLinks(List<string> links, string newsType)
         {
             List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
             foreach (var link in links)
@@ -87,18 +85,6 @@ namespace Rss_Downloader.Services
                 tempWebSites.Add(newWebSite);
             }
             return tempWebSites;
-        }
-
-        private void GetAllRssLinksFromWebSite()
-        {
-            var links = _documentNode.Descendants("a")
-                         .Where(d => d.Attributes["href"]?.Value
-                         .EndsWith("feed") == true || d.Attributes["href"]?.Value
-                         .EndsWith(".xml") == true)
-                         .Select(s => s.InnerHtml)
-                         .ToList();
-
-            _allLinksFromWebSite = links;
         }
 
         private void GetLinksFromDivWithSpecyficClassName(string className, List<string> linksContainer)
