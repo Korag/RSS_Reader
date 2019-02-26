@@ -43,5 +43,14 @@ namespace Rss_Downloader.Db_Context
             return false;
         }
 
+        public bool CheckIfDatabaseContainsEnoughDocuments()
+        {
+            if (_rssDocumentCollection.AsQueryable().Count() == 31)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }
