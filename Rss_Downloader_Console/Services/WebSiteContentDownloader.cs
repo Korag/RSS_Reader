@@ -16,6 +16,7 @@ namespace Rss_Downloader.Services
     public class WebSiteContentDownloader : IWebSiteContentDownloader
     {
         private readonly HtmlNode _documentNode;
+
         private List<string> _allLinksFromWebSite;
         private List<string> _podcastLinks;
         private List<string> _textNewsLinks;
@@ -25,7 +26,9 @@ namespace Rss_Downloader.Services
         {
             var htmlWeb = new HtmlWeb();
             _documentNode = htmlWeb.Load(path).DocumentNode;
-            GetAllRssLinksFromWebSite();
+
+            GetLinksFromDivWithSpecyficClassName("box channels", _textNewsLinks);
+            GetLinksFromDivWithSpecyficClassName("box channels podcast", _podcastLinks);
         }
 
         public List<RSSDocumentSingle> GetAllDocumentsFromWebSite()
@@ -38,7 +41,6 @@ namespace Rss_Downloader.Services
             AllWebSitesContent.Concat(newsTexts);
 
             return AllWebSitesContent;
-
         }
 
         public void GetSubContentOfMainSite(RSSDocumentSingle mainContent)
@@ -99,11 +101,11 @@ namespace Rss_Downloader.Services
             _allLinksFromWebSite = links;
         }
 
-        private void GetTextNewsRssLinks()
+        private void GetLinksFromDivWithSpecyficClassName(string className, List<string> linksContainer)
         {
             var MainDiv = _documentNode.Descendants("div")
                          .Where(d => d.Attributes["class"]?.Value
-                         .Equals("box channels") == true).FirstOrDefault();
+                         .Equals(className) == true).FirstOrDefault();
 
             var links = MainDiv.Descendants("a")
                         .Where(d => d.Attributes["href"]?.Value
@@ -112,23 +114,8 @@ namespace Rss_Downloader.Services
                         .Select(s => s.InnerHtml)
                         .ToList();
 
-            _textNewsLinks = links;
+            linksContainer = links;
         }
 
-        private void GetPodcastNewsRssLinks()
-        {
-            var MainDiv = _documentNode.Descendants("div")
-                         .Where(d => d.Attributes["class"]?.Value
-                         .Equals("box channels podcast") == true).FirstOrDefault();
-
-            var links = MainDiv.Descendants("a")
-                        .Where(d => d.Attributes["href"]?.Value
-                        .EndsWith("feed") == true || d.Attributes["href"]?.Value
-                        .EndsWith(".xml") == true)
-                        .Select(s => s.InnerHtml)
-                        .ToList();
-
-            _podcastLinks = links;
-        }
     }
 }
