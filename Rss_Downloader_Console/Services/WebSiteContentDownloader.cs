@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Rss_Downloader.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -15,8 +16,6 @@ namespace Rss_Downloader.Services
     public class WebSiteContentDownloader : IWebSiteContentDownloader
     {
         private readonly HtmlNode _documentNode;
-
-        private List<string> _allLinksFromWebSite;
         private List<string> _podcastLinks;
         private List<string> _textNewsLinks;
 
@@ -26,8 +25,8 @@ namespace Rss_Downloader.Services
             var htmlWeb = new HtmlWeb();
             _documentNode = htmlWeb.Load(path).DocumentNode;
 
-            GetLinksFromDivWithSpecyficClassName("box channels", _textNewsLinks);
-            GetLinksFromDivWithSpecyficClassName("box channels podcast", _podcastLinks);
+            _textNewsLinks = GetLinksFromDivWithSpecyficClassName("box channels", _textNewsLinks);
+            _podcastLinks = GetLinksFromDivWithSpecyficClassName("box channels podcast", _podcastLinks);
         }
 
         public List<RSSDocumentSingle> GetAllDocumentsFromWebSite()
@@ -36,8 +35,7 @@ namespace Rss_Downloader.Services
             var podcasts = GetDocumentsFromLinks(_podcastLinks,"Podcast");
             var newsTexts = GetDocumentsFromLinks(_textNewsLinks, "Text");
 
-            AllWebSitesContent = podcasts;
-            AllWebSitesContent.Concat(newsTexts);
+            AllWebSitesContent = podcasts.Concat(newsTexts).ToList();
 
             return AllWebSitesContent;
         }
@@ -80,14 +78,15 @@ namespace Rss_Downloader.Services
                     Link = mainContent.Descendants("link").FirstOrDefault()?.Value,
                     LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
                     Flag = newsType,
-                    RssDocumentContent = new List<RssDocumentItem>()
+                    RssDocumentContent = new List<RssDocumentItem>(),
+                    LastFetched = DateTime.Now
                 };
                 tempWebSites.Add(newWebSite);
             }
             return tempWebSites;
         }
 
-        private void GetLinksFromDivWithSpecyficClassName(string className, List<string> linksContainer)
+        private List<string> GetLinksFromDivWithSpecyficClassName(string className, List<string> linksContainer)
         {
             var MainDiv = _documentNode.Descendants("div")
                          .Where(d => d.Attributes["class"]?.Value
@@ -100,7 +99,7 @@ namespace Rss_Downloader.Services
                         .Select(s => s.InnerHtml)
                         .ToList();
 
-            linksContainer = links;
+            return links;
         }
 
     }
