@@ -1,12 +1,13 @@
-﻿using Postal;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Rss_Downloader.Models;
 
 namespace Rss_Downloader_Console.Models
 {
-    public class SubscriberEmail : Email
+    class EmailTemplateViewModel
     {
-        public object Id { get; set; }
         public string EmailAddress { get; set; }
         public List<string> SubscriberList { get; set; }
+
+        public List<RSSDocumentSingle> RssList { get; set; }
     }
 }
