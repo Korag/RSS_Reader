@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using Rss_Downloader.Models;
 using Rss_Downloader_Console.Models;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace Rss_Downloader.Db_Context
 {
     public class RssDocumentsRepository : IRssDocumentsRepository
     {
-        private IMongoCollection<RSSDocumentSingle> _rssDocumentCollection;
+        public IMongoCollection<RSSDocumentSingle> _rssDocumentCollection;
         private IMongoCollection<SubscriberEmail> _subscribers;
 
         private MongoClient _mongoClient;
