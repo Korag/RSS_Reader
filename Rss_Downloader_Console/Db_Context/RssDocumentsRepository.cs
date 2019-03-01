@@ -10,10 +10,12 @@ namespace Rss_Downloader.Db_Context
     public class RssDocumentsRepository : IRssDocumentsRepository
     {
         private IMongoCollection<RSSDocumentSingle> _rssDocumentCollection;
+        private IMongoCollection<SubscriberEmail> _subscribers;
 
         private MongoClient _mongoClient;
         private IMongoDatabase _server;
         public string collectionRSS = "Stored_RSS";
+        public string collectionMailingList = "Mailing_List";
 
 
         public RssDocumentsRepository()
@@ -66,6 +68,14 @@ namespace Rss_Downloader.Db_Context
         {
             _rssDocumentCollection.DeleteMany(x=>true);
         }
+
+        public IMongoCollection<SubscriberEmail> GetSubscribersList()
+        {
+            _subscribers = _server.GetCollection<SubscriberEmail>(collectionMailingList);
+            return _subscribers;
+        }
+
+
 
     }
 }
