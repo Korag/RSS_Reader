@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Models\RssDocumentItem.cs" />
     <Compile Include="Models\RssDocumentSingle.cs" />
+    <Compile Include="Models\SubscriberEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

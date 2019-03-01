@@ -26,5 +26,16 @@ namespace RSS_Reader.Controllers
 
             return View();
         }
+
+
+        public void SubscribeNewsletter()
+        {
+           
+        }
+
+        public void CancelNewsletter()
+        {
+
+        }
     }
 }
