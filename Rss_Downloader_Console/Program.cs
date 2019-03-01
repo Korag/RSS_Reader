@@ -1,6 +1,7 @@
 ﻿using Rss_Downloader.Db_Context;
 using Rss_Downloader.Models;
 using Rss_Downloader.Services;
+using Rss_Downloader_Console.Services;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +11,7 @@ namespace Rss_Downloader
     {
         private static WebSiteContentDownloader _downloader;
         private static RssDocumentsRepository _context;
+        private static EmailServiceProvider _emailProvider;
         private static List<RSSDocumentSingle> _rssDocuments;
 
         private static void Main(string[] args)
@@ -17,9 +19,13 @@ namespace Rss_Downloader
             _downloader = new WebSiteContentDownloader("https://www.rmf24.pl/kanaly/rss");
             _context = new RssDocumentsRepository();
 
-            SaveDocumentSingleToDatabase();
+            //SaveDocumentSingleToDatabase();
 
             Console.WriteLine("Downloading finished");
+
+            //to do: everyday at 10 and 18
+            _emailProvider = new EmailServiceProvider();
+            _emailProvider.SendNewsletterToSubscribers();
 
             //var startTimeSpan = TimeSpan.Zero;
             //var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
