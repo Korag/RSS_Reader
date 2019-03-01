@@ -1,7 +1,47 @@
-﻿@Model Rss_Downloader.Models.SubscriberEmail
+﻿@Model Rss_Downloader.Models.EmailTemplateViewModel
+<h2>Witamy.</h2>
 
-Cześć ? Jak zdrowie ?
-Wszystko gra ?
+<p><b>Nowości w obserwowanych kanałach:</b></p>
 
-Pozdrawia
-Zespół Vertisio
+<ul>
+    @foreach (var Title in Model.SubscriberList)
+    {
+        <h2>@Title</h2>
+
+        foreach (var singleDocument in Model.RssList)
+        {
+            int counter = 0;
+
+            if (singleDocument.Title == Title)
+            {
+                foreach (var singleDocumentContent in singleDocument.RssDocumentContent)
+                {
+                    if ((DateTime.Now.Hour - singleDocumentContent.LastModified.Hour) < 24)
+                    {
+
+                        <li>
+                            <a href="@singleDocumentContent.Links">@singleDocumentContent.Title</a>
+                            @*<p>@singleDocumentContent.Description</p>*@
+                        </li>
+                        counter++;
+                    }
+                }
+                if (counter == 0)
+                {
+                    <li>
+                        <p>Brak nowości z ostatnich 12 godzin.</p>
+                    </li>
+                }
+
+            }
+
+        }
+
+    }
+</ul>
+
+<h4>Pozdrawiamy</h4>
+<h4>Zespół Vertisio</h4>
+
+
+<img src="~/Assets/vertisio_logo.PNG" />
