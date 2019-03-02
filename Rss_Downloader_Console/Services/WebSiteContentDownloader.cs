@@ -32,7 +32,7 @@ namespace Rss_Downloader.Services
         public List<RSSDocumentSingle> GetAllDocumentsFromWebSite()
         {
             List<RSSDocumentSingle> AllWebSitesContent = new List<RSSDocumentSingle>();
-            var podcasts = GetDocumentsFromLinks(_podcastLinks,"Podcast");
+            var podcasts = GetDocumentsFromLinks(_podcastLinks, "Podcast");
             var newsTexts = GetDocumentsFromLinks(_textNewsLinks, "Text");
 
             AllWebSitesContent = podcasts.Concat(newsTexts).ToList();
@@ -44,7 +44,7 @@ namespace Rss_Downloader.Services
         {
             List<RssDocumentItem> subContentList = new List<RssDocumentItem>();
 
-            var subContent = XElement.Load(mainContent.Link + "feed");
+            var subContent = XElement.Load(mainContent.Link);
             var contentInsideMainWebSite = subContent.Descendants("item").ToList();
 
             foreach (var item in contentInsideMainWebSite)
@@ -75,7 +75,7 @@ namespace Rss_Downloader.Services
                     Title = mainContent.Descendants("title").FirstOrDefault()?.Value,
                     Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
                     Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
-                    Link = mainContent.Descendants("link").FirstOrDefault()?.Value,
+                    Link = link,
                     LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
                     Flag = newsType,
                     RssDocumentContent = new List<RssDocumentItem>(),
