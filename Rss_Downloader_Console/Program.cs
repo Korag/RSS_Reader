@@ -19,7 +19,11 @@ namespace Rss_Downloader
             _downloader = new WebSiteContentDownloader("https://www.rmf24.pl/kanaly/rss");
             _context = new RssDocumentsRepository();
 
-            SaveDocumentSingleToDatabase();
+            if (_context.CheckIfDatabaseIsEmpty())
+            {
+                SaveDocumentSingleToDatabase();
+            }
+
 
             Console.WriteLine("Downloading finished");
 
