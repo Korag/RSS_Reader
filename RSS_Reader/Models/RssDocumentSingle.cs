@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
+using System;
 using System.Collections.Generic;
 
 
@@ -6,6 +8,8 @@ namespace Rss_Reader.Models
 {
     public class RSSDocumentSingle
     {
+        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
+        public object Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }

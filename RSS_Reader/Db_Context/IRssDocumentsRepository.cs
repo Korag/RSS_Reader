@@ -6,5 +6,7 @@ namespace Rss_Reader.Db_Context
     public interface IRssDocumentsRepository
     {
         IMongoCollection<RSSDocumentSingle> GetAllRssDocumentsFromDatabase();
+        RSSDocumentSingle GetDocumentByIdFromDatabase(string id);
+
     }
 }
