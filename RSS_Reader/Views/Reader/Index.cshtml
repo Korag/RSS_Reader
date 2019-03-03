@@ -5,8 +5,7 @@
 @section scripts
     {
         <script>
-          Vue.component('searchbar', {
-            template: '<div><input><button>Szukaj</button></div>'
+          Vue.component('searchbar', {    
           })
           Vue.component('emailbar', {
             template: '<div><input><button>Subskrybuj</button></div>'
@@ -57,23 +56,47 @@
         </script>
     }
 
+        <searchbar inline-template>
+            <div class="col-12 col-md-10 col-lg-8">
+                <form class="card card-sm">
+                    <div class="card-body row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <i class="fas fa-search h4 text-body"></i>
+                        </div>
+                        <!--end of col-->
+                        <div class="col">
+                            <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+                        </div>
+                        <!--end of col-->
+                        <div class="col-auto">
+                            <button class="btn btn-lg btn-success" type="submit">Search</button>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                </form>
+            </div>
+        </searchbar>
+
+
+
 
     <div id="app" class="container-fluid">
-      <div class="row">
-        <div class="col-2">
-            <categorylist
-            v-for="category in categoryList"
-            v-bind:key="category.Name"
-            v-bind:category="category"></categorylist>
+        <div class="row justify-content-between">
+            <div class="row justify-content-between">
+                <div class="col-md-2">
+                    <categorylist v-for="category in categoryList"
+                                  v-bind:key="category.Name"
+                                  v-bind:category="category"></categorylist>
+                </div>
+                <div class="col-md-6 offset-md-1">
+                    <searchbar class="col"></searchbar>
+                    <contentlist class="col"
+                                 v-for="obj in newsList"
+                                 v-bind:item="obj"
+                                 v-bind:key="obj.$id"></contentlist>
+                    <emailbar class="col"></emailbar>
+                </div>
+                <div class="col-md-2 offset-md-1">
+                </div>
+            </div>
         </div>
-        <div class="col-10">
-            <searchbar class="col"></searchbar>
-            <contentlist  class="col"
-            v-for="obj in newsList"
-            v-bind:item="obj"
-            v-bind:key="obj.$id"
-            ></contentlist>
-            <emailbar class="col"></emailbar>
-        </div>
-      </div>
-    </div>
