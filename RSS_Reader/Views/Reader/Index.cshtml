@@ -13,12 +13,12 @@
           })
           Vue.component('contentlist', {
             props: ['item'],
-              template: '<div><div>{{item.Title}}</div><div>{{item.Category}}</div><img v-bind:src="item.Image"><div>{{item.Category}}</div><div>{{item.Description}}</div><a v-bind:href="item.Links">Link</a></div>',
+              template: '<div class="row border border-primary"><div class="col">{{item.Title}}</div><div class="col">{{item.Category}}</div><div class="row"><span v-html="item.Description"></span></div></div>',
               
           })
           Vue.component('categorylist', {
             props: ['category'],
-            template: '<div class="row"><div>{{category}}</div><input type="checkbox"></div>'
+              template: '<div class="row border border-success"><div>{{category}}</div><input type="checkbox"></div>'
           })
 
             var app = new Vue({
@@ -71,7 +71,7 @@
             <contentlist  class="col"
             v-for="obj in newsList"
             v-bind:item="obj"
-            v-bind:key="obj.Title"
+            v-bind:key="obj.$id"
             ></contentlist>
             <emailbar class="col"></emailbar>
         </div>
