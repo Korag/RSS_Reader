@@ -2,15 +2,62 @@
 @{
     ViewBag.Title = "Index";
 }
+@section scripts
+    {
+        <script>
+          Vue.component('searchbar', {
+            template: '<div><input><button>Szukaj</button></div>'
+          })
+          Vue.component('emailbar', {
+            template: '<div><input><button>Subskrybuj</button></div>'
+          })
+          Vue.component('contentlist', {
+            props: ['item'],
+              template: '<div><div>{{item.Title}}</div><div>{{item.Category}}</div><img v-bind:src="item.Image"><div>{{item.Category}}</div><div>{{item.Description}}</div><a v-bind:href="item.Links">Link</a></div>',
+              
+          })
+          Vue.component('categorylist', {
+            props: ['category'],
+            template: '<div class="row"><div>{{category}}</div><input type="checkbox"></div>'
+          })
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>RSS Site</title>
-  <script src="https://unpkg.com/vue"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    apiResponse: [],
+                    newsList: [],
+                    categoryList: []
+                },
+                methods: {
+                    GetNews: function () {
+                        this.$http.get('http://localhost:59554/api/RssDocument')
+                            .then(response => {
+                                this.apiResponse = response.data;
+                                this.GetListOfNews(this.apiResponse);
+                                this.GetListOfCatergory(this.apiResponse);
+                            });
+                    },
+                    GetListOfNews: function (apiResponse) {
+                        for (let i = 0; i < apiResponse.length; i++) {
+                            for (let j = 0; j < apiResponse[i].RssDocumentContent.length; j++) {
+                                this.newsList.push(apiResponse[i].RssDocumentContent[j])
+                            }
+                        }
+                    },
+                    GetListOfCatergory: function (apiResponse) {
+                        for (let i = 0; i < apiResponse.length; i++) {
+                            this.categoryList.push(apiResponse[i].Title);
+                        }
+                    }
+                },
+                created: function () {
+                    this.GetNews();
+                },
+            })
+        </script>
+    }
+
+
     <div id="app" class="container-fluid">
       <div class="row">
         <div class="col-2">
@@ -30,39 +77,3 @@
         </div>
       </div>
     </div>
-</body>
-  <script>
-  Vue.component('searchbar', {
-    template: '<div><input><button>Szukaj</button></div>'
-  })
-  Vue.component('emailbar', {
-    template: '<div><input><button>Subskrybuj</button></div>'
-  })
-  Vue.component('contentlist', {
-    props: ['item'],
-    template: '<div><div>{{item.Title}}</div><div>{{item.Data}}</div><div>{{item.Content}}</div></div>'
-  })
-  Vue.component('categorylist', {
-    props: ['category'],
-    template: '<div class="row"><div>{{category.Name}}</div><input type="checkbox"></div>'
-  })
-
-  var app = new Vue({
-    el: '#app',
-    data: {
-      newsList: [
-        { Title: 'dasdasdasd', Data: 'Vegetables',Content: 'dsadasd' },
-        { Title: 'bxcvbd', Data: 'Vegetables',Content: 'dsadasd' },
-        { Title: 'ghjkhgj', Data: 'Vegetables',Content: 'dsadasd' },
-        { Title: 'yrtey', Data: 'Vegetables',Content: 'dsadasd' }
-      ],
-      categoryList:[
-        {Name:'Lato z Odkrywcą'},
-        {Name:'Z ostatniej chwili'},
-        {Name:'Twoje miasto w Faktach RMF FM'},
-        {Name:'Raport: Lepsze Jutro'},
-      ]
-    }
-  })
-  </script>
-</html>
