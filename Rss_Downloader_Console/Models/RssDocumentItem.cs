@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rss_Downloader.Models
+﻿namespace Rss_Downloader.Models
 {
     public class RssDocumentItem
     {
@@ -11,6 +9,5 @@ namespace Rss_Downloader.Models
         public string Links { get; set; }
         public string DateOfPublication { get; set; }
         public string Category { get; set; }
-        public DateTime LastModified { get; set; }
     }
 }

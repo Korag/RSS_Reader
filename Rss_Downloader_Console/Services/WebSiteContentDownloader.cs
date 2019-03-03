@@ -79,7 +79,7 @@ namespace Rss_Downloader.Services
                     LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
                     Flag = newsType,
                     RssDocumentContent = new List<RssDocumentItem>(),
-                    LastFetched = DateTime.Now
+                    LastFetched = DateTime.UtcNow.AddHours(1)
                 };
                 tempWebSites.Add(newWebSite);
             }

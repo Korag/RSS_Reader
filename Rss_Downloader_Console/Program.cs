@@ -27,31 +27,34 @@ namespace Rss_Downloader
 
             Console.WriteLine("Downloading finished");
 
-            var newContent = GetDocumentsWithNewContent();
 
-            if (newContent.Count > 0)
+
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
+
+            var timer = new System.Threading.Timer((e) =>
             {
-                Console.WriteLine("New content is available");
-                var documentsWithNewContent = _downloader.AddNewContentToDocumentsInDb(newContent);
-                _context.AddNewContent(documentsWithNewContent);
-                Console.WriteLine("New content has been added to: ");
-                foreach (var document in documentsWithNewContent)
+                var newContent = GetDocumentsWithNewContent();
+                if (newContent.Count > 0)
                 {
-                    Console.WriteLine(document.Title);
+                    Console.WriteLine("New content is available");
+                    var documentsWithNewContent = _downloader.AddNewContentToDocumentsInDb(newContent);
+                    _context.AddNewContent(documentsWithNewContent);
+                    Console.WriteLine("New content has been added to: ");
+                    foreach (var document in documentsWithNewContent)
+                    {
+                        Console.WriteLine(document.Title);
+                    }
                 }
-            }
-            Console.WriteLine("Done");
+                else
+                {
+                    Console.WriteLine("New content is not available ");
+                }
+            }, null, startTimeSpan, periodTimeSpan);
+
             //to do: everyday at 10 and 18
-            _emailProvider = new EmailServiceProvider();
-            _emailProvider.SendNewsletterToSubscribers();
-
-            //var startTimeSpan = TimeSpan.Zero;
-            //var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
-
-            //var timer = new System.Threading.Timer((e) =>
-            //{
-            //    CheckIfNewContentIsAvailable();
-            //}, null, startTimeSpan, periodTimeSpan);
+            //_emailProvider = new EmailServiceProvider();
+            //_emailProvider.SendNewsletterToSubscribers();
 
             Console.Read();
         }

@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using Rss_Downloader.Models;
 using Rss_Downloader_Console.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -84,6 +85,7 @@ namespace Rss_Downloader.Db_Context
                 foreach (var item in document.RssDocumentContent)
                 {
                     singleDocument = _rssDocumentCollection.AsQueryable().Where(x => x.Id == document.Id)?.FirstOrDefault();
+                    singleDocument.LastFetched = DateTime.UtcNow.AddHours(1);
                     singleDocument.RssDocumentContent.Add(item);
                 }
                 if (singleDocument != null)
