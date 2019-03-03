@@ -108,6 +108,39 @@ namespace Rss_Downloader.Services
             return documentsWithNewContentAvailable;
         }
 
+        public List<RSSDocumentSingle> AddNewContentToDocumentsInDb
+            (List<RSSDocumentSingle> documentsWithNewContentAvailable)
+        {
+            List<RSSDocumentSingle> documentsWithNewContent = new List<RSSDocumentSingle>();
+
+            foreach (var document in documentsWithNewContentAvailable)
+            {
+                var subContent = XElement.Load(document.Link);
+                var contentInsideMainWebSite = subContent.Descendants("item").ToList();
+
+                foreach (var item in contentInsideMainWebSite)
+                {
+                    var checkDate = item.Descendants("pubDate").FirstOrDefault()?.Value;
+                    if (document.LastFetched < Convert.ToDateTime(checkDate))
+                    {
+                        var rssDocumentContent = new RssDocumentItem()
+                        {
+                            Guid = item.Descendants("guid").FirstOrDefault()?.Value,
+                            Title = item.Descendants("title").FirstOrDefault()?.Value,
+                            Description = item.Descendants("description").FirstOrDefault()?.Value,
+                            Image = item.Descendants("enclosure").Attributes("url").FirstOrDefault()?.Value,
+                            Links = item.Descendants("link").FirstOrDefault()?.Value,
+                            DateOfPublication = item.Descendants("pubDate").FirstOrDefault()?.Value,
+                            Category = item.Descendants("category").FirstOrDefault()?.Value,
+                        };
+                        document.RssDocumentContent.Add(rssDocumentContent);
+                    }
+                }
+                documentsWithNewContent.Add(document);
+            }
+            return documentsWithNewContent;
+        }
+
         private bool CheckIfNewConteIsAvailable(RSSDocumentSingle rssDocument, string date)
         {
             bool result = false;
