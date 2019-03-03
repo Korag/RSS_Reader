@@ -32,8 +32,15 @@ namespace Rss_Downloader
             if (newContent.Count > 0)
             {
                 Console.WriteLine("New content is available");
+                var documentsWithNewContent = _downloader.AddNewContentToDocumentsInDb(newContent);
+                _context.AddNewContent(documentsWithNewContent);
+                Console.WriteLine("New content has been added to: ");
+                foreach (var document in documentsWithNewContent)
+                {
+                    Console.WriteLine(document.Title);
+                }
             }
-
+            Console.WriteLine("Done");
             //to do: everyday at 10 and 18
             _emailProvider = new EmailServiceProvider();
             _emailProvider.SendNewsletterToSubscribers();

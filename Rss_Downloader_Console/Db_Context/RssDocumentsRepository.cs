@@ -74,6 +74,26 @@ namespace Rss_Downloader.Db_Context
             return _rssDocumentCollection.AsQueryable().ToList();
         }
 
+        public void AddNewContent(List<RSSDocumentSingle> documentsWithNewContent)
+        {
+            var allDocuments = _rssDocumentCollection.AsQueryable().ToList();
+            foreach (var document in documentsWithNewContent)
+            {
+                var filter = $"{document.Id}";
+                RSSDocumentSingle singleDocument = null;
+                foreach (var item in document.RssDocumentContent)
+                {
+                    singleDocument = _rssDocumentCollection.AsQueryable().Where(x => x.Id == document.Id)?.FirstOrDefault();
+                    singleDocument.RssDocumentContent.Add(item);
+                }
+                if (singleDocument != null)
+                {
+                    _rssDocumentCollection.ReplaceOne(x => x.Id == document.Id, singleDocument);
+                }
+
+            }
+        }
+
         public IMongoCollection<SubscriberEmail> GetSubscribersList()
         {
             _subscribers = _server.GetCollection<SubscriberEmail>(collectionMailingList);
