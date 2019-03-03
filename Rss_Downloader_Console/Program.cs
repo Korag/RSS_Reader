@@ -27,6 +27,13 @@ namespace Rss_Downloader
 
             Console.WriteLine("Downloading finished");
 
+            var newContent = GetDocumentsWithNewContent();
+
+            if (newContent.Count > 0)
+            {
+                Console.WriteLine("New content is available");
+            }
+
             //to do: everyday at 10 and 18
             _emailProvider = new EmailServiceProvider();
             _emailProvider.SendNewsletterToSubscribers();
@@ -65,6 +72,11 @@ namespace Rss_Downloader
             {
                 SaveDocumentItemsToDatabase();
             }
+        }
+        public static List<RSSDocumentSingle> GetDocumentsWithNewContent()
+        {
+            var documentsFromDb = _context.GetAllDocuments();
+            return _downloader.GetDocumentsWithNewContentAvailable(documentsFromDb);
         }
     }
 }
