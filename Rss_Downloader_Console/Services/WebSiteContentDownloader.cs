@@ -86,6 +86,42 @@ namespace Rss_Downloader.Services
             return tempWebSites;
         }
 
+        public List<RSSDocumentSingle> GetDocumentsWithNewContentAvailable(List<RSSDocumentSingle> rssDocumentsFromDb)
+        {
+
+            List<RSSDocumentSingle> documentsWithNewContentAvailable = new List<RSSDocumentSingle>();
+
+            foreach (var item in rssDocumentsFromDb)
+            {
+                var subContent = XElement.Load(item.Link);
+                var contentInsideMainWebSite = subContent.Descendants("item").ToList();
+
+                var date = contentInsideMainWebSite
+                            .FirstOrDefault()?.Descendants("pubDate").FirstOrDefault()?.Value;
+
+                if (CheckIfNewConteIsAvailable(item, date))
+                {
+                    documentsWithNewContentAvailable.Add(item);
+                }
+            }
+
+            return documentsWithNewContentAvailable;
+        }
+
+        private bool CheckIfNewConteIsAvailable(RSSDocumentSingle rssDocument, string date)
+        {
+            bool result = false;
+
+            var checkDate = Convert.ToDateTime(date);
+
+            if (rssDocument.LastFetched < checkDate)
+            {
+                return true;
+            }
+
+            return result;
+        }
+
         private List<string> GetLinksFromDivWithSpecyficClassName(string className, List<string> linksContainer)
         {
             var MainDiv = _documentNode.Descendants("div")

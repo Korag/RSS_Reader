@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Rss_Downloader.Models;
 using Rss_Downloader_Console.Models;
 using System.Collections.Generic;
@@ -67,7 +66,12 @@ namespace Rss_Downloader.Db_Context
 
         public void DeleteAllDocumentsFromDatabse()
         {
-            _rssDocumentCollection.DeleteMany(x=>true);
+            _rssDocumentCollection.DeleteMany(x => true);
+        }
+
+        public List<RSSDocumentSingle> GetAllDocuments()
+        {
+            return _rssDocumentCollection.AsQueryable().ToList();
         }
 
         public IMongoCollection<SubscriberEmail> GetSubscribersList()
