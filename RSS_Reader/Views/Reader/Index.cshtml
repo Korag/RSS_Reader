@@ -11,12 +11,22 @@
           })
           Vue.component('contentlist', {
             props: ['item'],
-              template: '<div class="row border border-primary"><div class="col">{{item.Title}}</div><div class="col">{{item.Category}}</div><div class="row"><span v-html="item.Description"></span></div></div>',
+              template:                 `
+    <div class="row">
+    <div class="col-10">{{item.Title}}
+    </div>
+    <div class="col-2 mx-auto">{{item.Category}}
+    </div>
+    <div class="row"><span v-html="item.Description">
+    </span>
+    </div>
+    </div>
+    `,
 
           })
           Vue.component('categorylist', {
             props: ['category'],
-              template: '<div class="row border border-success"><div>{{category}}</div><input type="checkbox"></div>'
+              template: '<div class="row "><div class="col-10">{{category}}</div><div class="col-2"><input type="checkbox"></div></div>'
           })
 
             var app = new Vue({
@@ -55,12 +65,10 @@
     </script>
 }
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 <div id="app" class="container-fluid">
     <br />
-    <div class="row">
-        <div class="col-3 ">
-        </div>
+    <div class="row justify-content-center">
         <div class="col-6">
             <searchbar inline-template>
                 <form class="card card-sm">
@@ -80,11 +88,9 @@
                     </div>
                 </form>
             </searchbar>
-        </div>
-        <div class="col-3 ">
-        </div>
+            </div>
     </div>
-    <br />
+    
     <div class="row ">
         <div class="col-2">
             <categorylist v-for="category in categoryList"
@@ -93,9 +99,7 @@
 
             </categorylist>
         </div>
-        <div class="col-1 ">
-        </div>
-        <div class="col-6 align-self-center">
+        <div class="col-10 sliderOverflow ">
             <contentlist class="col"
                          v-for="obj in newsList"
                          v-bind:item="obj"
@@ -103,10 +107,8 @@
 
             </contentlist>
         </div>
-        <div class="col-3 ">
-        </div>
     </div>
-    <br />
+    
     <div class="row justify-content-center">
         <emailbar inline-template>
             <div class="col-6 align-self-center"><input><button>Subskrybuj</button></div>

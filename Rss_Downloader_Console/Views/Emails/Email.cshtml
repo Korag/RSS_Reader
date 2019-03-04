@@ -1,47 +1,58 @@
 ﻿@Model Rss_Downloader.Models.EmailTemplateViewModel
 <h2>Witamy.</h2>
 
-<p><b>Nowości w obserwowanych kanałach:</b></p>
 
-<ul>
-    @foreach (var Title in Model.SubscriberList)
-    {
-        <h2>@Title</h2>
-
-        foreach (var singleDocument in Model.RssList)
+@if (Model.SubscriberList != null)
+{
+    <p><b>Nowości w obserwowanych kanałach:</b></p>
+    <ul>
+        @foreach (var Title in Model.SubscriberList)
         {
-            int counter = 0;
+            <h2>@Title</h2>
 
-            if (singleDocument.Title == Title)
+            foreach (var singleDocument in Model.RssList)
             {
-                foreach (var singleDocumentContent in singleDocument.RssDocumentContent)
+                int counter = 0;
+
+                if (singleDocument.Title == Title)
                 {
-                    DateTime PubDate = Convert.ToDateTime(singleDocumentContent.DateOfPublication);
-                    if (DateTime.Now.Subtract(PubDate).Hours < 12)
+                    foreach (var singleDocumentContent in singleDocument.RssDocumentContent)
+                    {
+                        DateTime PubDate = Convert.ToDateTime(singleDocumentContent.DateOfPublication);
+                        if (DateTime.Now.Subtract(PubDate).Hours < 12)
+                        {
+                            <li>
+                                <a href="@singleDocumentContent.Links">@singleDocumentContent.Title</a>
+                            </li>
+                            counter++;
+                        }
+                    }
+                    if (counter == 0)
                     {
                         <li>
-                            <a href="@singleDocumentContent.Links">@singleDocumentContent.Title</a>
-                            @*<p>@singleDocumentContent.Description</p>*@
+                            <p>Brak nowości z ostatnich 12 godzin.</p>
                         </li>
-                        counter++;
                     }
-                }
-                if (counter == 0)
-                {
-                    <li>
-                        <p>Brak nowości z ostatnich 12 godzin.</p>
-                    </li>
+
                 }
 
             }
 
         }
+    </ul>
+}
 
-    }
-</ul>
+else
+{
+    <p>
+        Podczas subskrypcji newslettera nie wybrano żadnych kategorii.<br>
+        Proszę powrócić do etapu wybierania subskrypcji newslettera.
+    </p>
+}
+
 
 <h4>Pozdrawiamy</h4>
 <h4>Zespół Vertisio</h4>
 
-
-<img src="~/Assets/vertisio_logo.PNG" />
+@*@Html.EmbedImage("~/Assets/vertisio_logo.PNG")*@
+@*<img src="C:/Users/Łukasz/Documents/Visual Studio 2017/Projects/RSS_Reader/Rss_Downloader_Console/Assets/vertisio_logo.PNG" />*@

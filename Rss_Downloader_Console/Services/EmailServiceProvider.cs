@@ -8,6 +8,7 @@ using Rss_Downloader.Db_Context;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using System;
+using System.Net.Mail;
 
 namespace Rss_Downloader_Console.Services
 {
@@ -43,7 +44,8 @@ namespace Rss_Downloader_Console.Services
             email.RssList = _context._rssDocumentCollection.Find(new BsonDocument()).ToList();
 
             email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + ".";
-            
+            //email.Attach(new Attachment(@"C:\Users\Łukasz\Documents\Visual Studio 2017\Projects\RSS_Reader\Rss_Downloader_Console\Assets\vertisio_logo.PNG"));
+
             Task t = _service.SendAsync(email);
         }
         public void SendNewsletterToSubscribers()

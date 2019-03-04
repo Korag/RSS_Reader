@@ -1,12 +1,10 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+   
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+   
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -17,18 +15,28 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+
+
+div {
+    border: 1px solid #ddd;
+}
+img {
+    border: 5px solid #ddd;
+    border-radius: 20%;
+    padding: 5px;
+    width: 200px;
 }
 
-.form-control-borderless {
-    border: none;
+p {
+    font-size: 12px;
+    font-weight: normal;
+    text-align: justify;
+    text-indent: 50px;
+    margin: 2px;
+
 }
 
-.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-    border: none;
-    outline: none;
-    box-shadow: none;
+.sliderOverflow {
+   height: 1225px;
+    overflow-y: scroll;
 }
