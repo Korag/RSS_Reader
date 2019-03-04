@@ -16,8 +16,8 @@ namespace Rss_Downloader.Services
     public class WebSiteContentDownloader : IWebSiteContentDownloader
     {
         private readonly HtmlNode _documentNode;
-        private List<string> _podcastLinks;
-        private List<string> _textNewsLinks;
+        private Dictionary<string,string> _podcastLinks;
+        private Dictionary<string, string> _textNewsLinks;
 
 
         public WebSiteContentDownloader(string path)
@@ -25,8 +25,8 @@ namespace Rss_Downloader.Services
             var htmlWeb = new HtmlWeb();
             _documentNode = htmlWeb.Load(path).DocumentNode;
 
-            _textNewsLinks = GetLinksFromDivWithSpecyficClassName("box channels", _textNewsLinks);
-            _podcastLinks = GetLinksFromDivWithSpecyficClassName("box channels podcast", _podcastLinks);
+            _textNewsLinks = GetLinksFromDivWithSpecyficClassName("box channels");
+            _podcastLinks = GetLinksFromDivWithSpecyficClassName("box channels podcast");
         }
 
         public List<RSSDocumentSingle> GetAllDocumentsFromWebSite()
@@ -64,18 +64,18 @@ namespace Rss_Downloader.Services
             mainContent.RssDocumentContent = subContentList;
         }
 
-        private List<RSSDocumentSingle> GetDocumentsFromLinks(List<string> links, string newsType)
+        private List<RSSDocumentSingle> GetDocumentsFromLinks(Dictionary<string, string> links, string newsType)
         {
             List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
             foreach (var link in links)
             {
-                var mainContent = XElement.Load(link);
+                var mainContent = XElement.Load(link.Value);
                 RSSDocumentSingle newWebSite = new RSSDocumentSingle()
                 {
-                    Title = mainContent.Descendants("title").FirstOrDefault()?.Value,
+                    Title = link.Key,
                     Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
                     Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
-                    Link = link,
+                    Link = link.Value,
                     LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
                     Flag = newsType,
                     RssDocumentContent = new List<RssDocumentItem>(),
@@ -155,20 +155,29 @@ namespace Rss_Downloader.Services
             return result;
         }
 
-        private List<string> GetLinksFromDivWithSpecyficClassName(string className, List<string> linksContainer)
+        private Dictionary<string, string> GetLinksFromDivWithSpecyficClassName(string className)
         {
-            var MainDiv = _documentNode.Descendants("div")
+            Dictionary<string, string> titleswithLinks = new Dictionary<string, string>();
+
+            var mainDiv = _documentNode.Descendants("div")
                          .Where(d => d.Attributes["class"]?.Value
                          .Equals(className) == true).FirstOrDefault();
 
-            var links = MainDiv.Descendants("a")
-                        .Where(d => d.Attributes["href"]?.Value
-                        .EndsWith("feed") == true || d.Attributes["href"]?.Value
-                        .EndsWith(".xml") == true)
-                        .Select(s => s.InnerHtml)
-                        .ToList();
+            var liElementsInsideDiv = mainDiv.Descendants("li").ToList();
 
-            return links;
+            foreach (var liElement in liElementsInsideDiv)
+            {
+                var title = liElement.Descendants("div")
+                            .Where(d => d.Attributes["class"]?.Value
+                            .Equals("title") == true).FirstOrDefault().InnerHtml;
+                var url = liElement.Descendants("div")
+                            .Where(d => d.Attributes["class"]?.Value
+                            .Equals("url") == true).FirstOrDefault()
+                            .Descendants("a").FirstOrDefault()?.InnerHtml;
+
+                titleswithLinks.Add(title, url);
+            }
+            return titleswithLinks;
         }
 
     }
