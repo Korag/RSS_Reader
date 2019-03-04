@@ -24,7 +24,7 @@ namespace Rss_Downloader
                 SaveDocumentSingleToDatabase();
                 Console.WriteLine("Downloading finished");
             }
-            
+
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
 
@@ -56,7 +56,7 @@ namespace Rss_Downloader
         }
         public static void SaveDocumentSingleToDatabase()
         {
-            _rssDocuments = _downloader.GetAllDocuments();
+            _rssDocuments = _downloader.GetAllDocumentsWithoutSubContent();
             foreach (var content in _rssDocuments)
             {
                 _downloader.GetSubContentOfSingleDocument(content);

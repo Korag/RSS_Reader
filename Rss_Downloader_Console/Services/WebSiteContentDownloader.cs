@@ -9,52 +9,60 @@ namespace Rss_Downloader.Services
 {
     public interface IWebSiteContentDownloader
     {
-        List<RSSDocumentSingle> GetAllDocuments();
+        List<RSSDocumentSingle> GetAllDocumentsWithoutSubContent();
+
         void GetSubContentOfSingleDocument(RSSDocumentSingle mainContent);
+
+        List<RSSDocumentSingle> GetDocumentsWithNewContentAvailable
+            (List<RSSDocumentSingle> rssDocumentsFromDb);
+
+        List<RSSDocumentSingle> AddNewContentToDocumentsInDb
+            (List<RSSDocumentSingle> documentsWithNewContentAvailable);
     }
 
     public class WebSiteContentDownloader : IWebSiteContentDownloader
     {
         private readonly HtmlNode _documentNode;
-        private Dictionary<string,string> _newsLinks;
+        private Dictionary<string, string> _linksWithTitles;
 
         public WebSiteContentDownloader(string path)
         {
             var htmlWeb = new HtmlWeb();
             _documentNode = htmlWeb.Load(path).DocumentNode;
-            _newsLinks = GetLinksFromDivWithSpecyficClassName();
+            _linksWithTitles = GetLinksFromDivWithSpecyficClassName();
         }
 
-        public List<RSSDocumentSingle> GetAllDocuments()
+        public List<RSSDocumentSingle> GetAllDocumentsWithoutSubContent()
         {
-            List<RSSDocumentSingle> tempWebSites = new List<RSSDocumentSingle>();
-            foreach (var link in _newsLinks)
+            List<RSSDocumentSingle> allRssDocumentsWithoutSubContent = new List<RSSDocumentSingle>();
+
+            foreach (var link in _linksWithTitles)
             {
-                var mainContent = XElement.Load(link.Key);
+                var rssDocumentFromWebSite = XElement.Load(link.Key);
                 RSSDocumentSingle newWebSite = new RSSDocumentSingle()
                 {
                     Title = link.Value,
-                    Description = mainContent.Descendants("description").FirstOrDefault()?.Value,
-                    Image = mainContent.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
                     Link = link.Key,
-                    LastUpdate = mainContent.Descendants("lastBuildDate").FirstOrDefault()?.Value,
-                    Flag = link.Value.Contains("podcast") ? "podcast" : "text",
-                    RssDocumentContent = new List<RssDocumentItem>(),
-                    LastFetched = DateTime.UtcNow.AddHours(1)
+                    Flag = link.Key.Contains("podcast") ? "Podcast" : "Text",
+                    Description = rssDocumentFromWebSite.Descendants("description").FirstOrDefault()?.Value,
+                    Image = rssDocumentFromWebSite.Descendants("image").Descendants("url").FirstOrDefault()?.Value,
+                    LastUpdate = rssDocumentFromWebSite.Descendants("lastBuildDate").FirstOrDefault()?.Value,
+                    LastFetched = DateTime.UtcNow.AddHours(1),
+                    RssDocumentContent = new List<RssDocumentItem>()
                 };
-                tempWebSites.Add(newWebSite);
+                allRssDocumentsWithoutSubContent.Add(newWebSite);
             }
-            return tempWebSites;
+            return allRssDocumentsWithoutSubContent;
         }
 
         public void GetSubContentOfSingleDocument(RSSDocumentSingle mainContent)
         {
-            List<RssDocumentItem> subContentList = new List<RssDocumentItem>();
+            List<RssDocumentItem> subContentOfSingleRssDocument = new List<RssDocumentItem>();
 
-            var subContent = XElement.Load(mainContent.Link);
-            var contentInsideMainWebSite = subContent.Descendants("item").ToList();
+            var itemsInsideMainRssDocument = XElement.Load(mainContent.Link)
+                                                    .Descendants("item").ToList();
 
-            foreach (var item in contentInsideMainWebSite)
+            foreach (var item in itemsInsideMainRssDocument)
             {
                 var rssDocumentContent = new RssDocumentItem()
                 {
@@ -66,26 +74,23 @@ namespace Rss_Downloader.Services
                     DateOfPublication = item.Descendants("pubDate").FirstOrDefault()?.Value,
                     Category = item.Descendants("category").FirstOrDefault()?.Value,
                 };
-                subContentList.Add(rssDocumentContent);
+                subContentOfSingleRssDocument.Add(rssDocumentContent);
             }
-            mainContent.RssDocumentContent = subContentList;
+            mainContent.RssDocumentContent = subContentOfSingleRssDocument;
         }
 
         public List<RSSDocumentSingle> GetDocumentsWithNewContentAvailable(List<RSSDocumentSingle> rssDocumentsFromDb)
         {
             List<RSSDocumentSingle> documentsWithNewContentAvailable = new List<RSSDocumentSingle>();
 
-            foreach (var item in rssDocumentsFromDb)
+            foreach (var rssDocument in rssDocumentsFromDb)
             {
-                var subContent = XElement.Load(item.Link);
-                var contentInsideMainWebSite = subContent.Descendants("item").ToList();
-
-                var date = contentInsideMainWebSite
+                var publishDateOfTheLatestItem = XElement.Load(rssDocument.Link).Descendants("item")
                             .FirstOrDefault()?.Descendants("pubDate").FirstOrDefault()?.Value;
 
-                if (CheckIfNewConteIsAvailable(item, date))
+                if (CheckIfNewConteIsAvailable(rssDocument, publishDateOfTheLatestItem))
                 {
-                    documentsWithNewContentAvailable.Add(item);
+                    documentsWithNewContentAvailable.Add(rssDocument);
                 }
             }
             return documentsWithNewContentAvailable;
@@ -98,10 +103,9 @@ namespace Rss_Downloader.Services
 
             foreach (var document in documentsWithNewContentAvailable)
             {
-                var subContent = XElement.Load(document.Link);
-                var contentInsideMainWebSite = subContent.Descendants("item").ToList();
+                var subContent = XElement.Load(document.Link).Descendants("item").ToList();
 
-                foreach (var item in contentInsideMainWebSite)
+                foreach (var item in subContent)
                 {
                     var checkDate = item.Descendants("pubDate").FirstOrDefault()?.Value;
                     if (document.LastFetched < Convert.ToDateTime(checkDate))
@@ -127,25 +131,27 @@ namespace Rss_Downloader.Services
         private bool CheckIfNewConteIsAvailable(RSSDocumentSingle rssDocument, string date)
         {
             bool result = false;
-
-            var checkDate = Convert.ToDateTime(date);
-
-            if (rssDocument.LastFetched < checkDate)
+            if (!string.IsNullOrWhiteSpace(date))
             {
-                return true;
+                var checkDate = Convert.ToDateTime(date);
+
+                if (rssDocument.LastFetched < checkDate)
+                {
+                    return true;
+                }
             }
             return result;
         }
 
         private Dictionary<string, string> GetLinksFromDivWithSpecyficClassName()
         {
-            Dictionary<string, string> titleswithLinks = new Dictionary<string, string>();
+            Dictionary<string, string> titlesWithLinks = new Dictionary<string, string>();
 
-            var liElementsInsideDiv = _documentNode.Descendants("li")
+            var liElementsFromWebSite = _documentNode.Descendants("li")
                          .Where(d => d.Attributes["class"]?.Value
                          .StartsWith("i") == true).ToList();
 
-            foreach (var liElement in liElementsInsideDiv)
+            foreach (var liElement in liElementsFromWebSite)
             {
                 var title = liElement.Descendants("div")
                             .Where(d => d.Attributes["class"]?.Value
@@ -156,9 +162,9 @@ namespace Rss_Downloader.Services
                             .Equals("url") == true).FirstOrDefault()
                             .Descendants("a").FirstOrDefault()?.InnerHtml;
 
-                titleswithLinks.Add(url, title);
+                titlesWithLinks.Add(url, title);
             }
-            return titleswithLinks;
+            return titlesWithLinks;
         }
 
     }
