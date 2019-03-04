@@ -16,9 +16,9 @@
             {
                 foreach (var singleDocumentContent in singleDocument.RssDocumentContent)
                 {
-                    if ((DateTime.Now.Hour - singleDocumentContent.LastModified.Hour) < 24)
+                    DateTime PubDate = Convert.ToDateTime(singleDocumentContent.DateOfPublication);
+                    if (DateTime.Now.Subtract(PubDate).Hours < 12)
                     {
-
                         <li>
                             <a href="@singleDocumentContent.Links">@singleDocumentContent.Title</a>
                             @*<p>@singleDocumentContent.Description</p>*@

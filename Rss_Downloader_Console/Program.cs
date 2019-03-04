@@ -53,8 +53,8 @@ namespace Rss_Downloader
             }, null, startTimeSpan, periodTimeSpan);
 
             //to do: everyday at 10 and 18
-            //_emailProvider = new EmailServiceProvider();
-            //_emailProvider.SendNewsletterToSubscribers();
+            _emailProvider = new EmailServiceProvider();
+            _emailProvider.SendNewsletterToSubscribers();
 
             Console.Read();
         }

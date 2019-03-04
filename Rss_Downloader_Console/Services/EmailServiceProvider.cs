@@ -45,16 +45,15 @@ namespace Rss_Downloader_Console.Services
             email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + ".";
             
             Task t = _service.SendAsync(email);
+            t.Wait();
         }
         public void SendNewsletterToSubscribers()
         {
             SubscribersCollection = _context.GetSubscribersList();
             Subscribers = SubscribersCollection.Find(new BsonDocument( )).ToList();
 
-            //Subscribers = SubscribersCollection.Find(new BsonDocument()).Project<SubscriberEmail>(Builders<SubscriberEmail>.Projection.Include(p => p.EmailAddress).Include(p => p.SubscriberList)).ToList();
-
             foreach (var subscriber in Subscribers)
-            {
+            {               
                 SendSubscriberEmail(subscriber);
             }
         }
