@@ -9,15 +9,15 @@ namespace Rss_Downloader.Services
 {
     public interface IWebSiteContentDownloader
     {
-        List<RSSDocumentSingle> GetAllDocumentsWithoutSubContent();
+        List<RssDocumentSingle> GetAllDocumentsWithoutSubContent();
 
-        void FillSingleDocumentWithSubContent(RSSDocumentSingle mainContent);
+        void FillSingleDocumentWithSubContent(RssDocumentSingle mainContent);
 
-        List<RSSDocumentSingle> GetDocumentsWithNewContentAvailable
-            (List<RSSDocumentSingle> rssDocumentsFromDb);
+        List<RssDocumentSingle> GetDocumentsWithNewContentAvailable
+            (List<RssDocumentSingle> rssDocumentsFromDb);
 
-        List<RSSDocumentSingle> AddNewContentToDocuments
-            (List<RSSDocumentSingle> documentsWithNewContentAvailable);
+        List<RssDocumentSingle> AddNewContentToDocuments
+            (List<RssDocumentSingle> documentsWithNewContentAvailable);
     }
 
     public class WebSiteContentDownloader : IWebSiteContentDownloader
@@ -32,14 +32,14 @@ namespace Rss_Downloader.Services
             _linksWithTitles = GetLinksFromDivWithSpecyficClassName();
         }
 
-        public List<RSSDocumentSingle> GetAllDocumentsWithoutSubContent()
+        public List<RssDocumentSingle> GetAllDocumentsWithoutSubContent()
         {
-            List<RSSDocumentSingle> allRssDocumentsWithoutSubContent = new List<RSSDocumentSingle>();
+            List<RssDocumentSingle> allRssDocumentsWithoutSubContent = new List<RssDocumentSingle>();
 
             foreach (var link in _linksWithTitles)
             {
                 var rssDocumentFromWebSite = XElement.Load(link.Key);
-                RSSDocumentSingle newWebSite = new RSSDocumentSingle()
+                RssDocumentSingle newWebSite = new RssDocumentSingle()
                 {
                     Title = link.Value,
                     Link = link.Key,
@@ -55,7 +55,7 @@ namespace Rss_Downloader.Services
             return allRssDocumentsWithoutSubContent;
         }
 
-        public void FillSingleDocumentWithSubContent(RSSDocumentSingle mainContent)
+        public void FillSingleDocumentWithSubContent(RssDocumentSingle mainContent)
         {
             List<RssDocumentItem> subContentOfSingleRssDocument = new List<RssDocumentItem>();
 
@@ -79,28 +79,10 @@ namespace Rss_Downloader.Services
             mainContent.RssDocumentContent = subContentOfSingleRssDocument;
         }
 
-        public List<RSSDocumentSingle> GetDocumentsWithNewContentAvailable(List<RSSDocumentSingle> rssDocumentsFromDb)
+        public List<RssDocumentSingle> AddNewContentToDocuments
+            (List<RssDocumentSingle> documentsWithNewContentAvailable)
         {
-            List<RSSDocumentSingle> documentsWithNewContentAvailable = new List<RSSDocumentSingle>();
-
-            foreach (var rssDocument in rssDocumentsFromDb)
-            {
-                var publishDateOfTheLatestSubContent = XElement.Load(rssDocument.Link).Descendants("item")
-                                                        .FirstOrDefault()?.Descendants("pubDate")
-                                                        .FirstOrDefault()?.Value;
-
-                if (CheckIfNewConteIsAvailable(rssDocument, publishDateOfTheLatestSubContent))
-                {
-                    documentsWithNewContentAvailable.Add(rssDocument);
-                }
-            }
-            return documentsWithNewContentAvailable;
-        }
-
-        public List<RSSDocumentSingle> AddNewContentToDocuments
-            (List<RSSDocumentSingle> documentsWithNewContentAvailable)
-        {
-            List<RSSDocumentSingle> documentsWithNewContent = new List<RSSDocumentSingle>();
+            List<RssDocumentSingle> documentsWithNewContent = new List<RssDocumentSingle>();
 
             foreach (var document in documentsWithNewContentAvailable)
             {
@@ -129,7 +111,25 @@ namespace Rss_Downloader.Services
             return documentsWithNewContent;
         }
 
-        private bool CheckIfNewConteIsAvailable(RSSDocumentSingle rssDocument, string date)
+        public List<RssDocumentSingle> GetDocumentsWithNewContentAvailable(List<RssDocumentSingle> rssDocumentsFromDb)
+        {
+            List<RssDocumentSingle> documentsWithNewContentAvailable = new List<RssDocumentSingle>();
+
+            foreach (var rssDocument in rssDocumentsFromDb)
+            {
+                var publishDateOfTheLatestSubContent = XElement.Load(rssDocument.Link).Descendants("item")
+                                                        .FirstOrDefault()?.Descendants("pubDate")
+                                                        .FirstOrDefault()?.Value;
+
+                if (CheckIfNewConteIsAvailable(rssDocument, publishDateOfTheLatestSubContent))
+                {
+                    documentsWithNewContentAvailable.Add(rssDocument);
+                }
+            }
+            return documentsWithNewContentAvailable;
+        }
+
+        private bool CheckIfNewConteIsAvailable(RssDocumentSingle rssDocument, string date)
         {
             bool result = false;
             if (!string.IsNullOrWhiteSpace(date))

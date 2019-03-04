@@ -12,7 +12,7 @@ namespace Rss_Downloader
         private static WebSiteContentDownloader _downloader;
         private static RssDocumentsRepository _context;
         private static EmailServiceProvider _emailProvider;
-        private static List<RSSDocumentSingle> _rssDocuments;
+        private static List<RssDocumentSingle> _rssDocuments;
 
         private static void Main(string[] args)
         {
@@ -66,7 +66,7 @@ namespace Rss_Downloader
             _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
         }
 
-        public static List<RSSDocumentSingle> GetDocumentsWithNewContent()
+        public static List<RssDocumentSingle> GetDocumentsWithNewContent()
         {
             var documentsFromDb = _context.GetAllDocuments();
             return _downloader.GetDocumentsWithNewContentAvailable(documentsFromDb);

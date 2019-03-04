@@ -10,7 +10,7 @@ namespace Rss_Downloader.Db_Context
 {
     public class RssDocumentsRepository : IRssDocumentsRepository
     {
-        public IMongoCollection<RSSDocumentSingle> _rssDocumentCollection;
+        public IMongoCollection<RssDocumentSingle> _rssDocumentCollection;
         private IMongoCollection<SubscriberEmail> _subscribers;
 
         private MongoClient _mongoClient;
@@ -34,15 +34,15 @@ namespace Rss_Downloader.Db_Context
         {
             _mongoClient = new MongoClient(connectionstring);
             _server = _mongoClient.GetDatabase(database);
-            _rssDocumentCollection = _server.GetCollection<RSSDocumentSingle>(collectionRSS);
+            _rssDocumentCollection = _server.GetCollection<RssDocumentSingle>(collectionRSS);
         }
 
-        public void SaveOneRssDocumentToDatabase(RSSDocumentSingle rssDocument)
+        public void SaveOneRssDocumentToDatabase(RssDocumentSingle rssDocument)
         {
             _rssDocumentCollection.InsertOne(rssDocument);
         }
 
-        public void SaveManyRssDocumentsToDatabase(List<RSSDocumentSingle> rssDocuments)
+        public void SaveManyRssDocumentsToDatabase(List<RssDocumentSingle> rssDocuments)
         {
             _rssDocumentCollection.InsertMany(rssDocuments);
         }
@@ -56,18 +56,18 @@ namespace Rss_Downloader.Db_Context
             return false;
         }
 
-        public List<RSSDocumentSingle> GetAllDocuments()
+        public List<RssDocumentSingle> GetAllDocuments()
         {
             return _rssDocumentCollection.AsQueryable().ToList();
         }
 
-        public void AddNewContent(List<RSSDocumentSingle> documentsWithNewContent)
+        public void AddNewContent(List<RssDocumentSingle> documentsWithNewContent)
         {
             var allDocuments = _rssDocumentCollection.AsQueryable().ToList();
             foreach (var document in documentsWithNewContent)
             {
                 var filter = $"{document.Id}";
-                RSSDocumentSingle singleDocument = null;
+                RssDocumentSingle singleDocument = null;
                 foreach (var item in document.RssDocumentContent)
                 {
                     singleDocument = _rssDocumentCollection.AsQueryable().Where(x => x.Id == document.Id)?.FirstOrDefault();
