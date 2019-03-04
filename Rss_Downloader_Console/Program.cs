@@ -4,6 +4,7 @@ using Rss_Downloader.Services;
 using Rss_Downloader_Console.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rss_Downloader
 {
@@ -16,6 +17,7 @@ namespace Rss_Downloader
 
         private static void Main(string[] args)
         {
+
             _downloader = new WebSiteContentDownloader("https://www.rmf24.pl/kanaly/rss");
             _context = new RssDocumentsRepository();
 
@@ -59,10 +61,10 @@ namespace Rss_Downloader
         public static void SaveDocumentSingleToDatabase()
         {
             _rssDocuments = _downloader.GetAllDocumentsWithoutSubContent();
-            foreach (var content in _rssDocuments)
+            Parallel.ForEach(_rssDocuments, (content) =>
             {
                 _downloader.FillSingleDocumentWithSubContent(content);
-            }
+            });
             _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
         }
 

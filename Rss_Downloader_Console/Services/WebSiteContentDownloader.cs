@@ -3,6 +3,7 @@ using Rss_Downloader.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Rss_Downloader.Services
@@ -35,8 +36,7 @@ namespace Rss_Downloader.Services
         public List<RssDocumentSingle> GetAllDocumentsWithoutSubContent()
         {
             List<RssDocumentSingle> allRssDocumentsWithoutSubContent = new List<RssDocumentSingle>();
-
-            foreach (var link in _linksWithTitles)
+            Parallel.ForEach(_linksWithTitles, (link) =>
             {
                 var rssDocumentFromWebSite = XElement.Load(link.Key);
                 RssDocumentSingle newWebSite = new RssDocumentSingle()
@@ -51,7 +51,7 @@ namespace Rss_Downloader.Services
                     RssDocumentContent = new List<RssDocumentItem>()
                 };
                 allRssDocumentsWithoutSubContent.Add(newWebSite);
-            }
+            });
             return allRssDocumentsWithoutSubContent;
         }
 
@@ -61,7 +61,6 @@ namespace Rss_Downloader.Services
 
             var itemsInsideMainRssDocument = XElement.Load(mainContent.Link)
                                                     .Descendants("item").ToList();
-
             foreach (var item in itemsInsideMainRssDocument)
             {
                 var rssDocumentContent = new RssDocumentItem()
@@ -76,6 +75,7 @@ namespace Rss_Downloader.Services
                 };
                 subContentOfSingleRssDocument.Add(rssDocumentContent);
             }
+
             mainContent.RssDocumentContent = subContentOfSingleRssDocument;
         }
 
