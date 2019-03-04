@@ -34,8 +34,10 @@ namespace Rss_Downloader
                 if (newContent.Count > 0)
                 {
                     Console.WriteLine("New content is available");
-                    var documentsWithNewContent = _downloader.AddNewContentToDocumentsInDb(newContent);
+
+                    var documentsWithNewContent = _downloader.AddNewContentToDocuments(newContent);
                     _context.AddNewContent(documentsWithNewContent);
+
                     Console.WriteLine("New content has been added to: ");
                     foreach (var document in documentsWithNewContent)
                     {
@@ -59,7 +61,7 @@ namespace Rss_Downloader
             _rssDocuments = _downloader.GetAllDocumentsWithoutSubContent();
             foreach (var content in _rssDocuments)
             {
-                _downloader.GetSubContentOfSingleDocument(content);
+                _downloader.FillSingleDocumentWithSubContent(content);
             }
             _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
         }
