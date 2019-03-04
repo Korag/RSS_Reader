@@ -56,20 +56,6 @@ namespace Rss_Downloader.Db_Context
             return false;
         }
 
-        public bool CheckIfDatabaseContainsEnoughDocuments()
-        {
-            if (_rssDocumentCollection.AsQueryable().Count() == 31)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public void DeleteAllDocumentsFromDatabse()
-        {
-            _rssDocumentCollection.DeleteMany(x => true);
-        }
-
         public List<RSSDocumentSingle> GetAllDocuments()
         {
             return _rssDocumentCollection.AsQueryable().ToList();

@@ -22,13 +22,9 @@ namespace Rss_Downloader
             if (_context.CheckIfDatabaseIsEmpty())
             {
                 SaveDocumentSingleToDatabase();
+                Console.WriteLine("Downloading finished");
             }
-
-
-            Console.WriteLine("Downloading finished");
-
-
-
+            
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
 
@@ -60,7 +56,7 @@ namespace Rss_Downloader
         }
         public static void SaveDocumentSingleToDatabase()
         {
-            _rssDocuments = _downloader.GetAllDocumentsFromWebSite();
+            _rssDocuments = _downloader.GetAllDocuments();
             foreach (var content in _rssDocuments)
             {
                 _downloader.GetSubContentOfSingleDocument(content);
@@ -68,21 +64,6 @@ namespace Rss_Downloader
             _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
         }
 
-        public static void SaveDocumentItemsToDatabase()
-        {
-            foreach (var content in _rssDocuments)
-            {
-                _downloader.GetSubContentOfSingleDocument(content);
-            }
-            _context.SaveManyRssDocumentsToDatabase(_rssDocuments);
-        }
-        public static void CheckIfNewContentIsAvailable()
-        {
-            if (true)
-            {
-                SaveDocumentItemsToDatabase();
-            }
-        }
         public static List<RSSDocumentSingle> GetDocumentsWithNewContent()
         {
             var documentsFromDb = _context.GetAllDocuments();

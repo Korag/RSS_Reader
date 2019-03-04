@@ -12,8 +12,6 @@ namespace Rss_Downloader.Db_Context
         void SaveOneRssDocumentToDatabase(RSSDocumentSingle rssDocument);
         void SaveManyRssDocumentsToDatabase(List<RSSDocumentSingle> rssDocuments);
         bool CheckIfDatabaseIsEmpty();
-        bool CheckIfDatabaseContainsEnoughDocuments();
-        void DeleteAllDocumentsFromDatabse();
         IMongoCollection<SubscriberEmail> GetSubscribersList();
 
 
