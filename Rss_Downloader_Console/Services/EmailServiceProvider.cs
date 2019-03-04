@@ -45,7 +45,6 @@ namespace Rss_Downloader_Console.Services
             email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + ".";
             
             Task t = _service.SendAsync(email);
-            t.Wait();
         }
         public void SendNewsletterToSubscribers()
         {
