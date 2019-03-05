@@ -110,6 +110,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <Content Include="Assets\vertisio_logo.PNG" />
+    <Content Include="Assets\vertisio_logo_small.png" />
+    <Content Include="Assets\vertisio_logo_tiny.png" />
     <Content Include="Views\Emails\Email.cshtml" />
     <None Include="Views\Emails\_ViewStart.cshtml" />
   </ItemGroup>
