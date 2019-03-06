@@ -53,10 +53,10 @@ namespace Rss_Downloader_Console.Services
             SubscribersCollection = _context.GetSubscribersList();
             Subscribers = SubscribersCollection.Find(new BsonDocument( )).ToList();
 
-            foreach (var subscriber in Subscribers)
-            {               
+            Parallel.ForEach(Subscribers, subscriber =>
+            {
                 SendSubscriberEmail(subscriber);
-            }
+            });
         }
     }
 }
