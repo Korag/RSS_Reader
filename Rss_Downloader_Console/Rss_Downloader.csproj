@@ -115,6 +115,15 @@
     <Content Include="Views\Emails\Email.cshtml" />
     <None Include="Views\Emails\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RssDbContextLib\RssDbContextLib.csproj">
+      <Project>{a218edf0-416a-40f3-bc05-93a8842cf712}</Project>
+      <Name>RssDbContextLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RssModelsLib\RssModelsLib.csproj">
+      <Project>{cdd18180-3838-4b22-803b-32e421408cec}</Project>
+      <Name>RssModelsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

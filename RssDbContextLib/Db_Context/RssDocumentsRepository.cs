@@ -1,12 +1,11 @@
 ﻿using MongoDB.Driver;
-using RssDbContextLib.Db_Context;
 using RssModelsLib.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Rss_Downloader.Db_Context
+namespace RssDbContextLib.Db_Context
 {
     public class RssDocumentsRepository : IRssDocumentsRepository
     {

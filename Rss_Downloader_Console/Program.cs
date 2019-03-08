@@ -1,7 +1,7 @@
-﻿using Rss_Downloader.Db_Context;
-using Rss_Downloader.Models;
-using Rss_Downloader.Services;
+﻿using Rss_Downloader.Services;
 using Rss_Downloader_Console.Services;
+using RssDbContextLib.Db_Context;
+using RssModelsLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

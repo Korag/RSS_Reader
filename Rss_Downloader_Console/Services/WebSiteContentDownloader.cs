@@ -1,5 +1,5 @@
 ﻿using HtmlAgilityPack;
-using Rss_Downloader.Models;
+using RssModelsLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

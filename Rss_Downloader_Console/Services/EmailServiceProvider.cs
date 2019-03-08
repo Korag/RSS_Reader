@@ -1,18 +1,17 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using Postal;
-using Rss_Downloader_Console.Models;
+using RssDbContextLib.Db_Context;
+using RssModelsLib.Models;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Rss_Downloader.Db_Context;
-using MongoDB.Bson;
-using System.Collections.Generic;
-using System;
-using System.Net.Mail;
 
 namespace Rss_Downloader_Console.Services
 {
-    class EmailServiceProvider
+    internal class EmailServiceProvider
     {
         private string _viewsPath { get; set; }
         private ViewEngineCollection _engines { get; set; }
@@ -46,7 +45,7 @@ namespace Rss_Downloader_Console.Services
             email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + ".";
 
             Task t = _service.SendAsync(email);
-            
+
             int attemptsCounter = 1;
 
             try
