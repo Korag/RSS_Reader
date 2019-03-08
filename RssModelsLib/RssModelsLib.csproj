@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\EmailTemplateViewModel.cs" />
     <Compile Include="Models\RssDocumentItem.cs" />
     <Compile Include="Models\RssDocumentSingle.cs" />
     <Compile Include="Models\SubscriberEmail.cs" />

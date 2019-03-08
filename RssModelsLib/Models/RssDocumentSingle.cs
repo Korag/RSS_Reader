@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RssModelsLib.Models
 {
-    public class RSSDocumentSingle
+    public class RssDocumentSingle
     {
         [BsonId]
         public ObjectId Id { get; set; }
