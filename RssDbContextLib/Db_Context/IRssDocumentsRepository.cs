@@ -13,7 +13,7 @@ namespace RssDbContextLib.Db_Context
         bool CheckIfDatabaseIsEmpty();
         IMongoCollection<SubscriberEmail> GetSubscribersList();
 
-
-
+        IMongoCollection<RssDocumentSingle> GetAllRssDocumentsFromDatabase();
+        RssDocumentSingle GetDocumentByIdFromDatabase(string id);
     }
 }

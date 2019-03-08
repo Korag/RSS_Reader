@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using RssModelsLib.Models;
 using System;
 using System.Collections.Generic;
@@ -88,6 +89,15 @@ namespace RssDbContextLib.Db_Context
         }
 
 
+        public IMongoCollection<RssDocumentSingle> GetAllRssDocumentsFromDatabase()
+        {
+            return _rssDocumentCollection;
+        }
+
+        public RssDocumentSingle GetDocumentByIdFromDatabase(string id)
+        {
+            return _rssDocumentCollection.Find(x => x.Id == new ObjectId(id)).Single();
+        }
 
     }
 }
