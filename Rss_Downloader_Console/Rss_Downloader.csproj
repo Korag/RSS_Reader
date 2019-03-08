@@ -95,12 +95,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Db_Context\IRssDocumentsRepository.cs" />
-    <Compile Include="Db_Context\RssDocumentsRepository.cs" />
-    <Compile Include="Models\EmailTemplateViewModel.cs" />
-    <Compile Include="Models\RssDocumentItem.cs" />
-    <Compile Include="Models\RssDocumentSingle.cs" />
-    <Compile Include="Models\SubscriberEmail.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailServiceProvider.cs" />
