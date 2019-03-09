@@ -21,14 +21,21 @@ namespace RssDbContextLib.Db_Context
 
         public RssDocumentsRepository()
         {
-            string path = @"C:\credentials.txt";
-            string user = "Admin";
-            string password = File.ReadLines(path).First();
-            string database = "rss_downloader_web_application";
-            string connectionstring = $"mongodb://{user}:{password}@ds062818.mlab.com:62818/{database}";
+            string path;
+            string user;
+            string password;
+            string database;
+            string connectionstring;
+
+            path = @"C:\credentials.txt";
+            user = "Admin";
+            password = File.ReadLines(path).First();
+            database = "rss_downloader_web_application";
+            connectionstring = $"mongodb://{user}:{password}@ds062818.mlab.com:62818/{database}";
 
             InitializeContext(connectionstring, database);
         }
+
 
         public void InitializeContext(string connectionstring, string database)
         {
@@ -99,5 +106,22 @@ namespace RssDbContextLib.Db_Context
             return _rssDocumentCollection.Find(x => x.Id == new ObjectId(id)).Single();
         }
 
+        public void InsertToMailingList(string emailAddress, ICollection<string> subscriberList)
+        {
+            _subscribers = GetSubscribersList();
+            SubscriberEmail newNewsletterMember = new SubscriberEmail()
+            {
+                EmailAddress = emailAddress,
+                SubscriberList = subscriberList.ToList()
+            };
+
+            _subscribers.InsertOne(newNewsletterMember);
+        }
+
+        public void DeleteFromMailingList(string emailAddres)
+        {
+            _subscribers = GetSubscribersList();
+            _subscribers.DeleteMany(x => x.EmailAddress == emailAddres);
+        }
     }
 }
