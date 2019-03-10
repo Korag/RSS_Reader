@@ -5,8 +5,6 @@
 @section scripts
     {
     <script>
-          Vue.component('searchbar', {
-          })
           Vue.component('emailbar', {
           })
           Vue.component('contentlist', {
@@ -56,47 +54,55 @@
                 this.flag = flag
             }
         }
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    apiResponse: [],
-                    newsList: [],
-                    categoryList: []
+        var app = new Vue({
+            el: '#app',
+            data: {
+                search: '',
+                apiResponse: [],
+                newsList: [],
+                categoryList: []
+            },
+            methods: {
+                GetNews: function () {
+                    this.$http.get('http://localhost:59554/api/RssDocument')
+                        .then(response => {
+                            this.apiResponse = response.data;
+                            this.GetListOfNews(this.apiResponse);
+                            this.GetListOfCatergory(this.apiResponse);
+                        });
                 },
-                methods: {
-                    GetNews: function () {
-                        this.$http.get('http://localhost:59554/api/RssDocument')
-                            .then(response => {
-                                this.apiResponse = response.data;
-                                this.GetListOfNews(this.apiResponse);
-                                this.GetListOfCatergory(this.apiResponse);
-                            });
-                    },
-                    GetListOfNews: function (apiResponse) {
-                        for (let i = 0; i < apiResponse.length; i++) {
-                            for (let j = 0; j < apiResponse[i].RssDocumentContent.length; j++) {
-                                if (apiResponse[i].Flag == "Text") {
-                                    this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image,
-                                        apiResponse[i].RssDocumentContent[j].Description.replace(/<[^>]+>/g, ''), apiResponse[i].RssDocumentContent[j].DateOfPublication,
-                                        apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
-                                }
-                                else {
-                                    this.newsList.push(new RssPodcast(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].Image,
-                                        apiResponse[i].RssDocumentContent[j].DateOfPublication, apiResponse[i].RssDocumentContent[j].Image,
-                                        apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
-                                }
+                GetListOfNews: function (apiResponse) {
+                    for (let i = 0; i < apiResponse.length; i++) {
+                        for (let j = 0; j < apiResponse[i].RssDocumentContent.length; j++) {
+                            if (apiResponse[i].Flag == "Text") {
+                                this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image,
+                                    apiResponse[i].RssDocumentContent[j].Description.replace(/<[^>]+>/g, ''), apiResponse[i].RssDocumentContent[j].DateOfPublication,
+                                    apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
                             }
-                        }
-                    },
-                    GetListOfCatergory: function (apiResponse) {
-                        for (let i = 0; i < apiResponse.length; i++) {
-                            this.categoryList.push(apiResponse[i].Title);
+                            else {
+                                this.newsList.push(new RssPodcast(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].Image,
+                                    apiResponse[i].RssDocumentContent[j].DateOfPublication, apiResponse[i].RssDocumentContent[j].Image,
+                                    apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
+                            }
                         }
                     }
                 },
-                created: function () {
-                    this.GetNews();
-                },
+                GetListOfCatergory: function (apiResponse) {
+                    for (let i = 0; i < apiResponse.length; i++) {
+                        this.categoryList.push(apiResponse[i].Title);
+                    }
+                }
+            },
+            created: function () {
+                this.GetNews();
+            },
+            computed: {
+                filteredList() {
+                    return this.newsList.filter(news => {
+                        return news.title.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                }
+            }
             })
     </script>
 }
@@ -105,25 +111,15 @@
 <div id="app" class="container-fluid">
     <br />
     <div class="row justify-content-center">
-        <div class="col-6">
-            <searchbar inline-template>
-                <form class="card card-sm">
-                    <div class="card-body row no-gutters align-items-center">
-                        <div class="col-auto">
-                            <i class="fas fa-search h4 text-body "></i>
-                        </div>
-                        <!--end of col-->
-                        <div class="col">
-                            <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
-                        </div>
-                        <!--end of col-->
-                        <div class="col-auto">
-                            <button class="btn btn-lg btn-success" type="submit">Search</button>
-                        </div>
-                        <!--end of col-->
-                    </div>
-                </form>
-            </searchbar>
+        <div class="col-6" >
+            <div class="card-body row no-gutters align-items-center">
+            <div class="col-auto">
+                <i class="fas fa-search h4 text-body "></i>
+                </div> 
+                <div class="col">
+                <input type="text" v-model="search" placeholder="Search title..." class="form-control form-control-lg form-control-borderless">
+                </div>
+            </div>
             </div>
     </div>
     
@@ -137,7 +133,7 @@
         </div>
         <div class="col-10 sliderOverflow ">
             <contentlist class="col"
-                         v-for="obj in newsList"
+                         v-for="obj in filteredList"
                          v-bind:item="obj"
                          v-bind:key="obj.$id">
 
