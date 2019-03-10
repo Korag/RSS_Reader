@@ -37,11 +37,11 @@
           Vue.component('categorylist', {
             props: ['category'],
               template: `<div class="row" v-on:click="$emit('by-category', category)">
-                            <div class="col-10">{{category}}
-                            </div>
-                            <div class="col-2">
-                            <input type="checkbox">
-                            </div>
+                           <div class="col-12">
+                        <label>
+						 <input type="checkbox" name="check">{{category}}
+					</label>
+                            </div>                          
                         </div>`
         })
 
@@ -137,10 +137,10 @@
                         <i class="fas fa-search h4 text-body "></i>
                     </div>
                     <div class="col">
-                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Wyszukaj kanał RSS">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-lg buttoncolor" type="submit">Search</button>
+                        <button class="btn btn-lg buttoncolor" type="submit">Szukaj</button>
                     </div>
                 </div>
             </form>
@@ -174,7 +174,7 @@
 </div>
 </div>
 <footer class="footer">
-    <div class="container">
-        <span></span> <p class="footerText">Vertisio 2019</p>
+    <div class="container">                      
+         <p class="footerText">Vertisio 2019</p>
     </div>
 </footer>

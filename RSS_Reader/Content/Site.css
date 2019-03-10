@@ -30,7 +30,7 @@ img {
 }
 
 .force-overflow {
-   height: 900px;
+   height: 1200px;
 }
 
 #style-6::-webkit-scrollbar-track {
@@ -114,9 +114,22 @@ img {
     margin-top: -50px;
 }
 
+.footerText {
+    position: absolute;
+    top: 50%;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 2px;
+    text-align: center;
+}
+
 .buttoncolor {
     background-color: #F90;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
 }
+.label {
+    align-content:flex-end;
+    position:inherit;
+    left:5px;
 
-
+}
