@@ -12,21 +12,22 @@
             props: ['item'],
               template:`
     <div class="container">
-<div class="row justify-content-center">
-<div class="col-4">
-<img class="float-left " : src="item.image">
-</div>
-<div class="col-8 content">
-<p class="categoryText"><span class="bordercat">{{ item.category }}</span></p>
-<a class="header">{{ item.title }}</a>
-<div class="descriptionText"> v-if="item.flag == 'Text'">{{ item.description }}</div>
-<audio controls v-if="item.flag == 'Podcast'">
-<source : src="item.mp3" type="audio/mpeg">
-</audio>
-<p class="dateText"> {{ item.date }}</p>
-</div>
-</div>
-</div>
+        <div class="row justify-content-center">
+        <div class="col-4">
+        <img class="float-left " :src="item.image">
+        </div>
+        <div class="col-8 content">
+        <p class="categoryText"><span class="bordercat">{{ item.category }}</span></p>
+        <a class="header">{{ item.title }}</a>
+        <div class="descriptionText" v-if="item.flag == 'Text'">{{ item.description }}
+        </div>
+            <audio controls v-if="item.flag == 'Podcast'">
+            <source :src="item.mp3" type="audio/mpeg">
+            </audio>
+        <p class="dateText"> {{ item.date }}</p>
+        </div>
+        </div>
+    </div>
     `
                     ,
 
