@@ -75,6 +75,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RssModelsLib\RssModelsLib.csproj">
+      <Project>{CDD18180-3838-4B22-803B-32E421408CEC}</Project>
+      <Name>RssModelsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rss_Downloader_Console\Rss_Downloader.csproj">
+      <Project>{A5FDDE19-3C44-401B-A914-3D3F4ABC03DB}</Project>
+      <Name>Rss_Downloader</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
