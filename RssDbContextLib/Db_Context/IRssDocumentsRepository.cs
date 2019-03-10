@@ -15,5 +15,7 @@ namespace RssDbContextLib.Db_Context
         IMongoCollection<RssDocumentSingle> GetAllRssDocumentsFromDatabase();
         RssDocumentSingle GetDocumentByIdFromDatabase(string id);
         void DeleteFromMailingList(string emailAddress);
+        List<RssDocumentSingle> GetAllDocuments();
+        void AddNewContent(List<RssDocumentSingle> documentsWithNewContent);
     }
 }

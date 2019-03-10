@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace Rss_Downloader_Console
 {
-
-
     public class DownloaderMainLogic : IDownloaderMainLogic
     {
-        private WebSiteContentDownloader _downloader;
-        private RssDocumentsRepository _context;
+        private IWebSiteContentDownloader _downloader;
+        private IRssDocumentsRepository _context;
         private List<RssDocumentSingle> _rssDocuments;
 
         public DownloaderMainLogic()
