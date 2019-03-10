@@ -18,7 +18,11 @@
     <div class="col-2 mx-auto">{{item.category}}
     </div>
     <div class="row"><img :src="item.image">
-    <div>{{item.description}}</div><a :href="item.link">Link</a>
+    <div v-if="item.flag == 'Text'">{{item.description}}</div>
+        <audio controls v-if="item.flag == 'Podcast'">
+        <source :src="item.mp3" type="audio/mpeg">
+        </audio>
+    <a :href="item.link">Link</a>
     <div>{{item.date}}</div>
     </div>
     </div>
@@ -31,13 +35,25 @@
         })
 
         class RssNews {
-            constructor(title, category, image, description, date, link) {
+            constructor(title, category, image, description, date, link, flag) {
                 this.title = title;
                 this.category = category;
                 this.image = image;
                 this.description = description;
                 this.date = date;
                 this.link = link;
+                this.flag = flag
+            }
+        }
+        class RssPodcast {
+            constructor(title, category, image, date, mp3, link, flag) {
+                this.title = title;
+                this.category = category;
+                this.image = image;
+                this.date = date;
+                this.mp3 = mp3;
+                this.link = link;
+                this.flag = flag
             }
         }
             var app = new Vue({
@@ -59,7 +75,16 @@
                     GetListOfNews: function (apiResponse) {
                         for (let i = 0; i < apiResponse.length; i++) {
                             for (let j = 0; j < apiResponse[i].RssDocumentContent.length; j++) {
-                                this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image, apiResponse[i].RssDocumentContent[j].Description.replace(/<[^>]+>/g, ''), apiResponse[i].RssDocumentContent[j].DateOfPublication, apiResponse[i].RssDocumentContent[j].Links))
+                                if (apiResponse[i].Flag == "Text") {
+                                    this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image,
+                                        apiResponse[i].RssDocumentContent[j].Description.replace(/<[^>]+>/g, ''), apiResponse[i].RssDocumentContent[j].DateOfPublication,
+                                        apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
+                                }
+                                else {
+                                    this.newsList.push(new RssPodcast(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].Image,
+                                        apiResponse[i].RssDocumentContent[j].DateOfPublication, apiResponse[i].RssDocumentContent[j].Image,
+                                        apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
+                                }
                             }
                         }
                     },
