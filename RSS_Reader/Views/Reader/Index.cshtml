@@ -13,12 +13,13 @@
             props: ['item'],
               template:                 `
     <div class="row">
-    <div class="col-10">{{item.Title}}
+    <div class="col-10">{{item.title}}
     </div>
-    <div class="col-2 mx-auto">{{item.Category}}
+    <div class="col-2 mx-auto">{{item.category}}
     </div>
-    <div class="row"><span v-html="item.Description">
-    </span>
+    <div class="row"><img :src="item.image">
+    <div>{{item.description}}</div><a :href="item.link">Link</a>
+    <div>{{item.date}}</div>
     </div>
     </div>
     `,
@@ -27,8 +28,18 @@
           Vue.component('categorylist', {
             props: ['category'],
               template: '<div class="row "><div class="col-10">{{category}}</div><div class="col-2"><input type="checkbox"></div></div>'
-          })
+        })
 
+        class RssNews {
+            constructor(title, category, image, description, date, link) {
+                this.title = title;
+                this.category = category;
+                this.image = image;
+                this.description = description;
+                this.date = date;
+                this.link = link;
+            }
+        }
             var app = new Vue({
                 el: '#app',
                 data: {
@@ -48,7 +59,7 @@
                     GetListOfNews: function (apiResponse) {
                         for (let i = 0; i < apiResponse.length; i++) {
                             for (let j = 0; j < apiResponse[i].RssDocumentContent.length; j++) {
-                                this.newsList.push(apiResponse[i].RssDocumentContent[j])
+                                this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image, apiResponse[i].RssDocumentContent[j].Description.replace(/<[^>]+>/g, ''), apiResponse[i].RssDocumentContent[j].DateOfPublication, apiResponse[i].RssDocumentContent[j].Links))
                             }
                         }
                     },
