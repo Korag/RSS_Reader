@@ -32,34 +32,36 @@ img {
     overflow-y: scroll;
 }
 
-.col {
+.pad {
     border:1px outset;
-    position:inherit;
-    bottom:5px;
+    padding:5px; 
+    margin-bottom:auto;
 }
 
 .descriptionText {
-    position:inherit;
-    right:20px;
+    position: inherit;
+    right: 20px;
     font-size: 12px;
     font-weight: normal;
-    text-align: left;
+    text-align: left justify;
+    display: inline-block
 }
 
 .dateText {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     margin: 2px;
     position: absolute;
-    bottom: 10px;
+    top:10px;
     width: 50%;
     text-align: left;
+    display: inline-block
 }
 
 .categoryText {
     position:inherit;
     top: 10px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     margin: 2px;
     text-align: right ;
@@ -79,3 +81,11 @@ img {
     line-height: 2;
 }
 
+.audiopos {
+    position: inherit;
+    right: 20px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    align-content: center;
+}
