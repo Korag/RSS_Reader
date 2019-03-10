@@ -34,7 +34,8 @@ img {
 
 .col {
     border:1px outset;
-    
+    position:inherit;
+    bottom:5px;
 }
 
 .descriptionText {
@@ -77,3 +78,4 @@ img {
     border-radius: 16px;
     line-height: 2;
 }
+

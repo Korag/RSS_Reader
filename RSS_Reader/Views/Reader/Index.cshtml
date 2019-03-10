@@ -10,24 +10,25 @@
           })
           Vue.component('contentlist', {
             props: ['item'],
-              template:                 `               
-                      <div class="container">
-    <div class="row justify-content-center">
-                          <div class="col-4">
-                             <img class="float-left " :src="item.image">
-                            </div>
-                              <div class="col-8 content">
-                    <p class="categoryText"> <span class="bordercat">{{ item.category }}</span></p>
-                      <a class="header">{{ item.title }}</a> 
-     <div class="descriptionText"> v-if="item.flag == 'Text'">{{item.description}}</div>                                                                                
-                           <audio controls v-if="item.flag == 'Podcast'">
-       <source :src="item.mp3" type="audio/mpeg">
-       </audio>
-    <p class="dateText"> {{ item.date }}</p>                              
-   
-                            </div>
-  </div>
-                         `,
+              template:`
+    <div class="container">
+<div class="row justify-content-center">
+<div class="col-4">
+<img class="float-left " : src="item.image">
+</div>
+<div class="col-8 content">
+<p class="categoryText"><span class="bordercat">{{ item.category }}</span></p>
+<a class="header">{{ item.title }}</a>
+<div class="descriptionText"> v-if="item.flag == 'Text'">{{ item.description }}</div>
+<audio controls v-if="item.flag == 'Podcast'">
+<source : src="item.mp3" type="audio/mpeg">
+</audio>
+<p class="dateText"> {{ item.date }}</p>
+</div>
+</div>
+</div>
+    `
+                    ,
 
           })
           Vue.component('categorylist', {
@@ -127,38 +128,20 @@
     <br />
     <div class="row justify-content-center">
         <div class="col-6">
-            <searchbar inline-template>
-                <form class="card card-sm">
-                    <div class="card-body row no-gutters align-items-center">
-                        <div class="col-auto">
-                            <i class="fas fa-search h4 text-body "></i>
-                        </div>
-                        <!--end of col-->
-                        <div class="col">
-                            <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
-                        </div>
-                        <!--end of col-->
-                        <div class="col-auto">
-                            <button class="btn btn-lg btn-success" type="submit">Search</button>
-                        </div>
-                        <!--end of col-->
+            <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body "></i>
                     </div>
-                </form>
-            </searchbar>
-        </div>
-        <div class="col-6" >
-            <div class="card-body row no-gutters align-items-center">
-            <div class="col-auto">
-                <i class="fas fa-search h4 text-body "></i>
-                </div> 
-            <div class="col">
-                <input type="search" v-model="search" placeholder="Search title..." class="form-control form-control-lg form-control-borderless">
-                </div> 
-            <div class="col-auto">
-                <button type="submit" v-on:click="FilteredList" class="btn btn-lg btn-success">Search</button>
+                    <div class="col">
+                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                    </div>
                 </div>
-            </div>
-            </div>
+            </form>
+        </div>
     </div>
 
     <div class="row ">
