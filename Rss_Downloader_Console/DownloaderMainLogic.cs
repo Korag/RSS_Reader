@@ -1,5 +1,4 @@
 ﻿using Rss_Downloader.Services;
-using Rss_Downloader_Console.Services;
 using RssDbContextLib.Db_Context;
 using RssModelsLib.Models;
 using System;
@@ -14,7 +13,6 @@ namespace Rss_Downloader_Console
     {
         private WebSiteContentDownloader _downloader;
         private RssDocumentsRepository _context;
-        private EmailServiceProvider _emailProvider;
         private List<RssDocumentSingle> _rssDocuments;
 
         public DownloaderMainLogic()

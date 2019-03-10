@@ -6,10 +6,7 @@ namespace Rss_Downloader
 {
     internal class Program
     {
-        //private static WebSiteContentDownloader _downloader;
-        //private static RssDocumentsRepository _context;
         private static EmailServiceProvider _emailProvider;
-        //private static List<RssDocumentSingle> _rssDocuments;
         private static IDownloaderMainLogic _downloader;
         private static void Main(string[] args)
         {
