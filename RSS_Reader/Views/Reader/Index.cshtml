@@ -4,27 +4,30 @@
 }
 @section scripts
     {
+
     <script>
           Vue.component('emailbar', {
           })
           Vue.component('contentlist', {
             props: ['item'],
-              template:                 `
-    <div class="row">
-    <div class="col-10">{{item.title}}
-    </div>
-    <div class="col-2 mx-auto">{{item.category}}
-    </div>
-    <div class="row"><img :src="item.image">
-    <div v-if="item.flag == 'Text'">{{item.description}}</div>
-        <audio controls v-if="item.flag == 'Podcast'">
-        <source :src="item.mp3" type="audio/mpeg">
-        </audio>
-    <a :href="item.link">Link</a>
-    <div>{{item.date}}</div>
-    </div>
-    </div>
-    `,
+              template:                 `               
+                      <div class="container">
+    <div class="row justify-content-center">
+                          <div class="col-4">
+                             <img class="float-left " :src="item.image">
+                            </div>
+                              <div class="col-8 content">
+                    <p class="categoryText"> <span class="bordercat">{{ item.category }}</span></p>
+                      <a class="header">{{ item.title }}</a> 
+     <div class="descriptionText"> v-if="item.flag == 'Text'">{{item.description}}</div>                                                                                
+                           <audio controls v-if="item.flag == 'Podcast'">
+       <source :src="item.mp3" type="audio/mpeg">
+       </audio>
+    <p class="dateText"> {{ item.date }}</p>                              
+   
+                            </div>
+  </div>
+                         `,
 
           })
           Vue.component('categorylist', {
@@ -119,9 +122,30 @@
 }
 
 
+
 <div id="app" class="container-fluid">
     <br />
     <div class="row justify-content-center">
+        <div class="col-6">
+            <searchbar inline-template>
+                <form class="card card-sm">
+                    <div class="card-body row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <i class="fas fa-search h4 text-body "></i>
+                        </div>
+                        <!--end of col-->
+                        <div class="col">
+                            <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+                        </div>
+                        <!--end of col-->
+                        <div class="col-auto">
+                            <button class="btn btn-lg btn-success" type="submit">Search</button>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                </form>
+            </searchbar>
+        </div>
         <div class="col-6" >
             <div class="card-body row no-gutters align-items-center">
             <div class="col-auto">
@@ -136,7 +160,7 @@
             </div>
             </div>
     </div>
-    
+
     <div class="row ">
         <div class="col-2">
             <categorylist v-for="category in categoryList"
@@ -156,7 +180,7 @@
             </contentlist>
         </div>
     </div>
-    
+
     <div class="row justify-content-center">
         <emailbar inline-template>
             <div class="col-6 align-self-center"><input><button>Subskrybuj</button></div>
