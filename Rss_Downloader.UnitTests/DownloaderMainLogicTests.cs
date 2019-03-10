@@ -3,11 +3,7 @@
 namespace Rss_Downloader.UnitTests
 {
     [TestFixture]
-    public class UnitTest1
+    public class DownloaderMainLogicTests
     {
-        [Test]
-        public void TestMethod1()
-        {
-        }
     }
 }

@@ -54,7 +54,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="DownloaderMainLogicTests.cs" />
+    <Compile Include="EmailServiceProviderTests.cs" />
+    <Compile Include="WebSiteContentDownloaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
