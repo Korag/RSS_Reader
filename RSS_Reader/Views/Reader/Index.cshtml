@@ -48,7 +48,7 @@
                 this.title = title;
                 this.category = category;
                 this.image = image;
-                this.description = description;
+                this.description = description.replace(/&quot;/g, '"');
                 this.date = date;
                 this.link = link;
                 this.flag = flag
