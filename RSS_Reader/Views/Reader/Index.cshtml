@@ -12,17 +12,26 @@
           Vue.component('contentlist', {
             props: ['item'],
               template:                 `
-    <div class="row">
-    <div class="col-10">{{item.title}}
-    </div>
-    <div class="col-2 mx-auto">{{item.category}}
-    </div>
-    <div class="row"><img :src="item.image">
-    <div>{{item.description}}</div><a :href="item.link">Link</a>
-    <div>{{item.date}}</div>
-    </div>
-    </div>
-    `,
+                  < div class= "ui items" >
+                      <div class="item">
+                          <div class="image">
+                             <img :src="item.image">
+                            </div>
+                              <div class="content">
+                      <a class="header">{{ item.title }}</a>
+                                  <div class="meta">
+                            <span>{{ item.category }}</span>
+                                  </div>
+                      <div class="description">
+                          <p>{{item.description}}</p>
+                                  </div>
+                                  <div class="extra">
+                           {{ item.date }}
+                            </div>
+                            </div>
+                              </div>
+                          </div>
+                         `,
 
           })
           Vue.component('categorylist', {
@@ -76,6 +85,11 @@
     </script>
 }
 
+<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="semantic/dist/semantic.min.js"></script>
 
 <div id="app" class="container-fluid">
     <br />
@@ -99,9 +113,9 @@
                     </div>
                 </form>
             </searchbar>
-            </div>
+        </div>
     </div>
-    
+
     <div class="row ">
         <div class="col-2">
             <categorylist v-for="category in categoryList"
@@ -119,10 +133,26 @@
             </contentlist>
         </div>
     </div>
-    
+
     <div class="row justify-content-center">
         <emailbar inline-template>
             <div class="col-6 align-self-center"><input><button>Subskrybuj</button></div>
         </emailbar>
     </div>
 </div>
+
+
+@*<div class="row">
+        <div class="col-10">
+            {{item.title}}
+        </div>
+        <div class="col-2 mx-auto">
+            {{item.category}}
+        </div>
+        <div class="row">
+            <img :src="item.image">
+            <div>{{item.description}}</div><a :href="item.link">Link</a>
+            <div>{{item.date}}</div>
+        </div>
+    </div>*@
+    `
