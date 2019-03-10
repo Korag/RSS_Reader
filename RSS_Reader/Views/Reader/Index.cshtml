@@ -128,10 +128,10 @@
 
 
 <div id="app" class="container-fluid">
-    <br />
+    <br/>
     <div class="row justify-content-center">
         <div class="col-6">
-            <form class="card card-sm">
+            <form class=" card-sm">
                 <div class="card-body row no-gutters align-items-center">
                     <div class="col-auto">
                         <i class="fas fa-search h4 text-body "></i>
@@ -140,13 +140,13 @@
                         <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                        <button class="btn btn-lg buttoncolor" type="submit">Search</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <br>
+    <br/>
     <div class="row ">
         <div class="col-2">
             <categorylist v-for="category in categoryList"
@@ -155,21 +155,26 @@
                           v-on:by-category="FilterByCategory">
 
             </categorylist>
+            <emailbar inline-template>
+                <div class="col-6 align-self-center"><input><button>Subskrybuj</button></div>
+            </emailbar>
         </div>
-        <div class="col-10 sliderOverflow ">
-            <contentlist class="col"
-                         v-for="obj in filteredList"
-                         v-bind:item="obj"
-                         v-bind:key="obj.$id"
-                         >
 
-            </contentlist>
+        <div class="col-10" >
+            <div class=" force-overflow scrollbar" id="style-6">      
+                <contentlist class="col"
+                             v-for="obj in filteredList"
+                             v-bind:item="obj"
+                             v-bind:key="obj.$id">
+
+                </contentlist>
+            </div>
         </div>
-    </div>
-
-    <div class="row justify-content-center">
-        <emailbar inline-template>
-            <div class="col-6 align-self-center"><input><button>Subskrybuj</button></div>
-        </emailbar>
-    </div>
+ 
 </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <span></span> <p class="footerText">Vertisio 2019</p>
+    </div>
+</footer>
