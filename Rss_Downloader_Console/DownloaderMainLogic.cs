@@ -15,7 +15,7 @@ namespace Rss_Downloader_Console
 
         public DownloaderMainLogic(IWebSiteContentDownloader downloader = null, IRssDocumentsRepository context = null)
         {
-            _downloader = downloader ?? new WebSiteContentDownloader("https://www.rmf24.pl/kanaly/rss");
+            _downloader = downloader ?? new WebSiteContentDownloader();
             _context = context ?? new RssDocumentsRepository();
 
             if (_context.CheckIfDatabaseIsEmpty())
