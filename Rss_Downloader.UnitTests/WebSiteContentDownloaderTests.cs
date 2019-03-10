@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using Rss_Downloader.Services;
 using RssModelsLib.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Rss_Downloader.UnitTests
 {
@@ -38,5 +40,38 @@ namespace Rss_Downloader.UnitTests
 
             Assert.That(result, Is.InstanceOf(typeof(List<RssDocumentSingle>)));
         }
+
+        [Test]
+        public void FillSingleDocumentWithSubContent_WhenParameterIsNotNull_FillMainDocumentWithSubContent()
+        {
+            RssDocumentSingle testDocument = new RssDocumentSingle();
+            testDocument.RssDocumentContent = new List<RssDocumentItem>();
+            testDocument.Link = "https://www.rmf24.pl/tylko-w-rmf24/feed";
+
+
+            _downloader.FillSingleDocumentWithSubContent(testDocument);
+
+            var result = testDocument.RssDocumentContent.Count;
+            Assert.That(result, Is.Not.Zero);
+        }
+
+        [Test]
+        public void FillSingleDocumentWithSubContent_WhenParameterIsNull_ThrowNullReferenceException()
+        {
+            RssDocumentSingle testDocument = null;
+
+            Assert.That(() => _downloader.FillSingleDocumentWithSubContent(testDocument), Throws.Exception.TypeOf<NullReferenceException>());
+        }
+
+        [Test]
+        public void FillSingleDocumentWithSubContent_WhenLinkFromMainDocumentIsInvalid_ThrowFileNotFoundException()
+        {
+            RssDocumentSingle testDocument = new RssDocumentSingle();
+            testDocument.RssDocumentContent = new List<RssDocumentItem>();
+            testDocument.Link = "InvalidLink";
+
+            Assert.That(() => _downloader.FillSingleDocumentWithSubContent(testDocument), Throws.TypeOf<FileNotFoundException>());
+        }
+
     }
 }
