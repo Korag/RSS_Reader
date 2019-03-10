@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssModelsLib", "RssModelsLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssDbContextLib", "RssDbContextLib\RssDbContextLib.csproj", "{A218EDF0-416A-40F3-BC05-93A8842CF712}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rss_Downloader.UnitTests", "Rss_Downloader.UnitTests\Rss_Downloader.UnitTests.csproj", "{4731301E-A8BD-417E-BBDF-C1D216F80DDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A218EDF0-416A-40F3-BC05-93A8842CF712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A218EDF0-416A-40F3-BC05-93A8842CF712}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A218EDF0-416A-40F3-BC05-93A8842CF712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4731301E-A8BD-417E-BBDF-C1D216F80DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4731301E-A8BD-417E-BBDF-C1D216F80DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4731301E-A8BD-417E-BBDF-C1D216F80DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4731301E-A8BD-417E-BBDF-C1D216F80DDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
