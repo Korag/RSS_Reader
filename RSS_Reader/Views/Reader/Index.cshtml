@@ -29,7 +29,13 @@
           })
           Vue.component('categorylist', {
             props: ['category'],
-              template: '<div class="row "><div class="col-10">{{category}}</div><div class="col-2"><input type="checkbox"></div></div>'
+              template: `<div class="row" v-on:click="$emit('by-category', category)">
+                            <div class="col-10">{{category}}
+                            </div>
+                            <div class="col-2">
+                            <input type="checkbox">
+                            </div>
+                        </div>`
         })
 
         class RssNews {
@@ -60,7 +66,8 @@
                 search: '',
                 apiResponse: [],
                 newsList: [],
-                categoryList: []
+                categoryList: [],
+                filteredList: [],
             },
             methods: {
                 GetNews: function () {
@@ -91,17 +98,21 @@
                     for (let i = 0; i < apiResponse.length; i++) {
                         this.categoryList.push(apiResponse[i].Title);
                     }
+                },
+                FilteredList: function () {
+                    this.filteredList = this.newsList.filter(news => {
+                        return news.title.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                },
+                FilterByCategory: function (category) {
+                    this.filteredList = this.newsList.filter(news => {
+                        return news.category.toLowerCase().includes(category.toLowerCase())
+                    })
                 }
             },
             created: function () {
                 this.GetNews();
-            },
-            computed: {
-                filteredList() {
-                    return this.newsList.filter(news => {
-                        return news.title.toLowerCase().includes(this.search.toLowerCase())
-                    })
-                }
+                this.filteredList = this.newsList;
             }
             })
     </script>
@@ -116,8 +127,11 @@
             <div class="col-auto">
                 <i class="fas fa-search h4 text-body "></i>
                 </div> 
-                <div class="col">
-                <input type="text" v-model="search" placeholder="Search title..." class="form-control form-control-lg form-control-borderless">
+            <div class="col">
+                <input type="search" v-model="search" placeholder="Search title..." class="form-control form-control-lg form-control-borderless">
+                </div> 
+            <div class="col-auto">
+                <button type="submit" v-on:click="FilteredList" class="btn btn-lg btn-success">Search</button>
                 </div>
             </div>
             </div>
@@ -127,7 +141,8 @@
         <div class="col-2">
             <categorylist v-for="category in categoryList"
                           v-bind:key="category.Name"
-                          v-bind:category="category">
+                          v-bind:category="category"
+                          v-on:by-category="FilterByCategory">
 
             </categorylist>
         </div>
@@ -135,7 +150,8 @@
             <contentlist class="col"
                          v-for="obj in filteredList"
                          v-bind:item="obj"
-                         v-bind:key="obj.$id">
+                         v-bind:key="obj.$id"
+                         >
 
             </contentlist>
         </div>
