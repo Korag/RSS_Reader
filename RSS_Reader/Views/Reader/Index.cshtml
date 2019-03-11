@@ -75,7 +75,7 @@
             },
             methods: {
                 GetNews: function () {
-                    this.$http.get('http://localhost:59554/api/RssDocument')
+                    this.$http.get('https://rssreadervertisio.azurewebsites.net/api/RssDocument')
                         .then(response => {
                             this.apiResponse = response.data;
                             this.GetListOfNews(this.apiResponse);
