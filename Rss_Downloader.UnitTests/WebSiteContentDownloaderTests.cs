@@ -73,5 +73,49 @@ namespace Rss_Downloader.UnitTests
             Assert.That(() => _downloader.FillSingleDocumentWithSubContent(testDocument), Throws.TypeOf<FileNotFoundException>());
         }
 
+        [Test]
+        public void AddNewContentToDocuments_WhenThereIsNoDocumentsWithNewContent_ReturnUnchangedListOfDocuments()
+        {
+            List<RssDocumentSingle> documentsWithNewContentAvailable = new List<RssDocumentSingle>
+            {
+                new RssDocumentSingle()
+                {
+                    LastFetched = new DateTime(2020,1,1),
+                    Link = "https://www.rmf24.pl/tylko-w-rmf24/feed",
+                    RssDocumentContent = new List<RssDocumentItem>()
+                }
+            };
+
+            var result = _downloader.AddNewContentToDocuments(documentsWithNewContentAvailable);
+
+            Assert.That(result[0].RssDocumentContent.Count, Is.Zero);
+        }
+
+        [Test]
+        public void AddNewContentToDocuments_WhenThereAreDocumentsWithNewContent_ReturnChangedListOfDocuments()
+        {
+            List<RssDocumentSingle> documentsWithNewContentAvailable = new List<RssDocumentSingle>
+            {
+                new RssDocumentSingle()
+                {
+                    LastFetched = new DateTime(2017,1,1),
+                    Link = "https://www.rmf24.pl/tylko-w-rmf24/feed",
+                    RssDocumentContent = new List<RssDocumentItem>()
+                }
+            };
+
+            var result = _downloader.AddNewContentToDocuments(documentsWithNewContentAvailable);
+
+            Assert.That(result[0].RssDocumentContent, Is.Not.Zero);
+        }
+
+        [Test]
+        public void AddNewContentToDocuments_WhenParameterIsNull_ThrowNullReferenceException()
+        {
+            List<RssDocumentSingle> documentsWithNewContentAvailable = null;
+
+            Assert.That(() => _downloader.AddNewContentToDocuments(documentsWithNewContentAvailable), 
+                Throws.Exception.TypeOf<NullReferenceException>());
+        }
     }
 }
