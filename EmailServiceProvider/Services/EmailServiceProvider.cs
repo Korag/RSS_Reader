@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Rss_Downloader_Console.Services
+namespace EmailServicePV.Services
 {
     internal class EmailServiceProvider
     {

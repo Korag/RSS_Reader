@@ -1,13 +1,10 @@
 ﻿using Rss_Downloader_Console;
-using Rss_Downloader_Console.Services;
 using System;
-using System.Threading;
 
 namespace Rss_Downloader
 {
     internal class Program
     {
-        private static EmailServiceProvider _emailProvider;
         private static IDownloaderMainLogic _downloader;
         private static void Main(string[] args)
         {
@@ -21,19 +18,6 @@ namespace Rss_Downloader
                 _downloader.DownloadNewContentIfItsAvailable();
 
             }, null, startTimeSpan, periodTimeSpan);
-
-            while (true)
-            {
-                var czas = DateTime.Now;
-                Console.WriteLine(czas);
-                if (czas.ToString("HH:mm") == "13:05")
-                {
-                    Console.WriteLine("Wysyłam maile o godzinie" + czas);
-                    _emailProvider = new EmailServiceProvider();
-                    _emailProvider.SendNewsletterToSubscribers();
-                    Thread.Sleep(70000);
-                }
-            }
         }
     }
 }
