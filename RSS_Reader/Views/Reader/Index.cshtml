@@ -11,7 +11,7 @@
           Vue.component('contentlist', {
             props: ['item'],
               template:`
-    <div class="container">
+    <div>
         <div class="row justify-content-center pad">
         <div class="col-4">
         <img class="float-left " :src="item.image">
@@ -21,8 +21,8 @@
         <a class="header">{{ item.title }}</a>
         <div class="descriptionText" v-if="item.flag == 'Text'">{{ item.description }}
         </div>
-        <div class="audiopos">
-            <audio controls v-if="item.flag == 'Podcast'">
+        <div class="audiopos" v-if="item.flag == 'Podcast'">
+            <audio controls>
             <source :src="item.mp3" type="audio/mpeg">
             </audio>
         </div>
@@ -131,19 +131,17 @@
     <br/>
     <div class="row justify-content-center">
         <div class="col-6">
-            <form class=" card-sm">
                 <div class="card-body row no-gutters align-items-center">
                     <div class="col-auto">
                         <i class="fas fa-search h4 text-body "></i>
                     </div>
                     <div class="col">
-                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Wyszukaj kanał RSS">
+                        <input class="form-control form-control-lg form-control-borderless" v-model="search" type="search" placeholder="Wyszukaj kanał RSS">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-lg buttoncolor" type="submit">Szukaj</button>
+                        <button class="btn btn-lg buttoncolor" v-on:click="FilteredList" type="submit">Szukaj</button>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
     <br/>
@@ -173,8 +171,3 @@
  
 </div>
 </div>
-<footer class="footer">
-    <div class="container">                      
-         <p class="footerText">Vertisio 2019</p>
-    </div>
-</footer>
