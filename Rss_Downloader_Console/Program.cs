@@ -26,7 +26,7 @@ namespace Rss_Downloader
             {
                 var czas = DateTime.Now;
                 Console.WriteLine(czas);
-                if (czas.ToString("HH:mm") == "07:00")
+                if (czas.ToString("HH:mm") == "13:05")
                 {
                     Console.WriteLine("Wysyłam maile o godzinie" + czas);
                     _emailProvider = new EmailServiceProvider();

@@ -126,7 +126,8 @@
     <Content Include="Assets\vertisio_logo_small.png" />
     <Content Include="Assets\vertisio_logo_tiny.png" />
     <Content Include="Views\Emails\Email.cshtml" />
-    <None Include="Properties\PublishProfiles\RssDownloader20190311114348 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\RssDownloaderVertisio - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\RssReaderVertisio - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
     <None Include="Views\Emails\_ViewStart.cshtml" />
   </ItemGroup>
