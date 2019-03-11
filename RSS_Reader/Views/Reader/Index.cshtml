@@ -11,37 +11,34 @@
           Vue.component('contentlist', {
             props: ['item'],
               template:`
-    <div>
-        <div class="row justify-content-center pad">
-        <div class="col-4">
-        <img class="float-left " :src="item.image">
-        </div>
-        <div class="col-8 content">
-        <p class="categoryText"><span class="bordercat">{{ item.category }}</span></p>
-        <a class="header">{{ item.title }}</a>
-        <div class="descriptionText" v-if="item.flag == 'Text'">{{ item.description }}
-        </div>
-        <div class="audiopos" v-if="item.flag == 'Podcast'">
-            <audio controls>
-            <source :src="item.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-        <p class="dateText"> {{ item.date }}</p>
-        </div>
-        </div>
-    </div>
-    `
+                  <div>
+                      <div class="row pad">
+                              <img class="col-4 img-responsive" width="200" height="200" :src="item.image">
+                          <div class="col-8 content">
+                              <div class="row">
+                                  <p class="dateText col-6"> {{ item.date }}</p>
+                                  <p class="categoryText col-6"><span class="bordercat">{{ item.category }}</span></p>
+                              </div>
+                              <a class="header row">{{ item.title }}</a>
+                              <div class="descriptionText row" v-if="item.flag == 'Text'">{{ item.description }}
+                              </div>
+                              <div class="audiopos row" v-if="item.flag == 'Podcast'">
+                                  <audio controls>
+                                      <source :src="item.mp3" type="audio/mpeg">
+                                  </audio>
+                              </div>
+                          </div>
+                      </div>
+                  </div>`
+    
                     ,
 
           })
           Vue.component('categorylist', {
             props: ['category'],
-              template: `<div class="row" v-on:click="$emit('by-category', category)">
-                           <div class="col-12">
-                        <label>
-						 <input type="checkbox" name="check">{{category}}
-					</label>
-                            </div>                          
+              template: `<div class="row">                           
+                                <label class="col-10" v-on:click="$emit('by-category', category)">{{category}}</label>    
+						        <input class="col-2" type="checkbox" name="check">                                                    
                         </div>`
         })
 
@@ -128,7 +125,6 @@
 
 
 <div id="app" class="container-fluid">
-    <br/>
     <div class="row justify-content-center">
         <div class="col-6">
                 <div class="card-body row no-gutters align-items-center">
@@ -144,7 +140,6 @@
                 </div>
         </div>
     </div>
-    <br/>
     <div class="row ">
         <div class="col-2">
             <categorylist v-for="category in categoryList"

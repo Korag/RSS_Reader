@@ -17,10 +17,7 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 
-img {
-    border: 20px;
-    width: 200px;
-}
+
 
 .scrollbar {
     float: left;   
@@ -55,30 +52,20 @@ img {
 }
 
 .descriptionText {
-    position: inherit;
     right: 20px;
     font-size: 12px;
     font-weight: normal;
-    text-align: left justify;
-    display: inline-block
 }
 
 .dateText {
     font-size: 14px;
     font-weight: normal;
-    margin: 2px;
-    position: absolute;
-    top:10px;
-    width: 50%;
     text-align: left;
 }
 
 .categoryText {
-    position:inherit;
-    top: 10px;
     font-size: 14px;
     font-weight: normal;
-    margin: 2px;
     text-align: right ;
 }
 
@@ -86,7 +73,6 @@ img {
     font-size: 20px;
     font-weight: bold;
     margin: 2px;
-    text-align: left;
 }
 
 .bordercat {
@@ -97,23 +83,16 @@ img {
 }
 
 .audiopos {
-    position: inherit;
+   
     right: 20px;
     font-size: 12px;
     font-weight: normal;
-    text-align: left;
-    align-content: center;
-    display: inline-block
+
+
 }
 
 
 .buttoncolor {
     background-color: #F90;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
-}
-.label {
-    align-content:flex-end;
-    position:inherit;
-    left:5px;
-
 }
