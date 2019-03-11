@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
-using Rss_Reader.Db_Context;
-using Rss_Reader.Models;
+using RssDbContextLib.Db_Context;
+using RssModelsLib.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 namespace RSS_Reader.Controllers
@@ -14,12 +14,12 @@ namespace RSS_Reader.Controllers
             _context = new RssDocumentsRepository();
         }
 
-        public List<RSSDocumentSingle> GetAllRssDocuments()
+        public List<RssDocumentSingle> GetAllRssDocuments()
         {
             return _context.GetAllRssDocumentsFromDatabase().Find(x => true).ToList();
         }
 
-        public RSSDocumentSingle GetRssDocument(string id)
+        public RssDocumentSingle GetRssDocument(string id)
         {
             return _context.GetDocumentByIdFromDatabase(id);
         }

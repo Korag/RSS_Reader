@@ -1,4 +1,4 @@
-﻿@Model Rss_Downloader.Models.EmailTemplateViewModel
+﻿@Model RssModelsLib.Models.EmailTemplateViewModel
 <h2>Witamy.</h2>
 
 
@@ -49,9 +49,17 @@ else
         Proszę powrócić do etapu wybierania subskrypcji newslettera.
     </p>
 }
-
+<br />
 
 <h4>Pozdrawiamy</h4>
 <h4>Zespół Vertisio</h4>
 
 <img src="https://raw.githubusercontent.com/Korag/RSS_Reader/master/Rss_Downloader_Console/Assets/vertisio_logo_tiny.png" />
+<br>
+
+<form action="http://localhost:59554/Reader/CancelNewsletter?EmailAddress=@Model.To" style="text-align:center" method="POST" id="ResignFromNewsletter">
+    <p>Nie chcesz otrzymywać newslettera?</p>
+    <input type="submit" value="Rezygnuję z newslettera" />
+</form>
+
+@*<a href="http://localhost:59554/Reader/CancelNewsletter?EmailAddress=@Model.To">Rezygnuję z newslettera</a>*@

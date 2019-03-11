@@ -1,5 +1,5 @@
 ﻿using HtmlAgilityPack;
-using Rss_Downloader.Models;
+using RssModelsLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +26,9 @@ namespace Rss_Downloader.Services
         private readonly HtmlNode _documentNode;
         private Dictionary<string, string> _linksWithTitles;
 
-        public WebSiteContentDownloader(string path)
+        public WebSiteContentDownloader()
         {
+            var path = "https://www.rmf24.pl/kanaly/rss";
             var htmlWeb = new HtmlWeb();
             _documentNode = htmlWeb.Load(path).DocumentNode;
             _linksWithTitles = GetLinksFromDivWithSpecyficClassName();

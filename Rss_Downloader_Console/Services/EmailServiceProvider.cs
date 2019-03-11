@@ -1,18 +1,17 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using Postal;
-using Rss_Downloader_Console.Models;
+using RssDbContextLib.Db_Context;
+using RssModelsLib.Models;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Rss_Downloader.Db_Context;
-using MongoDB.Bson;
-using System.Collections.Generic;
-using System;
-using System.Net.Mail;
 
 namespace Rss_Downloader_Console.Services
 {
-    class EmailServiceProvider
+    internal class EmailServiceProvider
     {
         private string _viewsPath { get; set; }
         private ViewEngineCollection _engines { get; set; }
@@ -44,14 +43,39 @@ namespace Rss_Downloader_Console.Services
             email.RssList = _context._rssDocumentCollection.Find(new BsonDocument()).ToList();
 
             email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + ".";
-            //email.Attach(new Attachment(@"C:\Users\Łukasz\Documents\Visual Studio 2017\Projects\RSS_Reader\Rss_Downloader_Console\Assets\vertisio_logo.PNG"));
 
             Task t = _service.SendAsync(email);
+
+            int attemptsCounter = 1;
+
+            try
+            {
+                t.Wait();
+            }
+            catch (Exception)
+            {
+                while (t.Status == TaskStatus.Faulted)
+                {
+                    if (attemptsCounter < 6)
+                    {
+                        attemptsCounter++;
+                        Task.Delay(900000);
+                        try
+                        {
+                            t = _service.SendAsync(email);
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+            }
         }
         public void SendNewsletterToSubscribers()
         {
             SubscribersCollection = _context.GetSubscribersList();
-            Subscribers = SubscribersCollection.Find(new BsonDocument( )).ToList();
+            Subscribers = SubscribersCollection.Find(new BsonDocument()).ToList();
 
             Parallel.ForEach(Subscribers, subscriber =>
             {

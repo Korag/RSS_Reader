@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Rss_Reader.Models
+namespace RssModelsLib.Models
 {
-    public class RSSDocumentSingle
+    public class RssDocumentSingle
     {
         [BsonId]
         public ObjectId Id { get; set; }
