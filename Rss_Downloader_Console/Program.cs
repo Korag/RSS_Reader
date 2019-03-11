@@ -1,6 +1,7 @@
 ﻿using Rss_Downloader_Console;
 using Rss_Downloader_Console.Services;
 using System;
+using System.Threading;
 
 namespace Rss_Downloader
 {
@@ -21,11 +22,18 @@ namespace Rss_Downloader
 
             }, null, startTimeSpan, periodTimeSpan);
 
-            //to do: everyday at 10 and 18
-            _emailProvider = new EmailServiceProvider();
-            _emailProvider.SendNewsletterToSubscribers();
-
-            Console.Read();
+            while (true)
+            {
+                var czas = DateTime.Now;
+                Console.WriteLine(czas);
+                if (czas.ToString("HH:mm") == "07:00")
+                {
+                    Console.WriteLine("Wysyłam maile o godzinie" + czas);
+                    _emailProvider = new EmailServiceProvider();
+                    _emailProvider.SendNewsletterToSubscribers();
+                    Thread.Sleep(70000);
+                }
+            }
         }
     }
 }
