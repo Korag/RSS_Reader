@@ -24,7 +24,12 @@ namespace EmailServicePV.Services
 
         public EmailServiceProvider()
         {
+            #region Local
             _viewsPath = Path.GetFullPath(@"..\..\Views\Emails");
+            #endregion
+            #region Azure
+            //_viewsPath = Path.GetFullPath(@"Emails");
+            #endregion
             _engines = new ViewEngineCollection();
             _engines.Add(new FileSystemRazorViewEngine(_viewsPath));
             _service = new EmailService(_engines);
@@ -42,7 +47,7 @@ namespace EmailServicePV.Services
 
             email.RssList = _context._rssDocumentCollection.Find(new BsonDocument()).ToList();
 
-            email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + ".";
+            email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToShortDateString()  + " " + DateTime.Now.AddHours(1).ToShortTimeString() + ".";
 
             Task t = _service.SendAsync(email);
 
