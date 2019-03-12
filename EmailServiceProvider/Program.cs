@@ -1,5 +1,6 @@
 ﻿using EmailServicePV.Services;
 using System;
+using System.Threading;
 
 namespace EmailServicePV
 {
@@ -9,10 +10,25 @@ namespace EmailServicePV
 
         static void Main(string[] args)
         {
-                _emailProvider = new EmailServiceProvider();
-                _emailProvider.SendNewsletterToSubscribers();
+            _emailProvider = new EmailServiceProvider();
 
-            Console.ReadLine();
+            #region Local
+            //while (true)
+            //{
+            //    var czas = DateTime.Now;
+            //    Console.WriteLine(czas);
+            //    if (czas.ToString("HH:mm") == "13:05")
+            //    {
+            //        Console.WriteLine("Wysyłam maile o godzinie" + czas);
+            //        _emailProvider.SendNewsletterToSubscribers();
+            //        Thread.Sleep(70000);
+            //    }
+            //}
+            #endregion
+
+            #region Azure
+            _emailProvider.SendNewsletterToSubscribers();
+            #endregion
         }
     }
 }
