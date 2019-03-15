@@ -1,9 +1,8 @@
-﻿using RssDbContextLib.Db_Context;
+﻿using EmailServicePV.Services;
+using RssDbContextLib.Db_Context;
 using RssModelsLib.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 
@@ -32,6 +31,24 @@ namespace RSS_Reader.Controllers
             _context.DeleteFromMailingList(EmailAddress);
 
             return RedirectToAction("CancelNewsletter", new { emailAddress = EmailAddress });
+        }
+
+        [HttpGet]
+        public ActionResult ConfirmationOfCancellingNewsletter(string emailAddress)
+        {
+            ViewBag.emailAddress = emailAddress;
+
+            Random rng = new Random();
+            string identityChecker = "";
+
+            for (int i = 0; i < 4; i++)
+            {
+                identityChecker += rng.Next(0, 9);
+            }
+
+            ViewBag.combinationString = identityChecker;
+
+            return View();
         }
 
         [HttpGet]
