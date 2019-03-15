@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace EmailServicePV.Services
 {
-    internal class EmailServiceProvider
+    public class EmailServiceProvider
     {
         private string _viewsPath { get; set; }
         private ViewEngineCollection _engines { get; set; }
@@ -22,7 +22,7 @@ namespace EmailServicePV.Services
         private List<SubscriberEmail> Subscribers { get; set; }
         private RssDocumentsRepository _context = new RssDocumentsRepository();
 
-        public EmailServiceProvider()
+        public EmailServiceProvider(bool EmailCombination = false)
         {
             #region Local
             _viewsPath = Path.GetFullPath(@"..\..\Views\Emails");
@@ -30,6 +30,10 @@ namespace EmailServicePV.Services
             #region Azure
             //_viewsPath = Path.GetFullPath(@"Emails");
             #endregion
+            if (EmailCombination == true)
+            {
+                _viewsPath = Path.GetFullPath(@"C:\Users\user\Desktop\Emails");
+            }
             _engines = new ViewEngineCollection();
             _engines.Add(new FileSystemRazorViewEngine(_viewsPath));
             _service = new EmailService(_engines);
@@ -77,6 +81,20 @@ namespace EmailServicePV.Services
                 }
             }
         }
+
+        public void SendEmailWithCombinationString(string combinationString, string emailAddress)
+        {
+            dynamic email = new Email("EmailCombination");
+            email.To = emailAddress;
+            email.From = _emailFrom;
+
+            email.Subject = "Rezygnacja z newslettera - " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.AddHours(1).ToShortTimeString() + ".";
+            email.Combination = combinationString;
+
+            _service.Send(email);
+        }
+
+
         public void SendNewsletterToSubscribers()
         {
             SubscribersCollection = _context.GetSubscribersList();
