@@ -57,8 +57,12 @@ else
 <img src="https://raw.githubusercontent.com/Korag/RSS_Reader/master/Rss_Downloader_Console/Assets/vertisio_logo_tiny.png" />
 <br>
 
-<form action="https://rssreadervertisio.azurewebsites.net/Reader/CancelNewsletter?EmailAddress=@Model.To" style="text-align:center" method="POST" id="ResignFromNewsletter">
-    <p>Nie chcesz otrzymywać newslettera?</p>
-    <input type="submit" value="Rezygnuję z newslettera" />
-</form>
+@*<form action="local/Reader/CancelNewsletter?EmailAddress=@Model.To" style="text-align:center" method="POST" id="ResignFromNewsletter">
+        <p>Nie chcesz otrzymywać newslettera?</p>
+        <input type="submit" value="Rezygnuję z newslettera" />
+    </form>*@
+
+<div style="text-align:center">
+    <a href="http://localhost:59554/Reader/ConfirmationOfCancellingNewsletter?EmailAddress=@Model.To">Rezygnuję z newslettera</a>
+</div>
 
