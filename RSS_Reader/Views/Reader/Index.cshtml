@@ -30,15 +30,15 @@
                           </div>
                       </div>
                   </div>`
-    
+
                     ,
 
           })
           Vue.component('categorylist', {
             props: ['category'],
-              template: `<div class="row">                           
-                                <label class="col-10" v-on:click="$emit('by-category', category)">{{category}}</label>    
-						        <input class="col-2" type="checkbox" name="check">                                                    
+              template: `<div class="row">
+                                <label class="col-10" v-on:click="$emit('by-category', category)">{{category}}</label>
+						        <input class="col-2" type="checkbox" name="check">
                         </div>`
         })
 
@@ -123,38 +123,50 @@
 }
 
 
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        if (e.style.display == 'block')
+            e.style.display = 'none';
+        else
+            e.style.display = 'block';
+    }
+</script>
 
 <div id="app" class="container-fluid">
     <div class="row">
-      
-                <div class="card-body row align-items-center d-flex justify-content-center">
-                    <div>
-                        <i class="fas fa-search h4 text-body "></i>
-                    </div>
-                    <div>
-                        <input class="form-control form-control-lg form-control-borderless" v-model="search" type="search" placeholder="Wyszukaj kanał RSS">
-                    </div>
-                    <div>
-                        <button class="btn btn-lg buttoncolor" v-on:click="FilteredList" type="submit">Szukaj</button>
-                    </div>
-                </div>
-       
-    </div>
-    <div class="row ">
-        <div class="col-2">
-            <categorylist v-for="category in categoryList"
-                          v-bind:key="category.Name"
-                          v-bind:category="category"
-                          v-on:by-category="FilterByCategory">
 
-            </categorylist>
-            <emailbar inline-template>
-                <div class="col-6 align-self-center"><input><button>Subskrybuj</button></div>
-            </emailbar>
+        <div class="card-body row align-items-center d-flex justify-content-center">
+            <div>
+                <i class="fas fa-search h4 text-body "></i>
+            </div>
+            <div>
+                <input class="form-control form-control-lg form-control-borderless" v-model="search" type="search" placeholder="Wyszukaj kanał RSS">
+            </div>
+            <div>
+                <button class="btn btn-lg buttoncolor" v-on:click="FilteredList" type="submit">Szukaj</button>
+            </div>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-2 ">
+            <a href="#" onclick="toggle_visibility('visibility');"><i class="fa fa-folder-open"></i>Pokaż Kategorie</a>
+            <div class="display" id="visibility">
+                <categorylist v-for="category in categoryList"
+                              v-bind:key="category.Name"
+                              v-bind:category="category"
+                              v-on:by-category="FilterByCategory">
+
+                </categorylist>
+                <emailbar inline-template>
+                    <div class="card-body row align-items-center d-flex justify-content-center"><input placeholder="Wprowadź swój e-mail"><button>Subskrybuj</button></div>
+                </emailbar>
+            </div>
         </div>
 
-        <div class="col-8" >
-            <div class=" force-overflow scrollbar" id="style-6">      
+        <div class="col-8">
+            <div class=" force-overflow scrollbar" id="style-6">
                 <contentlist class="col"
                              v-for="obj in filteredList"
                              v-bind:item="obj"
@@ -163,6 +175,6 @@
                 </contentlist>
             </div>
         </div>
- 
-</div>
+
+    </div>
 </div>
