@@ -12,7 +12,7 @@
             props: ['item'],
               template:`
                   <div>
-                      <div class="row pad">
+                      <div class="row">
                               <img class="col-4 img-responsive" width="200" height="200" :src="item.image">
                           <div class="col-8 content">
                               <div class="row">
@@ -125,20 +125,20 @@
 
 
 <div id="app" class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-6">
-                <div class="card-body row no-gutters align-items-center">
-                    <div class="col-auto">
+    <div class="row">
+      
+                <div class="card-body row align-items-center d-flex justify-content-center">
+                    <div>
                         <i class="fas fa-search h4 text-body "></i>
                     </div>
-                    <div class="col">
+                    <div>
                         <input class="form-control form-control-lg form-control-borderless" v-model="search" type="search" placeholder="Wyszukaj kanał RSS">
                     </div>
-                    <div class="col-auto">
+                    <div>
                         <button class="btn btn-lg buttoncolor" v-on:click="FilteredList" type="submit">Szukaj</button>
                     </div>
                 </div>
-        </div>
+       
     </div>
     <div class="row ">
         <div class="col-2">

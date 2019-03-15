@@ -47,9 +47,6 @@ margin-bottom:10px;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
 }
 
-.pad {
-    border:1px outset;
-}
 
 .descriptionText {
     margin:2px;
