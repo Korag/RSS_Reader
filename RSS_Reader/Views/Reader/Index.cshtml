@@ -75,7 +75,7 @@
             },
             methods: {
                 GetNews: function () {
-                    this.$http.get('https://rssreadervertisio.azurewebsites.net/api/RssDocument')
+                    this.$http.get('http://localhost:59554/api/RssDocument')
                         .then(response => {
                             this.apiResponse = response.data;
                             this.GetListOfNews(this.apiResponse);
@@ -153,7 +153,7 @@
             </emailbar>
         </div>
 
-        <div class="col-10" >
+        <div class="col-8" >
             <div class=" force-overflow scrollbar" id="style-6">      
                 <contentlist class="col"
                              v-for="obj in filteredList"

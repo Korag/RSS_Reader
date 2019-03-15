@@ -17,13 +17,15 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 
+.col {
+margin-bottom:10px;
 
+}
 
 .scrollbar {
-    float: left;   
-    background: #F5F5F5;
+    float: right;  
+    padding-right:5px;
     overflow-y: scroll;
-
 }
 
 .force-overflow {
@@ -47,14 +49,13 @@
 
 .pad {
     border:1px outset;
-    padding:5px; 
-    margin-bottom:auto;
 }
 
 .descriptionText {
-    right: 20px;
+    margin:2px;
     font-size: 12px;
     font-weight: normal;
+
 }
 
 .dateText {
