@@ -72,7 +72,8 @@
                 newsList: [],
                 categoryList: [],
                 filteredList: [],
-                filterByCategoryList: []
+                filterByCategoryList: [],
+                subscribeCategoryList: []
             },
             methods: {
                 GetNews: function () {
@@ -134,7 +135,18 @@
                         this.filterByCategoryList.push(category);
                         this.CategoryShowCheck();
                     }
+                },
+                RefreshSubscribeCategoryList: function (category) {
+                    if (this.subscribeCategoryList.includes(category)) {
+                        this.subscribeCategoryList.pop(this.subscribeCategoryList.findIndex(filter => {
+                            return filter == category
+                        }));
+                    }
+                    else {
+                        this.subscribeCategoryList.push(category);
+                    }
                 }
+
             },
             created: function () {
                 this.GetNews();
@@ -178,7 +190,8 @@
                 <categorylist v-for="category in categoryList"
                               v-bind:key="category.Name"
                               v-bind:category="category"
-                              v-on:by-category="FilterByCategory">
+                              v-on:by-category="FilterByCategory"
+                              v-on:change="RefreshSubscribeCategoryList">
 
                 </categorylist>
                 <emailbar inline-template>
