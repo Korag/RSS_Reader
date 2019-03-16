@@ -38,7 +38,7 @@
             props: ['category'],
               template: `<div class="row">
                                 <label class="col-10" v-on:click="$emit('by-category', category)">{{category}}</label>
-						        <input class="col-2" type="checkbox" v-on:change="$emit('change', category)">
+						        <input class="col-2" type="checkbox" v-on:click="$emit('change', category)">
                         </div>`
         })
 
@@ -68,6 +68,7 @@
             el: '#app',
             data: {
                 search: '',
+                mail: '',
                 apiResponse: [],
                 newsList: [],
                 categoryList: [],
@@ -124,11 +125,10 @@
                     }
                 },
                 FilterByCategory: function (category) {
-                    if (this.filterByCategoryList.includes(category))
-                    {
-                        this.filterByCategoryList.pop(this.filterByCategoryList.findIndex(filter => {
+                    if (this.filterByCategoryList.includes(category)) {
+                        this.filterByCategoryList.splice(this.filterByCategoryList.findIndex(filter => {
                             return filter == category
-                        }));
+                        }), 1);
                         this.CategoryShowCheck();
                     }
                     else {
@@ -138,13 +138,24 @@
                 },
                 RefreshSubscribeCategoryList: function (category) {
                     if (this.subscribeCategoryList.includes(category)) {
-                        this.subscribeCategoryList.pop(this.subscribeCategoryList.findIndex(filter => {
+                        console.log((this.subscribeCategoryList.findIndex(filter => {
+                            return filter.trim() == category.trim()
+                        })))
+                        this.subscribeCategoryList.splice(this.subscribeCategoryList.findIndex(filter => {
                             return filter == category
-                        }));
+                        }), 1);
                     }
                     else {
                         this.subscribeCategoryList.push(category);
                     }
+                },
+                SubscribeByMail: function () {
+                    var formData = new FormData();
+                    formData.append("EmailAddress", this.mail);
+                    for (var category in this.subscribeCategoryList) {
+                        formData.append("SubscriberList", category);
+                    }
+                    this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData).then(response => { console.log(response.statusText) })
                 }
 
             },
@@ -194,9 +205,7 @@
                               v-on:change="RefreshSubscribeCategoryList">
 
                 </categorylist>
-                <emailbar inline-template>
-                    <div class="card-body row align-items-center d-flex justify-content-center"><input placeholder="Wprowadź swój e-mail"><button>Subskrybuj</button></div>
-                </emailbar>
+                    <div class="card-body row align-items-center d-flex justify-content-center"><input v-model="mail" placeholder="Wprowadź swój e-mail"><button v-on:click="SubscribeByMail">Subskrybuj</button></div>
             </div>
         </div>
 
