@@ -113,6 +113,7 @@ namespace RssDbContextLib.Db_Context
             if (result != null)
             {
                 result.SubscriberList = subscriberList.ToList();
+                _subscribers.ReplaceOne(x => x.EmailAddress == result.EmailAddress, result);
             }
             else
             {
