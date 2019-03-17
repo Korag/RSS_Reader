@@ -74,7 +74,9 @@
                 categoryList: [],
                 filteredList: [],
                 filterByCategoryList: [],
-                subscribeCategoryList: []
+                subscribeCategoryList: [],
+                displayList: [],
+                test: []
             },
             methods: {
                 GetNews: function () {
@@ -83,6 +85,7 @@
                             this.apiResponse = response.data;
                             this.GetListOfNews(this.apiResponse);
                             this.GetListOfCatergory(this.apiResponse);
+                            this.AddToDisplayList();
                         });
                 },
                 GetListOfNews: function (apiResponse) {
@@ -123,6 +126,8 @@
                     if (this.filteredList.length == 0) {
                         this.filteredList = this.newsList
                     }
+                    this.displayList = [];
+                    this.AddToDisplayList();
                 },
                 CompareStrings: function (array,category) {
                     for (var string in array) {
@@ -164,12 +169,30 @@
                         formData.append("SubscriberList", category);
                     }
                     this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData).then(response => { console.log(response.statusText) })
+                },
+                AddToDisplayList: function () {
+                    if (this.filteredList.length >= 4) {
+                        this.displayList = this.displayList.concat(this.filteredList.splice(0, 4));
+                    }
+                    else {
+                        this.displayList = this.displayList.concat(this.filteredList.splice(0, this.filteredList.length));
+                    }
+                },
+                InfiniteScroll: function () {
+                    var element = document.getElementById('style-6');
+                    element.onscroll = () => {
+                        if (element.offsetHeight + element.scrollTop === element.scrollHeight) {
+                            this.AddToDisplayList();
+                        }
+                    }
                 }
-
             },
             created: function () {
                 this.GetNews();
                 this.filteredList = this.newsList;
+            },
+            mounted() {
+                this.InfiniteScroll();
             }
             })
     </script>
@@ -223,7 +246,7 @@
         <div class="col-8">
             <div class=" force-overflow scrollbar" id="style-6">
                 <contentlist class="col"
-                             v-for="obj in filteredList"
+                             v-for="obj in displayList"
                              v-bind:item="obj"
                              v-bind:key="obj.$id">
 
