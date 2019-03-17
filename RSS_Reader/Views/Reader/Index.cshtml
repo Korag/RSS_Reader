@@ -69,6 +69,7 @@
             data: {
                 search: '',
                 mail: '',
+                loading:'',
                 apiResponse: [],
                 newsList: [],
                 categoryList: [],
@@ -85,6 +86,7 @@
                             this.GetListOfNews(this.apiResponse);
                             this.GetListOfCatergory(this.apiResponse);
                             this.filteredList = [...this.newsList];
+                            this.loading = false;
                             this.AddToDisplayList();
                         });
                 },
@@ -190,6 +192,7 @@
                 }
             },
             created: function () {
+                this.loading = true;
                 this.GetNews();
             },
             mounted() {
@@ -245,6 +248,7 @@
         </div>
 
         <div class="col-8">
+            <div class="lds-facebook col" v-if="loading"><div></div><div></div><div></div></div>
             <div class=" force-overflow scrollbar" id="style-6">
                 <contentlist class="col"
                              v-for="obj in displayList"
