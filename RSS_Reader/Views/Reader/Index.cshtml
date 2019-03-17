@@ -17,11 +17,13 @@
               template:`
                   <div>
                       <div class="row">
-                              <img class="col-4 img-responsive" width="200" height="200" :src="item.image">
+                                <div class="col-4 imageresponsive">
+                              <img class="img-fluid" alt="Responsive image" :src="item.image">
+                                </div>
                           <div class="col-8 content">
                               <div class="row">
-                                  <p class="dateText col-6"> {{ item.date }}</p>
-                                  <p class="categoryText col-6"><span class="bordercat">{{ item.category }}</span></p>
+                                  <p class="dateText col-6 example"> {{ item.date }}</p>
+                                  <p class="categoryText col-6 example"><span class="bordercat">{{ item.category }}</span></p>
                               </div>
                               <a class="header row">{{ item.title }}</a>
                               <div class="descriptionText row" v-if="item.flag == 'Text'">{{ item.description }}
