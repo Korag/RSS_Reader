@@ -100,6 +100,8 @@ namespace EmailServicePV.Services
 
         public void SendNewsletterToSubscribers()
         {
+            SubscribersCollection = _context.GetSubscribersList();
+
             Subscribers = SubscribersCollection.Find(new BsonDocument()).ToList();
 
             Parallel.ForEach(Subscribers, subscriber =>

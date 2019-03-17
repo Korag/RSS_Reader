@@ -70,9 +70,9 @@ namespace RssDbContextLib.Db_Context
         }
 
 
-        public List<SubscriberEmail> GetSubscribersList()
+        public IMongoCollection<SubscriberEmail> GetSubscribersList()
         {
-            return _subscribers.AsQueryable().ToList();
+            return _subscribers;
         }
 
         public void AddNewContent(List<RssDocumentSingle> documentsWithNewContent)
