@@ -154,11 +154,3 @@ img {
     }
 
 }
-@media screen and (min-width: 768px) {
-    .col-s-2 {
-        width:100%;
-    }
-    .col-2 {
-        max-width: 100%;
-    }
-}
