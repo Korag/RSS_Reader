@@ -35,7 +35,7 @@ namespace EmailServicePV.Services
             //#endregion
             if (EmailCombination == true)
             {
-                _viewsPath = Path.GetFullPath(@"..\Files\Views\Emails");
+                _viewsPath = Path.GetFullPath(@"D:\home\site\wwwroot\Views\Emails");
             }
             _engines = new ViewEngineCollection();
             _engines.Add(new FileSystemRazorViewEngine(_viewsPath));
