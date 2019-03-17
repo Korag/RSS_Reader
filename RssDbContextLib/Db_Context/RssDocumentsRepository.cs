@@ -90,12 +90,6 @@ namespace RssDbContextLib.Db_Context
             }
         }
 
-        public IMongoCollection<SubscriberEmail> GetSubscribersList()
-        {
-            _subscribers = _server.GetCollection<SubscriberEmail>(collectionMailingList);
-            return _subscribers;
-        }
-
 
         public IMongoCollection<RssDocumentSingle> GetAllRssDocumentsFromDatabase()
         {

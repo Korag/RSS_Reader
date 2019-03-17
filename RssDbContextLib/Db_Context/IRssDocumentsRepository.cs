@@ -10,7 +10,6 @@ namespace RssDbContextLib.Db_Context
         void SaveOneRssDocumentToDatabase(RssDocumentSingle rssDocument);
         void SaveManyRssDocumentsToDatabase(List<RssDocumentSingle> rssDocuments);
         bool CheckIfDatabaseIsEmpty();
-        IMongoCollection<SubscriberEmail> GetSubscribersList();
         void InsertToMailingList(string emailAddress, ICollection<string> subscriberList);
         IMongoCollection<RssDocumentSingle> GetAllRssDocumentsFromDatabase();
         RssDocumentSingle GetDocumentByIdFromDatabase(string id);
