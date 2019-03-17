@@ -42,6 +42,7 @@ namespace RssDbContextLib.Db_Context
             _mongoClient = new MongoClient(connectionstring);
             _server = _mongoClient.GetDatabase(database);
             _rssDocumentCollection = _server.GetCollection<RssDocumentSingle>(collectionRSS);
+            _subscribers = _server.GetCollection<SubscriberEmail>(collectionMailingList);
         }
 
         public void SaveOneRssDocumentToDatabase(RssDocumentSingle rssDocument)
@@ -108,19 +109,25 @@ namespace RssDbContextLib.Db_Context
 
         public void InsertToMailingList(string emailAddress, ICollection<string> subscriberList)
         {
-            _subscribers = GetSubscribersList();
-            SubscriberEmail newNewsletterMember = new SubscriberEmail()
+            var result = _subscribers.Find(x => x.EmailAddress == emailAddress).FirstOrDefault();
+            if (result != null)
             {
-                EmailAddress = emailAddress,
-                SubscriberList = subscriberList.ToList()
-            };
+                result.SubscriberList = subscriberList.ToList();
+            }
+            else
+            {
+                SubscriberEmail newNewsletterMember = new SubscriberEmail()
+                {
+                    EmailAddress = emailAddress,
+                    SubscriberList = subscriberList.ToList()
+                };
 
-            _subscribers.InsertOne(newNewsletterMember);
+                _subscribers.InsertOne(newNewsletterMember);
+            }
         }
 
         public void DeleteFromMailingList(string emailAddres)
         {
-            _subscribers = GetSubscribersList();
             _subscribers.DeleteMany(x => x.EmailAddress == emailAddres);
         }
     }
