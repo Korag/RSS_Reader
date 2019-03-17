@@ -114,7 +114,7 @@
                 CategoryShowCheck: function () {
                     this.filteredList = this.newsList.filter(news => {
                         for (var x in this.filterByCategoryList) {
-                            if (news.category.toLowerCase().includes(this.filterByCategoryList[x].toLowerCase())) {
+                            if (news.category.toLowerCase() === this.filterByCategoryList[x].toLowerCase()) {
                                 return true
                             }
                         }
@@ -124,10 +124,18 @@
                         this.filteredList = this.newsList
                     }
                 },
+                CompareStrings: function (array,category) {
+                    for (var string in array) {
+                        if (array[string] === category) {
+                            return true
+                        }
+                    }
+                    return false
+                },
                 FilterByCategory: function (category) {
-                    if (this.filterByCategoryList.includes(category)) {
+                    if (this.CompareStrings(this.filterByCategoryList,category)) {
                         this.filterByCategoryList.splice(this.filterByCategoryList.findIndex(filter => {
-                            return filter == category
+                            return filter === category
                         }), 1);
                         this.CategoryShowCheck();
                     }
@@ -137,12 +145,12 @@
                     }
                 },
                 RefreshSubscribeCategoryList: function (category) {
-                    if (this.subscribeCategoryList.includes(category)) {
-                        console.log((this.subscribeCategoryList.findIndex(filter => {
-                            return filter.trim() == category.trim()
-                        })))
-                        this.subscribeCategoryList.splice(this.subscribeCategoryList.findIndex(filter => {
+                    if (this.CompareStrings(category)) {
+                       (this.subscribeCategoryList.findIndex(filter => {
                             return filter == category
+                        }))
+                        this.subscribeCategoryList.splice(this.subscribeCategoryList.findIndex(filter => {
+                            return filter === category
                         }), 1);
                     }
                     else {
