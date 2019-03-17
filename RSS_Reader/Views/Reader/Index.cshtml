@@ -25,7 +25,7 @@
                                   <p class="dateText col-6 example"> {{ item.date }}</p>
                                   <p class="categoryText col-6 example"><span class="bordercat">{{ item.category }}</span></p>
                               </div>
-                              <a class="header row">{{ item.title }}</a>
+                              <a class="header row" :href="item.link">{{ item.title }}</a>
                               <div class="descriptionText row" v-if="item.flag == 'Text'">{{ item.description }}
                               </div>
                               <div class="audiopos row" v-if="item.flag == 'Podcast'">
