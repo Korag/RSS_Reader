@@ -6,7 +6,11 @@
     {
 
     <script>
-          Vue.component('emailbar', {
+        Vue.component('alert', {
+            props: ['text'],
+            template: `<div class="alert alert-position" role="alert">
+                        {{text}}
+                       </div>` 
           })
           Vue.component('contentlist', {
             props: ['item'],
@@ -30,17 +34,31 @@
                           </div>
                       </div>
                   </div>`
-
-                    ,
-
           })
           Vue.component('categorylist', {
-            props: ['category'],
-              template: `<div class="row">
-                                <label class="col-10" v-on:click="$emit('by-category', category)">{{category}}</label>
+              props: ['category'],
+              data: function () {
+                  return {
+                      ItemStyle: 'row categoryItemUncheck'
+                  }
+              },
+              template: `<div :class="ItemStyle">
+                                <label class="col-10" v-on:click="Check">{{category}}</label>
 						        <input class="col-2" type="checkbox" v-on:click="$emit('change', category)">
-                        </div>`
-        })
+                        </div>`,
+              methods: {
+                  Check: function () {
+                      this.$emit('by-category', this.category);
+                      if (this.ItemStyle == 'row categoryItemUncheck') {
+                          this.ItemStyle = 'row categoryItemCheck'
+                      }
+                      else {
+                          this.ItemStyle = 'row categoryItemUncheck'
+                      }
+                  }
+              }
+
+          })
 
         class RssNews {
             constructor(title, category, image, description, date, link, flag) {
@@ -69,7 +87,12 @@
             data: {
                 search: '',
                 mail: '',
-                loading:'',
+                loading: '',
+                alertDisplay: false,
+                alertText: '',
+                alertStatus: '',
+                categoryDisplay: false,
+                listStyle: 'col-12',
                 apiResponse: [],
                 newsList: [],
                 categoryList: [],
@@ -128,7 +151,7 @@
                         return false
                     })
                     if (this.filteredList.length == 0) {
-                        this.filteredList = this.newsList
+                        this.filteredList = [...this.newsList];
                     }
                     this.displayList = [];
                     this.AddToDisplayList();
@@ -172,7 +195,9 @@
                     for (var category in this.subscribeCategoryList) {
                         formData.append("SubscriberList", category);
                     }
-                    this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData).then(response => { console.log(response.statusText) })
+                    this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData)
+                        .then(response => {                       
+                        })
                 },
                 AddToDisplayList: function () {
                     if (this.filteredList.length >= 4) {
@@ -189,6 +214,23 @@
                             this.AddToDisplayList();
                         }
                     }
+                },
+                DisplayAlert: function (alertText, alertStatus, time) {
+                    this.alertDisplay = true;
+                    this.alertText = alertText;
+                    this.alertStatus = alertStatus;
+                    setTimeout(function () { this.alertDisplay = false }.bind(this), 3000);
+                },
+                ShowCategory: function () {
+                    if (this.categoryDisplay == false) {
+                        this.categoryDisplay = true;
+                        this.listStyle = 'col-10'
+                    }
+                    else {
+                        this.categoryDisplay = false;
+                        this.listStyle = 'col-12'
+                    }
+                    
                 }
             },
             created: function () {
@@ -203,21 +245,11 @@
 }
 
 
-<script type="text/javascript">
-<!--
-    function toggle_visibility(id) {
-        var e = document.getElementById(id);
-        if (e.style.display == 'block')
-            e.style.display = 'none';
-        else
-            e.style.display = 'block';
-    }
-</script>
-
 <div id="app" class="container-fluid">
     <div class="row">
-
-        <div class="card-body row align-items-center d-flex justify-content-center">
+        <alert :class="alertStatus" v-bind:text="alertText" v-if="alertDisplay"></alert>
+        <button class="categoryButton col-2" v-on:click="ShowCategory">☰ Kategorie</button>
+        <div class="col-10 card-body row align-items-center d-flex justify-content-center">
             <div>
                 <i class="fas fa-search h4 text-body mr-1"></i>
             </div>
@@ -227,37 +259,36 @@
             <div>
                 <button class="btn btn-lg btn-outline-success ml-1" v-on:click="FilteredList" type="submit">Szukaj</button>
             </div>
-        </div>    
+        </div>
     </div>
     <div class="row">
-        <div class="col-2 ">
-            <a href="#" onclick="toggle_visibility('visibility');"><i class="fa fa-folder-open"></i>Pokaż Kategorie</a>
-            <div class="display" id="visibility">
+        <transition name="slide-fade">
+            <div class="col-2 " v-show="categoryDisplay">
                 <categorylist v-for="category in categoryList"
                               v-bind:key="category.Name"
                               v-bind:category="category"
                               v-on:by-category="FilterByCategory"
-                              v-on:change="RefreshSubscribeCategoryList">
+                              v-on:change="RefreshSubscribeCategoryList"
+                              >
 
                 </categorylist>
-                    <div class="card-body row align-items-center d-flex justify-content-center">
-                        <input class="form-control border-success" v-model="mail" placeholder="Wprowadź swój e-mail">
-                        <button class="btn btn-outline-success mt-1" v-on:click="SubscribeByMail">Subskrybuj</button>
-                    </div>
+                <div class="card-body row align-items-center d-flex justify-content-center">
+                    <input class="form-control border-success" v-model="mail" placeholder="Wprowadź swój e-mail">
+                    <button class="btn btn-outline-success mt-1" v-on:click="SubscribeByMail">Subskrybuj</button>
+                </div>
             </div>
-        </div>
+        </transition>
 
-        <div class="col-8">
-            <div class="lds-facebook col" v-if="loading"><div></div><div></div><div></div></div>
-            <div class=" force-overflow scrollbar" id="style-6">
-                <contentlist class="col"
-                             v-for="obj in displayList"
-                             v-bind:item="obj"
-                             v-bind:key="obj.$id">
-
-                </contentlist>
+            <div :class="listStyle">
+                <div class="lds-facebook col" v-if="loading"><div></div><div></div><div></div></div>
+                <div class=" force-overflow scrollbar" id="style-6">
+                    <contentlist class="col"
+                                 v-for="obj in displayList"
+                                 v-bind:item="obj"
+                                 v-bind:key="obj.$id">
+                    </contentlist>
+                </div>
             </div>
-        </div>
 
-    </div>
+</div>
 </div>

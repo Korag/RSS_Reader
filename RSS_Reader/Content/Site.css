@@ -40,7 +40,7 @@ margin-bottom:10px;
 }
 
 #style-6::-webkit-scrollbar-thumb {
-    background-color: #F90;
+    background-color: #28a745;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
 }
 
@@ -97,6 +97,38 @@ display:none;
 
 }
 
+.categoryButton {
+    font-size: 20px;
+    color: #28a745;
+    padding: 10px 15px;
+    border: 1px solid;
+    border-color: #28a745;
+    background-color: white;
+    border-radius: .3rem
+}
+.categoryItemCheck {
+    color: white;
+    background-color: #28a745;
+}
+.categoryItemUncheck {
+    color: #28a745;
+    background-color: white;
+}
+
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-enter, .slide-fade-leave-to
+{
+    transform: translateY(10px);
+    opacity: 0;
+}
+
 /*Styles for loading animation*/
 .lds-facebook {
     display: inline-block;
@@ -139,4 +171,11 @@ display:none;
         top: 19px;
         height: 26px;
     }
+}
+
+/*Alert class*/
+.alert-position{
+    position: fixed;
+    top: 0;
+    right: 0;
 }
