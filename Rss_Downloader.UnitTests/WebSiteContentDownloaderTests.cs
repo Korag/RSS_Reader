@@ -94,15 +94,7 @@ namespace Rss_Downloader.UnitTests
         [Test]
         public void AddNewContentToDocuments_WhenThereAreDocumentsWithNewContent_ReturnChangedListOfDocuments()
         {
-            List<RssDocumentSingle> documentsWithNewContentAvailable = new List<RssDocumentSingle>
-            {
-                new RssDocumentSingle()
-                {
-                    LastFetched = new DateTime(2017,1,1),
-                    Link = "https://www.rmf24.pl/tylko-w-rmf24/feed",
-                    RssDocumentContent = new List<RssDocumentItem>()
-                }
-            };
+            List<RssDocumentSingle> documentsWithNewContentAvailable = GetDummyListOfRssDocuments(correctDates: true);
 
             var result = _downloader.AddNewContentToDocuments(documentsWithNewContentAvailable);
 
@@ -114,8 +106,51 @@ namespace Rss_Downloader.UnitTests
         {
             List<RssDocumentSingle> documentsWithNewContentAvailable = null;
 
-            Assert.That(() => _downloader.AddNewContentToDocuments(documentsWithNewContentAvailable), 
+            Assert.That(() => _downloader.AddNewContentToDocuments(documentsWithNewContentAvailable),
                 Throws.Exception.TypeOf<NullReferenceException>());
         }
+
+        [Test]
+        public void GetDocumentsWithNewContentAvailable_WhenThereAreDocumentsWithNewContentAvailable_ReturnNotEmptyList()
+        {
+            List<RssDocumentSingle> documentsWithNewContentAvailable = GetDummyListOfRssDocuments(correctDates: true);
+
+            var result = _downloader.GetDocumentsWithNewContentAvailable(documentsWithNewContentAvailable);
+
+            Assert.That(result, Is.Not.Zero);
+        }
+
+        [Test]
+        public void GetDocumentsWithNewContentAvailable_WhenThereAreNotDocumentsWithNewContentAvailable_ReturnEmptyList()
+        {
+            List<RssDocumentSingle> documentsWithNewContentAvailable = GetDummyListOfRssDocuments(correctDates: false);
+
+            var result = _downloader.GetDocumentsWithNewContentAvailable(documentsWithNewContentAvailable);
+
+            Assert.That(result, Is.Empty);
+        }
+
+
+
+        private List<RssDocumentSingle> GetDummyListOfRssDocuments(bool correctDates)
+        {
+            List<RssDocumentSingle> dummyRssDocuments = new List<RssDocumentSingle>();
+            int i = -1;
+            if (!correctDates)
+            {
+                i = 1;
+            }
+            for (int j = 0; j < 31; j++)
+            {
+                dummyRssDocuments.Add(new RssDocumentSingle()
+                {
+                    LastFetched = DateTime.Now.AddYears(i),
+                    Link = "https://www.rmf24.pl/tylko-w-rmf24/feed",
+                    RssDocumentContent = new List<RssDocumentItem>()
+                });
+            }
+            return dummyRssDocuments;
+        }
+
     }
 }
