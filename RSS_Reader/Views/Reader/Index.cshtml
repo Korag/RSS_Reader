@@ -44,10 +44,10 @@
 
         class RssNews {
             constructor(title, category, image, description, date, link, flag) {
-                this.title = title;
+                this.title = title.replace(/&quot;/g, '"');
                 this.category = category;
                 this.image = image;
-                this.description = description.replace(/&quot;/g, '"');
+                this.description = description;
                 this.date = date;
                 this.link = link;
                 this.flag = flag
@@ -89,12 +89,12 @@
                     for (let i = 0; i < apiResponse.length; i++) {
                         for (let j = 0; j < apiResponse[i].RssDocumentContent.length; j++) {
                             if (apiResponse[i].Flag == "Text") {
-                                this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title.replace(/<[^>]+>/g, ''), apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image,
+                                this.newsList.push(new RssNews(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].RssDocumentContent[j].Image,
                                     apiResponse[i].RssDocumentContent[j].Description.replace(/<[^>]+>/g, ''), apiResponse[i].RssDocumentContent[j].DateOfPublication,
                                     apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
                             }
                             else {
-                                this.newsList.push(new RssPodcast(apiResponse[i].RssDocumentContent[j].Title.replace(/<[^>]+>/g, ''), apiResponse[i].Title, apiResponse[i].Image,
+                                this.newsList.push(new RssPodcast(apiResponse[i].RssDocumentContent[j].Title, apiResponse[i].Title, apiResponse[i].Image,
                                     apiResponse[i].RssDocumentContent[j].DateOfPublication, apiResponse[i].RssDocumentContent[j].Image,
                                     apiResponse[i].RssDocumentContent[j].Links, apiResponse[i].Flag))
                             }
