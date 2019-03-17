@@ -47,7 +47,7 @@
                 this.title = title.replace(/&quot;/g, '"');
                 this.category = category;
                 this.image = image;
-                this.description = description;
+                this.description = description.replace(/&quot;/g, '"');
                 this.date = date;
                 this.link = link;
                 this.flag = flag
@@ -76,7 +76,6 @@
                 filterByCategoryList: [],
                 subscribeCategoryList: [],
                 displayList: [],
-                test: []
             },
             methods: {
                 GetNews: function () {
@@ -85,6 +84,7 @@
                             this.apiResponse = response.data;
                             this.GetListOfNews(this.apiResponse);
                             this.GetListOfCatergory(this.apiResponse);
+                            this.filteredList = [...this.newsList];
                             this.AddToDisplayList();
                         });
                 },
@@ -113,6 +113,8 @@
                     this.filteredList = this.newsList.filter(news => {
                         return news.title.toLowerCase().includes(this.search.toLowerCase())
                     })
+                    this.displayList = [];
+                    this.AddToDisplayList();
                 },
                 CategoryShowCheck: function () {
                     this.filteredList = this.newsList.filter(news => {
@@ -189,7 +191,6 @@
             },
             created: function () {
                 this.GetNews();
-                this.filteredList = this.newsList;
             },
             mounted() {
                 this.InfiniteScroll();
