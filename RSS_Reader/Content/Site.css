@@ -26,7 +26,7 @@ margin-bottom:10px;
 }
 
 .force-overflow {
-   height: 800px;
+   height: 500px;
 }
 
 #style-6::-webkit-scrollbar-track {
@@ -41,7 +41,7 @@ margin-bottom:10px;
 
 #style-6::-webkit-scrollbar-thumb {
     background-color: #F90;
-    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
+    background-image: -webkit-linear-gradient(left, rgba(153,255,0,1) 0%, rgba(79,224,0,1) 93%, rgba(79,224,0,1) 100%);
 }
 
 
@@ -138,5 +138,27 @@ display:none;
     50%, 100% {
         top: 19px;
         height: 26px;
+    }
+}
+img {
+    height: auto;
+    width: 100%;
+    /* even more control with max-width */
+    max-width: 720px;
+}
+
+
+@media screen and (max-width: 768px) {
+    .example {
+        display: none;
+    }
+
+}
+@media screen and (min-width: 768px) {
+    .col-s-2 {
+        width:100%;
+    }
+    .col-2 {
+        max-width: 100%;
     }
 }

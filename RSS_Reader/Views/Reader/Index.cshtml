@@ -13,11 +13,13 @@
               template:`
                   <div>
                       <div class="row">
-                              <img class="col-4 img-responsive" width="200" height="200" :src="item.image">
+                                <div class="col-4 imageresponsive example">
+                              <img class="img-fluid" alt="Responsive image" :src="item.image">
+                                </div>
                           <div class="col-8 content">
                               <div class="row">
-                                  <p class="dateText col-6"> {{ item.date }}</p>
-                                  <p class="categoryText col-6"><span class="bordercat">{{ item.category }}</span></p>
+                                  <p class="dateText col-6 example"> {{ item.date }}</p>
+                                  <p class="categoryText col-6 example"><span class="bordercat">{{ item.category }}</span></p>
                               </div>
                               <a class="header row">{{ item.title }}</a>
                               <div class="descriptionText row" v-if="item.flag == 'Text'">{{ item.description }}
@@ -230,7 +232,7 @@
         </div>    
     </div>
     <div class="row">
-        <div class="col-2 ">
+        <div class="col-2 col-s-2 ">
             <a href="#" onclick="toggle_visibility('visibility');"><i class="fa fa-folder-open"></i>Pokaż Kategorie</a>
             <div class="display" id="visibility">
                 <categorylist v-for="category in categoryList"
@@ -247,7 +249,7 @@
             </div>
         </div>
 
-        <div class="col-8">
+        <div class="col-8 col-s-8">
             <div class="lds-facebook col" v-if="loading"><div></div><div></div><div></div></div>
             <div class=" force-overflow scrollbar" id="style-6">
                 <contentlist class="col"
