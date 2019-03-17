@@ -69,6 +69,12 @@ namespace RssDbContextLib.Db_Context
             return _rssDocumentCollection.AsQueryable().ToList();
         }
 
+
+        public List<SubscriberEmail> GetSubscribersList()
+        {
+            return _subscribers.AsQueryable().ToList();
+        }
+
         public void AddNewContent(List<RssDocumentSingle> documentsWithNewContent)
         {
             var allDocuments = _rssDocumentCollection.AsQueryable().ToList();
