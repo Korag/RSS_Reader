@@ -195,10 +195,11 @@
                     var formData = new FormData();
                     formData.append("EmailAddress", this.mail);
                     for (var category in this.subscribeCategoryList) {
-                        formData.append("SubscriberList", category);
+                        formData.append("SubscriberList", this.subscribeCategoryList[category]);
                     }
                     this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData)
-                        .then(response => {                       
+                        .then(response => {  
+                            console.log(response);
                         })
                 },
                 AddToDisplayList: function () {
