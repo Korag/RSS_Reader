@@ -28,14 +28,14 @@ namespace EmailServicePV.Services
             //_viewsPath = Path.GetFullPath(@"..\..\Views\Emails");
             #endregion
             #region Azure
-            //_viewsPath = Path.GetFullPath(@"Emails");
+            _viewsPath = Path.GetFullPath(@"Emails");
             #endregion
-            #region LocalStable
-            _viewsPath = Path.GetFullPath(@"C:\Users\user\Documents\Visual Studio 2017\Projects\RSS_Reader\EmailServiceProvider\Views\Emails");
-            #endregion
+            //#region LocalStable
+            //_viewsPath = Path.GetFullPath(@"C:\Users\user\Documents\Visual Studio 2017\Projects\RSS_Reader\EmailServiceProvider\Views\Emails");
+            //#endregion
             if (EmailCombination == true)
             {
-                _viewsPath = Path.GetFullPath(@"C:\Users\user\Documents\Visual Studio 2017\Projects\RSS_Reader\RSS_Reader\Views\Emails");
+                _viewsPath = Path.GetFullPath(@"..\Files\Views\Emails");
             }
             _engines = new ViewEngineCollection();
             _engines.Add(new FileSystemRazorViewEngine(_viewsPath));
