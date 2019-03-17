@@ -179,3 +179,9 @@ display:none;
     top: 0;
     right: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .example {
+        display: none;
+    }
+}

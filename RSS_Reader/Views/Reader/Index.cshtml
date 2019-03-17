@@ -17,10 +17,10 @@
               template:`
                   <div>
                       <div class="row">
-                                <div class="col-4 imageresponsive">
+                                <div class="col-md-4 col-lg-4 col-sm-12 imageresponsive">
                               <img class="img-fluid" alt="Responsive image" :src="item.image">
                                 </div>
-                          <div class="col-8 content">
+                          <div class="col-md-8 col-lg-8 col-sm-12 content">
                               <div class="row">
                                   <p class="dateText col-6 example"> {{ item.date }}</p>
                                   <p class="categoryText col-6 example"><span class="bordercat">{{ item.category }}</span></p>
@@ -226,7 +226,7 @@
                 ShowCategory: function () {
                     if (this.categoryDisplay == false) {
                         this.categoryDisplay = true;
-                        this.listStyle = 'col-10'
+                        this.listStyle = 'col-9'
                     }
                     else {
                         this.categoryDisplay = false;
@@ -248,38 +248,39 @@
 
 
 <div id="app" class="container-fluid">
-    <div class="row">
-        <alert :class="alertStatus" v-bind:text="alertText" v-if="alertDisplay"></alert>
-        <button class="categoryButton col-2" v-on:click="ShowCategory">☰ Kategorie</button>
-        <div class="col-10 card-body row align-items-center d-flex justify-content-center">
-            <div>
-                <i class="fas fa-search h4 text-body mr-1"></i>
+    <div class="row justify-content-center">
+        <div class="col-lg-3 col-md-12 col-sm-12 card-body row align-items-center d-flex justify-content-center">
+            <alert :class="alertStatus" v-bind:text="alertText" v-if="alertDisplay"></alert>
+            <button class="categoryButton col-sm-12" v-on:click="ShowCategory">☰ Kategorie</button>
             </div>
-            <div>
-                <input class="form-control form-control-lg border-success" v-model="search" type="search" placeholder="Wyszukaj kanał RSS">
-            </div>
-            <div>
-                <button class="btn btn-lg btn-outline-success ml-1" v-on:click="FilteredList" type="submit">Szukaj</button>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <transition name="slide-fade">
-            <div class="col-2 " v-show="categoryDisplay">
-                <categorylist v-for="category in categoryList"
-                              v-bind:key="category.Name"
-                              v-bind:category="category"
-                              v-on:by-category="FilterByCategory"
-                              v-on:change="RefreshSubscribeCategoryList"
-                              >
-
-                </categorylist>
-                <div class="card-body row align-items-center d-flex justify-content-center">
-                    <input class="form-control border-success" v-model="mail" placeholder="Wprowadź swój e-mail">
-                    <button class="btn btn-outline-success mt-1" v-on:click="SubscribeByMail">Subskrybuj</button>
+            <div class="col-9  card-body row align-items-center d-flex justify-content-center">
+                <div>
+                    <i class="fas fa-search h4 text-body mr-1 example"></i>
+                </div>
+                <div>
+                    <input class="form-control form-control-lg border-success" v-model="search" type="search" placeholder="Wyszukaj kanał RSS">
+                </div>
+                <div>
+                    <button class="btn btn-lg btn-outline-success ml-1" v-on:click="FilteredList" type="submit">Szukaj</button>
                 </div>
             </div>
-        </transition>
+        </div>
+        <div class="row">
+            <transition name="slide-fade">
+                <div class="col-lg-3 col-md-3 col-sm-3 " v-show="categoryDisplay">
+                    <categorylist v-for="category in categoryList"
+                                  v-bind:key="category.Name"
+                                  v-bind:category="category"
+                                  v-on:by-category="FilterByCategory"
+                                  v-on:change="RefreshSubscribeCategoryList">
+
+                    </categorylist>
+                    <div class="card-body row align-items-center d-flex justify-content-center">
+                        <input class="form-control border-success" v-model="mail" placeholder="Wprowadź swój e-mail">
+                        <button class="btn btn-outline-success mt-1" v-on:click="SubscribeByMail">Subskrybuj</button>
+                    </div>
+                </div>
+            </transition>
 
             <div :class="listStyle">
                 <div class="lds-facebook col" v-if="loading"><div></div><div></div><div></div></div>
@@ -292,5 +293,5 @@
                 </div>
             </div>
 
-</div>
-</div>
+        </div>
+    </div>
