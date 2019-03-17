@@ -54,7 +54,7 @@ namespace EmailServicePV.Services
 
             email.RssList = _context._rssDocumentCollection.Find(new BsonDocument()).ToList();
 
-            email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToShortDateString()  + " " + DateTime.Now.AddHours(1).ToShortTimeString() + ".";
+            email.Subject = "Newsletter RSS Reader RMF24 - " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.AddHours(1).ToShortTimeString() + ".";
 
             Task t = _service.SendAsync(email);
 
@@ -100,7 +100,6 @@ namespace EmailServicePV.Services
 
         public void SendNewsletterToSubscribers()
         {
-            SubscribersCollection = _context.GetSubscribersList();
             Subscribers = SubscribersCollection.Find(new BsonDocument()).ToList();
 
             Parallel.ForEach(Subscribers, subscriber =>
