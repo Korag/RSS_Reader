@@ -11,7 +11,6 @@ namespace RSS_Reader.Controllers
     public class ReaderController : Controller
     {
         private IRssDocumentsRepository _context;
-        private string CombGlob = "";
 
         // GET: Reader
         public ActionResult Index()
@@ -26,12 +25,8 @@ namespace RSS_Reader.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelNewsletter(string EmailAddress, string Combination)
+        public ActionResult CancelNewsletter(string EmailAddress)
         {
-            if (Combination != CombGlob)
-            {
-                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress });
-            }
             _context = new RssDocumentsRepository();
             _context.DeleteFromMailingList(EmailAddress);
 
@@ -52,7 +47,6 @@ namespace RSS_Reader.Controllers
             }
 
             ViewBag.combinationString = identityChecker;
-            CombGlob = identityChecker;
 
             return View();
         }
@@ -66,7 +60,7 @@ namespace RSS_Reader.Controllers
                 EmailAddress = emailAddress
             };
 
-           return View(Subscriber);
+            return View(Subscriber);
         }
     }
 }
