@@ -10,7 +10,7 @@
     <input type="text" id="combination_input" />
     <input type="submit" id="sendbutton" />
 </form>
-<a href="~/Scripts/jquery-3.3.1.min.map">~/Scripts/jquery-3.3.1.min.map</a>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script>
     $(document).ready(function () {
         $("input").change(function () {
@@ -21,14 +21,14 @@
 </script>
 
 @*<script>
-    $(document).ready(function () {
-        $("input").change(function () {
-            //alert(ViewBag.combinationString + $("#combination_input").val());
-            if (@ViewBag.combinationString == $("#combination_input").val())
-            {
-                input = jQuery('<input type="submit" id="sendbutton"/>');
-                jQuery('#formulao').append(input);
-            }
+        $(document).ready(function () {
+            $("input").change(function () {
+                //alert(ViewBag.combinationString + $("#combination_input").val());
+                if (@ViewBag.combinationString == $("#combination_input").val())
+                {
+                    input = jQuery('<input type="submit" id="sendbutton"/>');
+                    jQuery('#formulao').append(input);
+                }
+            });
         });
-    });
-</script>*@
+    </script>*@
