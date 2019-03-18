@@ -2,15 +2,25 @@
 
 @{
     MailSender.SendCombinationStringToEmail(ViewBag.combinationString, ViewBag.emailAddress);
+    string combination = "";
 }
 
-<form action="https://rssreadervertisio.azurewebsites.net/Reader/CancelNewsletter?EmailAddress=@ViewBag.emailAddress" id="formulao" method="POST">
+<form action="https://rssreadervertisio.azurewebsites.net/Reader/CancelNewsletter?EmailAddress=@ViewBag.emailAddress&Combination=@combination" id="formulao" method="POST">
     <p>Wprowadź kombinację znaków, która została właśnie wysłana na Twój adres email: @ViewBag.emailAddress</p>
     <input type="text" id="combination_input" />
+    <input type="submit" id="sendbutton" />
 </form>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<a href="~/Scripts/jquery-3.3.1.min.map">~/Scripts/jquery-3.3.1.min.map</a>
 <script>
+    $(document).ready(function () {
+        $("input").change(function () {
+            @combination == $("#combination_input").val();
+        });
+    });
+
+</script>
+
+@*<script>
     $(document).ready(function () {
         $("input").change(function () {
             //alert(ViewBag.combinationString + $("#combination_input").val());
@@ -21,4 +31,4 @@
             }
         });
     });
-</script>
+</script>*@
