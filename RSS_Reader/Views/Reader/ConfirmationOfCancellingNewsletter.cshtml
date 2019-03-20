@@ -1,24 +1,11 @@
 ﻿@using RSS_Reader
 
-@{
-    MailSender.SendCombinationStringToEmail(ViewBag.combinationString, ViewBag.emailAddress);
+@{ 
+    string id = Request.Params["id"];
+
 }
 
-<form action="https://rssreadervertisio.azurewebsites.net/Reader/CancelNewsletter?EmailAddress=@ViewBag.emailAddress" id="formulao" method="POST">
-    <p>Wprowadź kombinację znaków, która została właśnie wysłana na Twój adres email: @ViewBag.emailAddress</p>
-    <input type="text" id="combination_input" />
+<form action="http://localhost:59554/Reader/CancelNewsletter?EmailAddress=@ViewBag.emailAddress&id=@id" id="formulao" method="POST">
+    <p>Czy na pewno chcesz usunąć subskrypcję newslettera z podanego adresu ? : @ViewBag.emailAddress</p>
+    <input type="submit" id="combination_input" value="Rezygnuję z newslettera"/>
 </form>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("input").change(function () {
-            //alert(ViewBag.combinationString + $("#combination_input").val());
-            if (@ViewBag.combinationString == $("#combination_input").val())
-            {
-                input = jQuery('<input type="submit" id="sendbutton"/>');
-                jQuery('#formulao').append(input);
-            }
-        });
-    });
-</script>

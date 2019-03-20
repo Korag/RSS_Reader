@@ -25,10 +25,10 @@ namespace EmailServicePV.Services
         public EmailServiceProvider(bool EmailCombination = false)
         {
             #region Local
-            //_viewsPath = Path.GetFullPath(@"..\..\Views\Emails");
+            _viewsPath = Path.GetFullPath(@"..\..\Views\Emails");
             #endregion
             #region Azure
-            _viewsPath = Path.GetFullPath(@"Emails");
+            //_viewsPath = Path.GetFullPath(@"Emails");
             #endregion
             //#region LocalStable
             //_viewsPath = Path.GetFullPath(@"C:\Users\user\Documents\Visual Studio 2017\Projects\RSS_Reader\EmailServiceProvider\Views\Emails");
@@ -47,6 +47,7 @@ namespace EmailServicePV.Services
         {
             dynamic email = new Email("Email");
 
+            email.Id = model.Id.ToString();
             email.To = model.EmailAddress;
             email.SubscriberList = model.SubscriberList;
 

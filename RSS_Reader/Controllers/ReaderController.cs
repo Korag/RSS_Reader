@@ -1,4 +1,5 @@
-﻿using EmailServicePV.Services;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using RssDbContextLib.Db_Context;
 using RssModelsLib.Models;
 using System;
@@ -25,10 +26,31 @@ namespace RSS_Reader.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelNewsletter(string EmailAddress)
+        public ActionResult CancelNewsletter(string EmailAddress, string ID)
         {
+            ObjectId id;
+            try
+            {
+                id = ObjectId.Parse(ID);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress });
+            }
+      
             _context = new RssDocumentsRepository();
-            _context.DeleteFromMailingList(EmailAddress);
+
+            var filter = Builders<SubscriberEmail>.Filter.Eq(x => x.EmailAddress, EmailAddress) & Builders<SubscriberEmail>.Filter.Eq(x => x.Id, id);
+            var subscriber = _context.GetSubscribersList().Find(filter);
+
+            if (subscriber != null)
+            {
+                _context.DeleteFromMailingList(EmailAddress);
+            }
+            else
+            {
+                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress });
+            }
 
             return RedirectToAction("CancelNewsletter", new { emailAddress = EmailAddress });
         }
@@ -37,17 +59,6 @@ namespace RSS_Reader.Controllers
         public ActionResult ConfirmationOfCancellingNewsletter(string emailAddress)
         {
             ViewBag.emailAddress = emailAddress;
-
-            Random rng = new Random();
-            string identityChecker = "";
-
-            for (int i = 0; i < 4; i++)
-            {
-                identityChecker += rng.Next(0, 9);
-            }
-
-            ViewBag.combinationString = identityChecker;
-
             return View();
         }
 
