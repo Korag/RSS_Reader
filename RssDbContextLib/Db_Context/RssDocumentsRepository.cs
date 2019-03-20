@@ -27,7 +27,7 @@ namespace RssDbContextLib.Db_Context
             string connectionstring;
 
             user = "Admin";
-            password = "tz5AcMLty68z5h3";
+            password = "";
             database = "rss_downloader_web_application";
             connectionstring = $"mongodb://{user}:{password}@ds062818.mlab.com:62818/{database}";
 
