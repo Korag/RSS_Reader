@@ -14,6 +14,12 @@ namespace RSS_Reader
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "CancelNewsletter",
+                "Reader/ConfirmationOfCancellingNewsletter",
+                new { controller = "Reader", action = "ConfirmationOfCancellingNewsletter"}
+             );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Reader", action = "Index", id = UrlParameter.Optional }
