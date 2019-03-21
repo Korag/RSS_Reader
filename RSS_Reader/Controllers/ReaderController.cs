@@ -35,30 +35,43 @@ namespace RSS_Reader.Controllers
             }
             catch (Exception)
             {
+                TempData["accessDenied"] = true;
                 return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress });
             }
       
             _context = new RssDocumentsRepository();
 
-            var filter = Builders<SubscriberEmail>.Filter.Eq(x => x.EmailAddress, EmailAddress) & Builders<SubscriberEmail>.Filter.Eq(x => x.Id, id);
-            var subscriber = _context.GetSubscribersList().Find(filter);
-
-            if (subscriber != null)
+            var filter = Builders<SubscriberEmail>.Filter.Eq(x => x.EmailAddress, EmailAddress);
+            var subscriber = _context.GetSubscribersList().Find(filter).FirstOrDefault();
+            
+            if (subscriber.Id.ToString() == ID)
             {
                 _context.DeleteFromMailingList(EmailAddress);
             }
             else
             {
-                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress });
+                TempData["accessDenied"] = true;
+                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress, id = ID });
             }
 
             return RedirectToAction("CancelNewsletter", new { emailAddress = EmailAddress });
         }
 
         [HttpGet]
-        public ActionResult ConfirmationOfCancellingNewsletter(string emailAddress)
+        [Route("Reader/")]
+        public ActionResult ConfirmationOfCancellingNewsletter(string emailAddress, string id)
         {
             ViewBag.emailAddress = emailAddress;
+
+            if (TempData["accessDenied"]!=null)
+            {
+                ViewBag.NotPermitted = TempData["accessDenied"];
+            }
+            else
+            {
+                ViewBag.NotPermitted = false;
+            }
+
             return View();
         }
 
