@@ -1,5 +1,4 @@
-﻿@Model RssModelsLib.Models.EmailTemplateViewModel
-<h2>Witamy.</h2>
+﻿<h2>Witamy.</h2>
 
 
 @if (Model.SubscriberList != null)
@@ -63,6 +62,6 @@ else
     </form>*@
 
 <div style="text-align:center">
-    <a href="http://localhost:59554/Reader/ConfirmationOfCancellingNewsletter?EmailAddress=@Model.To">Rezygnuję z newslettera</a>
+    <a href="https://rssreadervertisio.azurewebsites.net/Reader/ConfirmationOfCancellingNewsletter?EmailAddress=@Model.To&Id=@Model.id">Rezygnuję z newslettera</a>
 </div>
 

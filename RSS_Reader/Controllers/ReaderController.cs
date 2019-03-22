@@ -1,4 +1,5 @@
-﻿using EmailServicePV.Services;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using RssDbContextLib.Db_Context;
 using RssModelsLib.Models;
 using System;
@@ -25,28 +26,51 @@ namespace RSS_Reader.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelNewsletter(string EmailAddress)
+        public ActionResult CancelNewsletter(string EmailAddress, string ID)
         {
+            ObjectId id;
+            try
+            {
+                id = ObjectId.Parse(ID);
+            }
+            catch (Exception)
+            {
+                TempData["accessDenied"] = true;
+                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress });
+            }
+      
             _context = new RssDocumentsRepository();
-            _context.DeleteFromMailingList(EmailAddress);
+
+            var filter = Builders<SubscriberEmail>.Filter.Eq(x => x.EmailAddress, EmailAddress);
+            var subscriber = _context.GetSubscribersList().Find(filter).FirstOrDefault();
+            
+            if (subscriber.Id.ToString() == ID)
+            {
+                _context.DeleteFromMailingList(EmailAddress);
+            }
+            else
+            {
+                TempData["accessDenied"] = true;
+                return RedirectToAction("ConfirmationOfCancellingNewsletter", new { emailAddress = EmailAddress, id = ID });
+            }
 
             return RedirectToAction("CancelNewsletter", new { emailAddress = EmailAddress });
         }
 
         [HttpGet]
-        public ActionResult ConfirmationOfCancellingNewsletter(string emailAddress)
+        [Route("Reader/")]
+        public ActionResult ConfirmationOfCancellingNewsletter(string emailAddress, string id)
         {
             ViewBag.emailAddress = emailAddress;
 
-            Random rng = new Random();
-            string identityChecker = "";
-
-            for (int i = 0; i < 4; i++)
+            if (TempData["accessDenied"]!=null)
             {
-                identityChecker += rng.Next(0, 9);
+                ViewBag.NotPermitted = TempData["accessDenied"];
             }
-
-            ViewBag.combinationString = identityChecker;
+            else
+            {
+                ViewBag.NotPermitted = false;
+            }
 
             return View();
         }
@@ -60,7 +84,7 @@ namespace RSS_Reader.Controllers
                 EmailAddress = emailAddress
             };
 
-           return View(Subscriber);
+            return View(Subscriber);
         }
     }
 }
