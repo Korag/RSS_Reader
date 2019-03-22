@@ -290,6 +290,24 @@ else
     <input type="submit" value="Rezygnuję z newslettera" />
 </form>
 ```
+## Technology used
+
+Overall in our project we used follownig nuget packages:
+
+- All of the preinstalled ASP.Net MVC packages
+- Mongo DB nuget packages v2.80
+- Postal.Mvc5 v1.20
+- NUnit v3.11.0
+- Bootstrap v4.3.1
+- Antlr v3.5.0.2
+- Castle.core v4.3.1
+
+and the following links:
+"https://use.fontawesome.com/releases/v5.7.2/css/all.css" for that sweet icon in the searchbar
+"https://cdn.jsdelivr.net/npm/vue-resource@1.5.1" for obvious scripting
+
+There's probably more I missed so ...
+
 ## Contact us if you have any questions
 
 If you want to contact us, you can do so via github or email address vertisio.com@gmail.com.
