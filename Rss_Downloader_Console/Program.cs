@@ -8,14 +8,12 @@ namespace Rss_Downloader
     {
         private static void Main(string[] args)
         {
-
             var container = ContainerConfig.Configure();
 
             using (var scope = container.BeginLifetimeScope())
             {
                 var app = scope.Resolve<IApplicationStarter>();
                 app.Run();
-
             }
         }
     }

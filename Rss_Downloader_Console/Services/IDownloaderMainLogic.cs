@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using RssModelsLib.Models;
+﻿using RssModelsLib.Models;
+using System.Collections.Generic;
 
-namespace Rss_Downloader_Console
+namespace Rss_Downloader.Services
 {
     public interface IDownloaderMainLogic
     {
