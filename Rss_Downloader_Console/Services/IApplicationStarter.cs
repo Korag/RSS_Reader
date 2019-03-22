@@ -1,4 +1,4 @@
-﻿namespace Rss_Downloader_Console
+﻿namespace Rss_Downloader.Services
 {
     public interface IApplicationStarter
     {

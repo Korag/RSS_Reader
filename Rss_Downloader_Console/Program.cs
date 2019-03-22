@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Rss_Downloader_Console;
+using Rss_Downloader.Services;
 using Rss_Downloader_Console.IoC;
 
 namespace Rss_Downloader
