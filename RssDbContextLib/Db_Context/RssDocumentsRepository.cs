@@ -25,9 +25,9 @@ namespace RssDbContextLib.Db_Context
             string password;
             string database;
             string connectionstring;
-
+            string path = @"C:\credentials.txt";
             user = "Admin";
-            password = "";
+            password = File.ReadLines(path).First();
             database = "rss_downloader_web_application";
             connectionstring = $"mongodb://{user}:{password}@ds062818.mlab.com:62818/{database}";
 
