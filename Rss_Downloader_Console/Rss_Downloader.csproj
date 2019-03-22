@@ -107,7 +107,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationStarter.cs" />
     <Compile Include="DownloaderMainLogic.cs" />
+    <Compile Include="IApplicationStarter.cs" />
     <Compile Include="IDownloaderMainLogic.cs" />
     <Compile Include="IoC\ContainerConfig.cs" />
     <Compile Include="Program.cs" />

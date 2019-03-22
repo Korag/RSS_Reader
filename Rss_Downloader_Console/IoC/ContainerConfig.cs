@@ -13,6 +13,7 @@ namespace Rss_Downloader_Console.IoC
             builder.RegisterType<DownloaderMainLogic>().As<IDownloaderMainLogic>();
             builder.RegisterType<WebSiteContentDownloader>().As<IWebSiteContentDownloader>();
             builder.RegisterType<RssDocumentsRepository>().As<IRssDocumentsRepository>();
+            builder.RegisterType<ApplicationStarter>().As<IApplicationStarter>();
 
             return builder.Build();
         }

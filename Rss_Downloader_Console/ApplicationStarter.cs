@@ -1,11 +1,14 @@
-﻿using Rss_Downloader_Console;
-
-namespace Rss_Downloader
+﻿namespace Rss_Downloader_Console
 {
-    internal class Program
+    public class ApplicationStarter : IApplicationStarter
     {
-        private static IDownloaderMainLogic _downloader;
-        private static void Main(string[] args)
+        private IDownloaderMainLogic _downloader;
+
+        public ApplicationStarter(IDownloaderMainLogic downloader)
+        {
+            _downloader = downloader;
+        }
+        public void Run()
         {
             _downloader = new DownloaderMainLogic();
 
