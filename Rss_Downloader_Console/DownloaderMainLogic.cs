@@ -13,10 +13,10 @@ namespace Rss_Downloader_Console
         private IRssDocumentsRepository _context;
         private List<RssDocumentSingle> _rssDocuments;
 
-        public DownloaderMainLogic(IWebSiteContentDownloader downloader = null, IRssDocumentsRepository context = null)
+        public DownloaderMainLogic(IWebSiteContentDownloader downloader, IRssDocumentsRepository context)
         {
-            _downloader = downloader ?? new WebSiteContentDownloader();
-            _context = context ?? new RssDocumentsRepository();
+            _downloader = downloader;
+            _context = context;
 
             if (_context.CheckIfDatabaseIsEmpty())
             {

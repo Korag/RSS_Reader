@@ -10,8 +10,6 @@
         }
         public void Run()
         {
-            _downloader = new DownloaderMainLogic();
-
             #region Local
             //var startTimeSpan = TimeSpan.Zero;
             //var periodTimeSpan = TimeSpan.FromMinutes(1);//1min
