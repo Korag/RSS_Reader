@@ -4,13 +4,21 @@
     string id = Request.Params["id"];
 
 }
-
-<form action="http://localhost:59554/Reader/CancelNewsletter?EmailAddress=@ViewBag.emailAddress&id=@id" id="formulao" method="POST">
-    <p>Czy na pewno chcesz usunąć subskrypcję newslettera z podanego adresu ? : @ViewBag.emailAddress</p>
-    <input type="submit" id="combination_input" value="Rezygnuję z newslettera" />
-</form>
-@if (ViewBag.NotPermitted)
-{
-    <br />
-    <p>Nie masz uprawnień do usunięcia tego adresu email z listy mailingowej lub format wprowadzonego identyfikatora jest niepoprawny</p>
-}
+<div class="container-fluid">
+    <div class="col text-center">
+        <form action="http://localhost:59554/Reader/CancelNewsletter?EmailAddress=@ViewBag.emailAddress&id=@id" id="formulao" method="POST">
+            <br>
+            <h2> Strona żądania usunięcia subskrypcji RSS</h2>
+            <p>Czy na pewno chcesz usunąć subskrypcję newslettera z podanego adresu ? : @ViewBag.emailAddress</p>
+            <input type="submit" id="combination_input" value="Rezygnuję z newslettera" />
+        </form>
+        @if (ViewBag.NotPermitted)
+        {
+            <br />
+            <p style="color:darkred;">Nie masz uprawnień do usunięcia tego adresu email z listy mailingowej lub format wprowadzonego identyfikatora jest niepoprawny</p>
+        }
+    </div>
+</div>
+<div class="footer">
+Vertisio 2019
+</div>
