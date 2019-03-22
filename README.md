@@ -136,7 +136,42 @@ It is a dll library which is a context used for connection to a remote database.
 
 RSS Reader is a project made in ASP.NET MVC technology. Of course with implemented MVC pattern. Our controller in this case is WebApi, which provides appropriate methods, including connection with Db Context for the view. The view is not based on RAZOR, but on Vue.js. 
 
-`here some code from Reader, what functionality? adding to mailingList and more..`
+Apart from email oriented controller hidden in the Rsscontroller.cs file in RSS Reader project you can find all of pure html side of our project tightly kept in view models.
+
+Most important file is obviously `Index.cshtml` as it contains whole Vue.js definition and scripts used to operate on raw html data taken from RSS Downloader. 
+
+Short code example is as follows:
+``` c#
+ <script>
+          Vue.component('categorylist', {
+              props: ['category'],
+              data: function () {
+                  return {
+                      ItemStyle: 'row categoryItemUncheck'
+                  }
+              },
+              template: `<div :class="ItemStyle">
+                                <label class="col-10" v-on:click="Check">{{category}}</label>
+						        <input class="col-2" type="checkbox" v-on:click="$emit('change', category)">
+                        </div>`,
+              methods: {
+                  Check: function () {
+                      this.$emit('by-category', this.category);
+                      if (this.ItemStyle == 'row categoryItemUncheck') {
+                          this.ItemStyle = 'row categoryItemCheck'
+                      }
+                      else {
+                          this.ItemStyle = 'row categoryItemUncheck'
+                      }
+                  }
+              }
+
+          })
+```
+
+Vue.js can be used with both html tags and bootstrap 4.0 classes which we took advantage of. In short all of the scripts can be found in the upper part of Index.cshtml, pure html definition below the scripts, all of used reflinks can be found in shared view Layout.cshtml and lastly all of css classes custom and whatnot can be found in Site.css in the content folder along with all the bootstrap files. 
+
+We didn't separate css classes and Vue.js scripts to other files mainly of underwhelming quantity of acctual files needed, but if your project is in fact bigger remember to do so yourself, as its way easier to tidy up before you make a mess... 
 
 ### Newsletter Service Provider
 
@@ -255,7 +290,6 @@ else
     <input type="submit" value="Rezygnuję z newslettera" />
 </form>
 ```
-
 ## Contact us if you have any questions
 
 If you want to contact us, you can do so via github or email address vertisio.com@gmail.com.
