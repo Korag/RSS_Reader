@@ -318,7 +318,12 @@ If you would like to develop our project and add new functionalities, we are ope
 
 We are a group of students currently consisting of 4 members. 
 
-+ Łukasz (`Korag`)
-+ Kamil (`kAHA`)
-+ Bartosz (`Owner`)
-+ Konrad (`HoUdini`)
+
++ Kamil (`KaHa`): Team captain, Backend developer [Most of program logic/ RSS Downloader / Unit testing specialist]
++ Łukasz (`Kauczuk`): Backend developer [MongoDB / Email and newsletter handling / Azure deployment specialist]
++ Konrad(`Whoudini`): Frontend developer [Site layout and styling/ Mobile responsive specialist]
++ Bartosz(`Owner`): Frontend developer [Vue.js scripting specialist/ Event handling]
+
+Project was finished in less then 3 weeks. Despite the tasking much of work was done interchangable beetween team members.
+
+_Vertisio Team 2019_
