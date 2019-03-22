@@ -8,18 +8,7 @@ using System.Xml.Linq;
 
 namespace Rss_Downloader.Services
 {
-    public interface IWebSiteContentDownloader
-    {
-        List<RssDocumentSingle> GetAllDocumentsWithoutSubContent();
 
-        void FillSingleDocumentWithSubContent(RssDocumentSingle mainContent);
-
-        List<RssDocumentSingle> GetDocumentsWithNewContentAvailable
-            (List<RssDocumentSingle> rssDocumentsFromDb);
-
-        List<RssDocumentSingle> AddNewContentToDocuments
-            (List<RssDocumentSingle> documentsWithNewContentAvailable);
-    }
 
     public class WebSiteContentDownloader : IWebSiteContentDownloader
     {

@@ -114,6 +114,7 @@
     <Compile Include="IoC\ContainerConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IWebSiteContentDownloader.cs" />
     <Compile Include="Services\WebSiteContentDownloader.cs" />
   </ItemGroup>
   <ItemGroup>
