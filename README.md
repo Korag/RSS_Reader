@@ -319,8 +319,8 @@ If you would like to develop our project and add new functionalities, we are ope
 We are a group of students currently consisting of 4 members. 
 
 
-+ Kamil (`KaHa`): Team captain, Backend developer [Most of program logic/ RSS Downloader / Unit testing specialist]
-+ Łukasz (`Kauczuk`): Backend developer [MongoDB / Email and newsletter handling / Azure deployment specialist]
++ Kamil (`KaHa`): Backend developer [Most of program logic/ RSS Downloader / Unit testing specialist]
++ Łukasz (`Korag`): Backend developer [MongoDB / Email and newsletter handling / Azure deployment specialist]
 + Konrad(`Whoudini`): Frontend developer [Site layout and styling/ Mobile responsive specialist]
 + Bartosz(`Owner`): Frontend developer [Vue.js scripting specialist/ Event handling]
 
