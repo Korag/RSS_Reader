@@ -113,6 +113,9 @@
                             this.filteredList = [...this.newsList];
                             this.loading = false;
                             this.AddToDisplayList();
+                        }, response => {
+                            console.log(response);
+                            this.DisplayAlert("Serwer nie odpowiada", "bg-danger");
                         });
                 },
                 GetListOfNews: function (apiResponse) {
@@ -158,7 +161,7 @@
                     this.displayList = [];
                     this.AddToDisplayList();
                 },
-                CompareStrings: function (array,category) {
+                CompareStrings: function (array, category) {
                     for (var string in array) {
                         if (array[string] === category) {
                             return true
@@ -167,7 +170,7 @@
                     return false
                 },
                 FilterByCategory: function (category) {
-                    if (this.CompareStrings(this.filterByCategoryList,category)) {
+                    if (this.CompareStrings(this.filterByCategoryList, category)) {
                         this.filterByCategoryList.splice(this.filterByCategoryList.findIndex(filter => {
                             return filter === category
                         }), 1);
@@ -180,7 +183,7 @@
                 },
                 RefreshSubscribeCategoryList: function (category) {
                     if (this.CompareStrings(category)) {
-                       (this.subscribeCategoryList.findIndex(filter => {
+                        (this.subscribeCategoryList.findIndex(filter => {
                             return filter == category
                         }))
                         this.subscribeCategoryList.splice(this.subscribeCategoryList.findIndex(filter => {
@@ -192,15 +195,32 @@
                     }
                 },
                 SubscribeByMail: function () {
-                    var formData = new FormData();
-                    formData.append("EmailAddress", this.mail);
-                    for (var category in this.subscribeCategoryList) {
-                        formData.append("SubscriberList", this.subscribeCategoryList[category]);
+                    if (this.MailValidation(this.mail)) {
+                        if (this.subscribeCategoryList.length == 0) {
+                            this.DisplayAlert("Nie zaznaczono kategorii","bg-danger");
+                        }
+                        else {
+                            var formData = new FormData();
+                            formData.append("EmailAddress", this.mail);
+                            for (var category in this.subscribeCategoryList) {
+                                formData.append("SubscriberList", this.subscribeCategoryList[category]);
+                            }
+                            this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData)
+                                .then(response => {
+                                    console.log(response);
+                                    this.DisplayAlert("Zapisano do subskrypcji", "bg-success");
+
+
+                                }, response => {
+                                    console.log(response);
+                                    this.DisplayAlert("Serwer nie odpowiada", "bg-danger");
+                                })
+                        }
                     }
-                    this.$http.post('http://localhost:59554/Reader/SubscribeNewsletter', formData)
-                        .then(response => {  
-                            console.log(response);
-                        })
+                    else {
+                        this.DisplayAlert("Błędny adres email", "bg-danger");
+                    }
+
                 },
                 AddToDisplayList: function () {
                     if (this.filteredList.length >= 4) {
@@ -218,11 +238,13 @@
                         }
                     }
                 },
-                DisplayAlert: function (alertText, alertStatus, time) {
+                DisplayAlert: function (alertText, alertStatus) {
                     this.alertDisplay = true;
                     this.alertText = alertText;
                     this.alertStatus = alertStatus;
-                    setTimeout(function () { this.alertDisplay = false }.bind(this), 3000);
+                    setTimeout(() => {
+                        this.alertDisplay = false;
+                    }, 3000);
                 },
                 ShowCategory: function () {
                     if (this.categoryDisplay == false) {
@@ -233,7 +255,11 @@
                         this.categoryDisplay = false;
                         this.listStyle = 'col-12'
                     }
-                    
+
+                },
+                MailValidation: function (mail) {
+                    var reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                    return reg.test(mail);
                 }
             },
             created: function () {
