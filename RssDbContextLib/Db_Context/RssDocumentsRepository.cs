@@ -21,19 +21,13 @@ namespace RssDbContextLib.Db_Context
 
         public RssDocumentsRepository()
         {
-            string user;
-            string password;
             string database;
             string connectionstring;
-            string path = @"C:\credentials.txt";
-            user = "Admin";
-            password = File.ReadLines(path).First();
             database = "rss_downloader_web_application";
-            connectionstring = $"mongodb://{user}:{password}@ds062818.mlab.com:62818/{database}";
+            connectionstring = $"mongodb+srv://OpenUser:Qwer!234@mongodbcluster-wqayz.azure.mongodb.net/test?retryWrites=true&w=majority";
 
             InitializeContext(connectionstring, database);
         }
-
 
         public void InitializeContext(string connectionstring, string database)
         {
