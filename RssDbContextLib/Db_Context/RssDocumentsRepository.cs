@@ -21,10 +21,8 @@ namespace RssDbContextLib.Db_Context
 
         public RssDocumentsRepository()
         {
-            string database;
-            string connectionstring;
-            database = "rss_downloader_web_application";
-            connectionstring = $"mongodb+srv://OpenUser:Qwer!234@mongodbcluster-wqayz.azure.mongodb.net/test?retryWrites=true&w=majority";
+            string database = "rss_downloader_web_application";
+            string connectionstring = $"mongodb://OpenUser:FLbTnwrUSZ@mongodbcluster-shard-00-00.wqayz.azure.mongodb.net:27017,mongodbcluster-shard-00-01.wqayz.azure.mongodb.net:27017,mongodbcluster-shard-00-02.wqayz.azure.mongodb.net:27017/rss_downloader_web_application?ssl=true&replicaSet=MongoDBCluster-shard-0&authSource=admin&retryWrites=true&w=majority";
 
             InitializeContext(connectionstring, database);
         }
